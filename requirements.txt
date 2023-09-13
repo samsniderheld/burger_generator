@@ -1,0 +1,11 @@
+xformers
+bitsandbytes
+transformers
+accelerate
+safetensors
+invisible_watermark
+k-diffusion
+compel
+opencv-contrib-python
+controlnet_aux
+diffusers
