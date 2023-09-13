@@ -10,3 +10,4 @@ opencv-contrib-python
 controlnet_aux
 diffusers
 gradio
+ftfy
