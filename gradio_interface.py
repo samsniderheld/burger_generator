@@ -99,9 +99,11 @@ def generate_texture(ingredient,controlnet_img,controlnet_conditioning_scale,ste
     
     random_seed = random.randrange(0,100000)
 
+    controlnet_img = Image.fromarray(controlnet_img)
+
     texture_image = control_net_pipe(prompt_embeds=control_embeds,
                     negative_prompt_embeds = negative_control_embeds,
-                    image= control_net_img,
+                    image= controlnet_img,
                     controlnet_conditioning_scale=controlnet_conditioning_scale,
                     height=512,
                     width=512,
@@ -129,7 +131,7 @@ with gr.Blocks() as demo:
                 controlnet_prompt_input = gr.Textbox(label="prompt")
                 controlnet_input_img = gr.Image(label="input img")
                 controlnet_controlnet_conditioning_scale_input = gr.Slider(0, 1, 
-                    value=args.controlnet_controlnet_conditioning_scale, label="controlnet_conditioning_scale")
+                    value=args.controlnet_str, label="controlnet_conditioning_scale")
                 controlnet_steps_input = gr.Slider(0, 150, value=args.steps,
                     label="number of diffusion steps")
                 controlnet_cfg_input = gr.Slider(0,30,value=args.cfg_scale,label="cfg scale")
@@ -151,7 +153,7 @@ with gr.Blocks() as demo:
             controlnet_submit = gr.Button("Submit")
 
 
-controlnet_submit.click(generate_texture,inputs=controlnet_inputs,outputs=controlnet_output)
+    controlnet_submit.click(generate_texture,inputs=controlnet_inputs,outputs=controlnet_output)
 
 
 if __name__ == "__main__":

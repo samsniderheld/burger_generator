@@ -10,6 +10,7 @@ def get_control_net_pipe(control_path, sd_path):
     control_netpipe = StableDiffusionControlNetPipeline.from_pretrained(
         sd_path,
         controlnet=controlnet,
+        safety_checker=None,
     ).to('cuda')
     control_netpipe.scheduler = UniPCMultistepScheduler.from_config(control_netpipe.scheduler.config)
     compel_proc = Compel(tokenizer=control_netpipe.tokenizer, text_encoder=control_netpipe.text_encoder)
@@ -19,6 +20,7 @@ def get_control_net_pipe(control_path, sd_path):
 def get_img2img_pipe(sd_path):
     img2img_pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
         sd_path,
+        safety_checker=None,
     ).to('cuda')
 
     compel_proc = Compel(tokenizer=img2img_pipe.tokenizer, text_encoder=img2img_pipe.text_encoder)
@@ -27,6 +29,7 @@ def get_img2img_pipe(sd_path):
 def get_inpaint_pipe(sd_path):
     inpaint_pipe = StableDiffusionInpaintPipeline.from_pretrained(
         sd_path,
+        safety_checker=None,
     ).to('cuda')
 
     compel_proc = Compel(tokenizer=inpaint_pipe.tokenizer, text_encoder=inpaint_pipe.text_encoder)
