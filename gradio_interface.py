@@ -129,7 +129,7 @@ def generate_burger(ingredient,strength,steps,cfg):
     8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
     high quality, Fujifilm XT3\n\n"""
 
-    img2img_embeds = img2img_proc(texture_prompt)
+    img2img_embeds = img2img_proc(burger_prompt)
 
     negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
 
@@ -141,13 +141,15 @@ def generate_burger(ingredient,strength,steps,cfg):
 
     texture = Image.open("temp_textures/texture.jpg").convert("RGBA")
     template = Image.open(args.template).convert("RGBA")
+    mask = Image.open(args.mask).convert("RGB").resize((512,512))
     input_img = overlay_images(texture,template)
      
     image = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
                     image= input_img,
-                    strength = img2img_strength,
-                    num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
+                    strength = strength,
+                    num_inference_steps=steps, 
+                    generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
     image = blend_image(image,input_img,mask,args.mask_blur)
