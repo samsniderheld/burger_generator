@@ -667,7 +667,7 @@ class DreamBoothDataset(Dataset):
         instance_image = Image.open(self.instance_images_path[index % self.num_instance_images])
         instance_image = exif_transpose(instance_image)
 
-        ##swap out image path with caption path
+        ##here we modify the based diffusers code to alow for captions via .txt files
         caption_path = self.instance_captions_path[index % self.num_instance_images]
         with open(caption_path, 'r') as file:
           self.instance_prompt = file.readline().strip()
