@@ -256,6 +256,13 @@ def parse_args(input_args=None):
         help="A folder containing the training data of instance images.",
     )
     parser.add_argument(
+        "--instance_caption_dir",
+        type=str,
+        default=None,
+        required=True,
+        help="A folder containing the training data of instance captions.",
+    )
+    parser.add_argument(
         "--class_data_dir",
         type=str,
         default=None,
@@ -601,6 +608,7 @@ class DreamBoothDataset(Dataset):
     def __init__(
         self,
         instance_data_root,
+        instance_captions_root,
         instance_prompt,
         tokenizer,
         class_data_root=None,
@@ -624,6 +632,7 @@ class DreamBoothDataset(Dataset):
             raise ValueError(f"Instance {self.instance_data_root} images root doesn't exists.")
 
         self.instance_images_path = list(Path(instance_data_root).iterdir())
+        self.instance_captions_path = list(Path(instance_captions_root).iterdir())
         self.num_instance_images = len(self.instance_images_path)
         self.instance_prompt = instance_prompt
         self._length = self.num_instance_images
@@ -657,6 +666,11 @@ class DreamBoothDataset(Dataset):
         example = {}
         instance_image = Image.open(self.instance_images_path[index % self.num_instance_images])
         instance_image = exif_transpose(instance_image)
+
+        ##swap out image path with caption path
+        caption_path = self.instance_captions_path[index % self.num_instance_images]
+        with open(caption_path, 'r') as file:
+          self.instance_prompt = file.readline().strip()
 
         if not instance_image.mode == "RGB":
             instance_image = instance_image.convert("RGB")
@@ -1064,6 +1078,7 @@ def main(args):
     # Dataset and DataLoaders creation:
     train_dataset = DreamBoothDataset(
         instance_data_root=args.instance_data_dir,
+        instance_captions_root=args.instance_caption_dir,
         instance_prompt=args.instance_prompt,
         class_data_root=args.class_data_dir if args.with_prior_preservation else None,
         class_prompt=args.class_prompt,
