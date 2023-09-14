@@ -158,6 +158,16 @@ def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
+    
+    texture = texture.convert('RGB')
+    template = template.resize((512,512)).convert('RGB')
+    image = image.convert('RGB')
+    out_img = np.hstack([texture,template,input_img,mask,image])
+    
+    
+    out_img = cv2.cvtColor(np.uint8(out_img),cv2.COLOR_BGR2RGB)
+    cv2.imwrite(f"pipeline.jpg", out_img)
+
     return image
     
 
