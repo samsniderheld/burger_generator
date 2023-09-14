@@ -121,7 +121,7 @@ def generate_texture(ingredient,controlnet_img,controlnet_conditioning_scale,ste
     
     return texture_image
 
-def generate_burger(ingredient,strength,steps,cfg):
+def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
 
     start_time = time.time()
 
@@ -152,7 +152,7 @@ def generate_burger(ingredient,strength,steps,cfg):
                     generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    image = blend_image(image,input_img,mask,args.mask_blur)
+    image = blend_image(image,input_img,mask,mask_blur_strength)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -203,6 +203,9 @@ with gr.Blocks() as demo:
                 img2img_strength = gr.Slider(0, 1, 
                     value=args.img2img_strength, 
                     label="img2img strength")
+                mask_blur_strength = gr.Slider(0, 9, 
+                    value=args.mask_blur, 
+                    label="mask blur")
                 img2img_steps_input = gr.Slider(0, 150, value=args.steps,
                     label="number of diffusion steps")
                 img2img_cfg_input = gr.Slider(0,30,value=args.cfg_scale,
@@ -212,6 +215,7 @@ with gr.Blocks() as demo:
                     #use the same prompt from step 1
                     controlnet_prompt_input,
                     img2img_strength,
+                    mask_blur_strength,
                     img2img_steps_input,
                     img2img_cfg_input,
                 ]
