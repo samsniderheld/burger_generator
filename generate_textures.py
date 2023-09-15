@@ -117,6 +117,8 @@ else:
 
     for ingredient in ingredients:
 
+        print(ingredient)
+
         prompt = f"""a 2D texture of {ingredient}+++, layered++, side view, 
         full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
         Fujifilm XT3\n\n"""
@@ -147,7 +149,7 @@ else:
             print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
             out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
-            cv2.imwrite(f"{args.output_dir}/{ingredient}/{i:04d}.jpg", out_img)
+            cv2.imwrite(f"{args.output_dir}/{ingredient}_{i:04d}.jpg", out_img)
 
 
 
