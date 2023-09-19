@@ -40,6 +40,9 @@ def parse_args():
         '--mask_2', type=str, default='burger_templates/burger_mask.png', 
         help='The burger mask')
     parser.add_argument(
+        '--combined_mask', type=str, default='burger_templates/burger_mask.png', 
+        help='The burger mask')
+    parser.add_argument(
         '--output_dir', type=str, default='burger_outputs', 
         help='The directory for all the output results.')
     parser.add_argument(
@@ -99,6 +102,7 @@ img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 mask_1 = Image.open(args.mask_1).convert("RGB").resize((512,512))
 mask_2 = Image.open(args.mask_2).convert("RGB").resize((512,512))
 burger_template = Image.open(args.burger_template).convert("RGB").resize((512,512))
+combined_mask = Image.open(args.combined_mask).convert("RGB").resize((512,512))
 
 
 texture_prompt_1 = f"""food-texture, a 2D texture of {args.ingredient_1}+++, layered++, side view, 
@@ -156,7 +160,7 @@ for i in range(args.num_samples):
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    # image = blend_image(image,input_img,mask,args.mask_blur)
+    image = blend_image(image,input_img,combined_mask,args.mask_blur)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -164,6 +168,10 @@ for i in range(args.num_samples):
 
     out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
+
+    pipeline_img = np.hstack([texture_image_1,texture_image_2,input_img, image])
+    pipeline_img = cv2.cvtColor(np.uint8(pipeline_img),cv2.COLOR_BGR2RGB)
+    cv2.imwrite(f"pipeline_img.jpg", pipeline_img)
 
 if torch.cuda.is_available():
     torch.cuda.empty_cache()
