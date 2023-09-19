@@ -1,4 +1,6 @@
 import csv
+import cv2
+import numpy as np
 from PIL import Image, ImageFilter
 
 def overlay_images(background, overlay):
@@ -17,11 +19,11 @@ def composite_ingredients(ingredient_1, mask_1, ingredient_2,mask_2,burger_templ
     
     # Resize images to 512x512
     dim = (512, 512)
-    base_array = cv2.resize(ingredient_1, dim)
-    mask_array = cv2.resize(mask_1, dim)
-    second_array = cv2.resize(ingredient_2, dim)
-    second_mask_array = cv2.resize(mask_2, dim)
-    target_array = cv2.resize(burger_template, dim)
+    base_array = cv2.resize(np.uint8(ingredient_1), dim)
+    mask_array = cv2.resize(np.uint8(mask_1), dim)
+    second_array = cv2.resize(np.uint8(ingredient_2), dim)
+    second_mask_array = cv2.resize(np.uint8(mask_2), dim)
+    target_array = cv2.resize(np.uint8(burger_template), dim)
 
     # Step 4: Identify white areas in the mask and copy corresponding pixels from the base to the target image
     white_area = (mask_array[:,:,0] == 255) & (mask_array[:,:,1] == 255) & (mask_array[:,:,2] == 255)

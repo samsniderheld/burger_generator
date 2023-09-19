@@ -97,7 +97,7 @@ control_net_img = load_image(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 mask_1 = Image.open(args.mask_1).convert("RGB").resize((512,512))
-mask_2 = Image.open(args.mask_1).convert("RGB").resize((512,512))
+mask_2 = Image.open(args.mask_2).convert("RGB").resize((512,512))
 burger_template = Image.open(args.burger_template).convert("RGB").resize((512,512))
 
 
@@ -110,15 +110,13 @@ full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quali
 Fujifilm XT3\n\n"""
 
 
-burger_prompt = f"""image a burger with {args.ingredient}+++, photorealistic photography, 
+burger_prompt = f"""image a burger with {args.ingredient_1}+++ and {args.ingredient_2}+++, photorealistic photography, 
 8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
 high quality, Fujifilm XT3\n\n"""
 
 control_embeds_1 = control_proc(texture_prompt_1)
-img2img_embeds_1 = img2img_proc(texture_prompt_1)
-
 control_embeds_2 = control_proc(texture_prompt_2)
-img2img_embeds_2 = img2img_proc(texture_prompt_2)
+img2img_embeds = img2img_proc(burger_prompt)
 
 negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
 
@@ -158,13 +156,14 @@ for i in range(args.num_samples):
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    image = blend_image(image,input_img,mask,args.mask_blur)
+    # image = blend_image(image,input_img,mask,args.mask_blur)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
+    out_img = np.hstack([texture_image_1,texture_image_2,input_img, image])
+    out_img = cv2.cvtColor(np.uint8(out_img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
 if torch.cuda.is_available():
