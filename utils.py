@@ -32,6 +32,8 @@ def composite_ingredients(ingredient_1, mask_1, ingredient_2,mask_2,burger_templ
     white_area_2 = (second_mask_array[:,:,0] == 255) & (second_mask_array[:,:,1] == 255) & (second_mask_array[:,:,2] == 255)
     target_array[white_area_2] = second_array[white_area_2]
 
+    target_array = Image.fromarray(target_array)
+
     return target_array
 
 def blend_image(inpainted, original, mask, blur=3):

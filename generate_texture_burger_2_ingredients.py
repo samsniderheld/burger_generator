@@ -162,8 +162,7 @@ for i in range(args.num_samples):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    out_img = np.hstack([texture_image_1,texture_image_2,input_img, image])
-    out_img = cv2.cvtColor(np.uint8(out_img),cv2.COLOR_BGR2RGB)
+    out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
 if torch.cuda.is_available():
