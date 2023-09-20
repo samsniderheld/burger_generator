@@ -169,7 +169,7 @@ for i in range(args.num_samples):
     out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
-    pipeline_img = np.hstack([texture_image_1,texture_image_2,input_img, image])
+    pipeline_img = np.hstack([texture_image_1,texture_image_2,input_img, image.convert('RGB')])
     pipeline_img = cv2.cvtColor(np.uint8(pipeline_img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"pipeline_img.jpg", pipeline_img)
 
