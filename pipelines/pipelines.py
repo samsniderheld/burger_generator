@@ -20,7 +20,7 @@ Functions:
 
 """
 from diffusers import (ControlNetModel,StableDiffusionControlNetPipeline,
-                       StableDiffusionImg2ImgPipeline
+                       StableDiffusionImg2ImgPipeline, StableDiffusionXLImg2ImgPipeline
 )
 from diffusers import UniPCMultistepScheduler
 
@@ -40,6 +40,15 @@ def get_control_net_pipe(control_path, sd_path):
 
 def get_img2img_pipe(sd_path):
     img2img_pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
+        sd_path,
+        safety_checker=None,
+    ).to('cuda')
+
+    compel_proc = Compel(tokenizer=img2img_pipe.tokenizer, text_encoder=img2img_pipe.text_encoder)
+    return img2img_pipe, compel_proc
+
+def get_SDXL_img2img_pipe(sd_path):
+    img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
         sd_path,
         safety_checker=None,
     ).to('cuda')
