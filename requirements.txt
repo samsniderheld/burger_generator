@@ -11,3 +11,4 @@ controlnet_aux
 diffusers
 gradio
 ftfy
+noise

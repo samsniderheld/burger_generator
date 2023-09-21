@@ -1,3 +1,30 @@
+"""
+gradio_interface.py
+
+This module provides an interactive Gradio interface to demonstrate and operate
+the Hugging Face Diffusers Pipeline for generating ingredient textures.
+
+Functions:
+    - parse_args() -> argparse.Namespace: 
+        Parse command-line arguments for setting up and running the pipeline.
+        
+    - generate_texture(ingredient, controlnet_img, controlnet_conditioning_scale, steps, cfg) -> numpy.ndarray:
+        Generate the texture for a given ingredient using the control net pipeline.
+
+    - generate_burger(ingredient, strength, mask_blur_strength, steps, cfg) -> PIL.Image:
+        Generate a burger image with the ingredient texture applied.
+        
+    - Gradio Interface:
+        Create an interactive Gradio dashboard to allow users to generate textures and burgers
+        with different ingredients and settings.
+
+Usage:
+    To be executed as a standalone script, and it will launch a Gradio dashboard in a web browser.
+
+Example:
+    $ python gradio_interface.py --input_texture "path_to_texture.jpg" --ingredient "avocado"
+"""
+
 import sys
 sys.path.append('../')
 import argparse
@@ -8,7 +35,7 @@ import time
 import cv2
 import gradio as gr
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 import torch
 
 from diffusers.utils import load_image
@@ -105,7 +132,7 @@ def generate_texture(ingredient,controlnet_img,controlnet_conditioning_scale,ste
 
     controlnet_img = Image.fromarray(controlnet_img)
 
-    texture_image = control_net_pipe(prompt_embeds=control_embeds,
+    texture_img = control_net_pipe(prompt_embeds=control_embeds,
                     negative_prompt_embeds = negative_control_embeds,
                     image= controlnet_img,
                     controlnet_conditioning_scale=controlnet_conditioning_scale,
@@ -118,10 +145,10 @@ def generate_texture(ingredient,controlnet_img,controlnet_conditioning_scale,ste
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    out_img = cv2.cvtColor(np.uint8(texture_image),cv2.COLOR_BGR2RGB)
+    out_img = cv2.cvtColor(np.uint8(texture_img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"temp_textures/texture.jpg", out_img)
     
-    return texture_image
+    return texture_img
 
 def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
 
@@ -146,15 +173,15 @@ def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
     mask = Image.open(args.mask).convert("RGB").resize((512,512))
     input_img = overlay_images(texture,template)
      
-    image = img2img_pipe(prompt_embeds=img2img_embeds,
+    img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
-                    image= input_img,
+                    img= input_img,
                     strength = strength,
                     num_inference_steps=steps, 
                     generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    image = blend_image(image,input_img,mask,mask_blur_strength)
+    img = blend_image(img,input_img,mask,mask_blur_strength)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -163,20 +190,16 @@ def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
     
     texture = texture.convert('RGB')
     template = template.resize((512,512)).convert('RGB')
-    image = image.convert('RGB')
-    out_img = np.hstack([texture,template,input_img,mask,image])
+    img = img.convert('RGB')
+    out_img = np.hstack([texture,template,input_img,mask,img])
     
     
     out_img = cv2.cvtColor(np.uint8(out_img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"pipeline.jpg", out_img)
 
-    return image
+    return img
     
 
-    #generates the burger
-
-# def save_config():
-#     #saves the config
 
 with gr.Blocks() as demo:
 

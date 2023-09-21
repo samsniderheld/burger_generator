@@ -1,17 +1,22 @@
+"""
+compare_models.py
+
+This module provides an interactive way to compare the outputs of two models in generating ingredient 
+textures based on user-defined input. 
+"""
+
 import sys
 sys.path.append('../')
 import argparse
 import os
 import random
-import time
 
 import gradio as gr
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 import torch
 
 from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
-from utils import overlay_images, blend_image
 
 def parse_args():
     """
@@ -113,10 +118,6 @@ def generate_texture(ingredient,controlnet_img,controlnet_conditioning_scale,ste
     
     return test_img
     
-
-# def save_config():
-#     #saves the config
-
 with gr.Blocks() as demo:
 
     #texture gen row

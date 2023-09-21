@@ -1,5 +1,26 @@
+"""
+pipelines.py
+
+Module providing utilities for constructing pipelines from pretrained models.
+
+This module contains functions to create three distinct pipelines:
+1. Control Net Pipeline
+2. Image-to-Image Pipeline
+
+Each function returns a tuple of the pipeline and its associated COMPEL processor.
+
+Imports:
+    - diffusers: For importing the ControlNetModel, StableDiffusionControlNetPipeline,
+      StableDiffusionImg2ImgPipeline, StableDiffusionInpaintPipeline, and UniPCMultistepScheduler.
+    - compel: For importing the Compel class.
+
+Functions:
+    - get_control_net_pipe(control_path, sd_path): Construct a control net pipeline.
+    - get_img2img_pipe(sd_path): Construct an image-to-image pipeline.
+
+"""
 from diffusers import (ControlNetModel,StableDiffusionControlNetPipeline,
-                       StableDiffusionImg2ImgPipeline, StableDiffusionInpaintPipeline
+                       StableDiffusionImg2ImgPipeline
 )
 from diffusers import UniPCMultistepScheduler
 
@@ -25,13 +46,3 @@ def get_img2img_pipe(sd_path):
 
     compel_proc = Compel(tokenizer=img2img_pipe.tokenizer, text_encoder=img2img_pipe.text_encoder)
     return img2img_pipe, compel_proc
-
-def get_inpaint_pipe(sd_path):
-    inpaint_pipe = StableDiffusionInpaintPipeline.from_pretrained(
-        sd_path,
-        safety_checker=None,
-    ).to('cuda')
-
-    compel_proc = Compel(tokenizer=inpaint_pipe.tokenizer, text_encoder=inpaint_pipe.text_encoder)
-    return inpaint_pipe, compel_proc
-

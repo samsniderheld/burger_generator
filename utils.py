@@ -1,7 +1,57 @@
+"""
+Image Processing Utility Functions
+
+This module contains a set of utility functions designed for image processing and manipulation.
+It provides functionalities to generate noise profiles, create layered images, blend, and overlay images, 
+and read image ingredients from CSV files.
+
+Functions:
+    - `generate_noise_profile`: Generates a 1D array resembling a mountain profile based on width.
+    - `multi_layer_image`: Produces an image with multiple layers separated by mountain profiles.
+    - `overlay_images`: Overlays one image over another.
+    - `composite_ingredients`: Composites multiple ingredients images into a burger template.
+    - `blend_image`: Blends an inpainted image with an original using a mask.
+    - `read_ingredients_from_csv`: Reads ingredient names from a CSV file.
+"""
 import csv
 import cv2
 import numpy as np
+import noise
 from PIL import Image, ImageFilter
+
+def generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0,octaves=2):
+    """Generate a 1D array resembling a mountain profile based on the width."""
+    # Seed the noise with layer index to make each boundary different
+    mountain = [base_y + int(amplitude * noise.pnoise1(x / scale + layer_index * 10, octaves=octaves)) for x in range(width)]
+    return mountain
+
+def multi_layer_image(width, height, num_layers,amplitude=10, scale=100.0, octaves=1):
+    """Generate an image with multiple layers separated by mountain profiles."""
+    img = np.zeros((height, width, 3), dtype=np.uint8)  # 3 for RGB
+    
+    # Define tones for each layer (for demonstration, using grayscale tones)
+    tones = np.linspace(0, 255, num_layers, dtype=np.uint8)
+    
+    # Calculate the height of each layer
+    layer_height = height // num_layers
+    
+    # Assign the tones
+    for x in range(width):
+        for layer in range(num_layers):
+            # Calculate base y for this layer
+            base_y = layer * layer_height
+            
+            if layer != num_layers - 1:
+                mountain_y = generate_noise_profile(width, base_y + layer_height, layer, amplitude, scale, octaves)[x]
+                for y in range(layer_height):
+                    if y + base_y < mountain_y:
+                        img[y + base_y, x] = tones[layer]
+                    else:
+                        img[y + base_y, x] = tones[layer + 1]
+            else:
+                img[base_y:base_y+layer_height, x] = tones[layer]
+    
+    return img,tones
 
 def overlay_images(background, overlay):
     # Resize overlay image to fit the background

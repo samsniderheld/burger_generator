@@ -1,3 +1,13 @@
+"""
+Burger Generator using Hugging Face Diffusers Pipeline
+
+This script provides a pipeline for generating burger images using the Hugging Face Diffusers Pipeline.
+It utilizes a set of provided models, arguments, and image processing techniques to generate 
+realistic ingredient textures in a burger representation. The generated images are saved 
+to the specified output directory.
+
+"""
+
 import sys
 sys.path.append('../')
 import argparse
@@ -6,7 +16,6 @@ import random
 import time
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 import torch
@@ -88,7 +97,7 @@ for i in range(args.num_samples):
     
     random_seed = random.randrange(0,100000)
 
-    image = img2img_pipe(prompt_embeds=prompt_embeds,
+    img = img2img_pipe(prompt_embeds=prompt_embeds,
                     negative_prompt_embeds = negative_prompt_embeds,
                     image= input_img,
                     strength = img2img_strength,
@@ -99,7 +108,7 @@ for i in range(args.num_samples):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
+    out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
 if torch.cuda.is_available():

@@ -1,27 +1,4 @@
-"""
-generate_texture_burger_2_ingredients.py
-
-This script is designed to generate photorealistic images of burgers with two specific ingredients using Hugging Face's Diffusers pipeline and other image processing techniques. The generated burger image is influenced by specified texture prompts and combined using defined masks to represent the added ingredients.
-
-Script Arguments:
-1. `--input_texture`: Directory for input data (default: input_templates/00.jpg).
-2. `--burger_template`: The burger template image (default: burger_templates/burger_template.png).
-3. `--mask_1`, `--mask_2`, `--combined_mask`: Paths to burger masks (default: burger_templates/burger_mask.png).
-4. `--output_dir`: Directory for output results (default: burger_outputs).
-5. `--base_texture_model`, `--base_img2img_model`: SD models used for texturing and image-to-image transformation (default: SG161222/Realistic_Vision_V1.4).
-6. `--controlnet_path`: Controlnet model used (default: lllyasviel/sd-controlnet-scribble).
-7. `--ingredient_1`, `--ingredient_2`: Ingredient textures to generate (default: avocado).
-8. `--steps`: Number of diffusion steps (default: 20).
-9. `--num_samples`: Number of samples to generate (default: 1).
-10. `--dims`: Dimensions to render the images at (default: 512).
-11. `--controlnet_str`: Impact of the control net (default: .85).
-12. `--img2img_strength`: Impact of the img2img net (default: .2).
-13. `--mask_blur`: Blur parameter for mask composition (default: 3).
-14. `--cfg_scale`: Creativity scale of the pipeline (default: 3.5).
-
-
-"""
-
+"""WIP multi ingredient gen file"""
 import argparse
 import os
 import random
@@ -35,7 +12,7 @@ import torch
 from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
-from utils import blend_image, composite_ingredients
+from utils import blend_image, composite_ingredients, multi_layer_image
 
 def parse_args():
     """

@@ -1,11 +1,35 @@
+"""
+Burger Generator using Hugging Face Diffusers Pipeline
 
+This script provides a pipeline for generating burgers using the Hugging Face Diffusers Pipeline.
+It utilizes a set of provided models, arguments, and image processing techniques to generate 
+realistic ingredient textures in a burger representation. The generated images are saved 
+to the specified output directory.
+
+Script Arguments:
+    - input_texture: Directory for input data
+    - template: Burger template image
+    - mask: Burger mask image
+    - output_dir: Directory for output results
+    - base_texture_model, base_img2img_model: Pre-trained model names
+    - controlnet_path: Path for controlnet model
+    - ingredient: Target ingredient texture to generate
+    - steps, num_samples, dims: Diffusion steps, number of samples, and rendering dimensions
+    - controlnet_str, img2img_strength: Control strengths for various models
+    - mask_blur: Blur setting for mask composition
+    - cfg_scale: Pipeline creativity scale
+
+
+Example:
+    $ python generate_texture_burger.py --input_texture "path/to/input_texture.jpg" --ingredient "lettuce"
+"""
+    
 import argparse
 import os
 import random
 import time
 
 import cv2
-import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 import torch
@@ -22,7 +46,7 @@ def parse_args():
     Returns:
     argparse.Namespace: The namespace containing the script arguments.
     """
-    desc = "A Hugging Face Diffusers Pipeline for generating ingredient textures"
+    desc = "A Hugging Face Diffusers Pipeline for generating burgers"
 
     parser = argparse.ArgumentParser(description=desc)
 
@@ -128,20 +152,20 @@ for i in range(args.num_samples):
     
     input_img = overlay_images(texture_image,template)
 
-    image = img2img_pipe(prompt_embeds=img2img_embeds,
+    img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
                     image= input_img,
                     strength = img2img_strength,
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    image = blend_image(image,input_img,mask,args.mask_blur)
+    img = blend_image(img,input_img,mask,args.mask_blur)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
+    out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
 if torch.cuda.is_available():

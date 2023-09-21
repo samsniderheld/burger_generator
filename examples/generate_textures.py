@@ -1,3 +1,13 @@
+"""
+Burger Generator using Hugging Face Diffusers Pipeline
+
+This script provides a pipeline for generating burger images using the Hugging Face Diffusers Pipeline.
+It utilizes a set of provided models, arguments, and image processing techniques to generate 
+realistic ingredient textures in a burger representation. The generated images are saved 
+to the specified output directory.
+
+"""
+
 import sys
 sys.path.append('../')
 import argparse
@@ -5,7 +15,6 @@ import os
 import random
 import time
 
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import torch
@@ -96,7 +105,7 @@ if(not args.csv_file):
         
         random_seed = random.randrange(0,100000)
 
-        image = control_net_pipe(prompt_embeds=prompt_embeds,
+        img = control_net_pipe(prompt_embeds=prompt_embeds,
                         negative_prompt_embeds = negative_prompt_embeds,
                         image= control_net_img,
                         controlnet_conditioning_scale=controlnet_conditioning_scale,
@@ -109,7 +118,7 @@ if(not args.csv_file):
         elapsed_time = end_time - start_time
         print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-        out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
+        out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
         cv2.imwrite(f"{args.output_dir}/{args.ingredient}/{i:04d}.jpg", out_img)
 
 else:
@@ -136,7 +145,7 @@ else:
             
             random_seed = random.randrange(0,100000)
 
-            image = control_net_pipe(prompt_embeds=prompt_embeds,
+            img = control_net_pipe(prompt_embeds=prompt_embeds,
                             negative_prompt_embeds = negative_prompt_embeds,
                             image= control_net_img,
                             controlnet_conditioning_scale=controlnet_conditioning_scale,
@@ -149,7 +158,7 @@ else:
             elapsed_time = end_time - start_time
             print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-            out_img = cv2.cvtColor(np.uint8(image),cv2.COLOR_BGR2RGB)
+            out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
             cv2.imwrite(f"{args.output_dir}/{ingredient}_{i:04d}.jpg", out_img)
 
 
