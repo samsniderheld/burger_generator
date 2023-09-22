@@ -68,7 +68,7 @@ def apply_noisy_mask(image):
     white_img = np.ones((height, width, 3), dtype=np.uint8) * 255  # White image
 
     center = (width // 2, height // 2)
-    radius = min(width, height) // 2.5  # Adjust as necessary
+    radius = min(width, height) // 2.3  # Adjust as necessary
     path = generate_noisy_circle_path(center, radius, width)
 
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy circle
@@ -108,8 +108,6 @@ def generate_template(layers,top_overlay,bottom_overlay):
       bottom_y_coordinate = 0
   composite.paste(bottom_overlay, (0, bottom_y_coordinate), bottom_overlay)
 
-  composite.save("composite.jpg")
-
   return composite, values
 
 def overlay_images(background, overlay):
@@ -132,7 +130,8 @@ def composite_ingredients(ingredients,template,template_values,dims=512):
     template = np.array(template)
 
     for i,ingredient in enumerate(ingredients):
-        ingredient = cv2.resize(np.uint8(ingredient), dim)
+        # ingredient = cv2.resize(np.uint8(ingredient), dim)
+        ingredient = np.array(ingredient)
     
         # Identify areas in the mask and copy corresponding pixels from the base to the target image
         area = (template[:,:,0] == template_values[i]) & (template[:,:,1] == template_values[i]) & (template[:,:,2] == template_values[i])

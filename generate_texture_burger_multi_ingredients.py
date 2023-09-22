@@ -110,11 +110,13 @@ for ingredient in ingredients:
     ingredient_prompt_embeds.append(embeds)
 
 
-burger_ingredient_string = "".join([f"{ingredient}+++," for ingredient in ingredients]) 
+burger_ingredient_string = "".join([f"{ingredient}+++," for ingredient in ingredients[1:-1]]) 
 
 burger_prompt = f"""image a burger with {burger_ingredient_string}, photorealistic photography, 
 8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
 high quality, Fujifilm XT3\n\n"""
+
+print(burger_prompt)
 
 img2img_embeds = img2img_proc(burger_prompt)
 
@@ -147,6 +149,7 @@ for i in range(args.num_samples):
     
     input_img = composite_ingredients(textures,template,template_values)
 
+    cv2.imwrite(f"composite.jpg", cv2.cvtColor(np.uint8(input_img),cv2.COLOR_BGR2RGB))
     img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
                     image= input_img,
@@ -160,7 +163,7 @@ for i in range(args.num_samples):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
+    ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients[1:-1]]) 
 
     out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{i:4d}.jpg", out_img)
