@@ -12,3 +12,4 @@ diffusers
 gradio
 ftfy
 noise
+omegaconf
