@@ -85,30 +85,32 @@ def apply_noisy_mask(image):
     return result_with_white_bg
 
 def generate_template(layers,top_overlay,bottom_overlay):
-  img, values = multi_layer_image(512, 512, layers, amplitude=100, scale=150, octaves=5)
+  img, values = multi_layer_image(512, 512, layers+1, amplitude=100, scale=150, octaves=5)
+  print(values)
   masked_image = apply_noisy_mask(img)
   masked_image = Image.fromarray(masked_image)
 
   # Calculate the separation based on the number of layers
-  separation = 512 / 8
+  separation = 512 / 7
 
-  for i in range(0,layers):
-    # Overlay the top image
-    composite = masked_image.copy()
-    if i > 2:
-        top_y_coordinate = 0-(int(separation / 2) * (i - 2))  # Adjusting the Y-coordinate here
-    else:
-        top_y_coordinate = 0
-    composite.paste(top_overlay, (0, top_y_coordinate), top_overlay)
+  # Overlay the top image
+  composite = masked_image.copy()
+  if layers > 2:
+      top_y_coordinate = 0-(int(separation / 2) * (layers - 2))  # Adjusting the Y-coordinate here
+  else:
+      top_y_coordinate = 0
+  composite.paste(top_overlay, (0, top_y_coordinate), top_overlay)
 
-    # Overlay the bottom image
-    if i > 2:
-        bottom_y_coordinate = 0 + (int(separation / 2) * (i - 2))  # Adjusting the Y-coordinate here
-    else:
-        bottom_y_coordinate = 0
-    composite.paste(bottom_overlay, (0, bottom_y_coordinate), bottom_overlay)
+  # Overlay the bottom image
+  if layers > 2:
+      bottom_y_coordinate = 0 + (int(separation / 2) * (layers - 2))  # Adjusting the Y-coordinate here
+  else:
+      bottom_y_coordinate = 0
+  composite.paste(bottom_overlay, (0, bottom_y_coordinate), bottom_overlay)
 
-    return composite, values
+  composite.save("composite.jpg")
+
+  return composite, values
 
 def overlay_images(background, overlay):
     # Resize overlay image to fit the background
@@ -123,9 +125,11 @@ def overlay_images(background, overlay):
     return combined
 
 def composite_ingredients(ingredients,template,template_values,dims=512):
-
+    combined = zip(ingredients,template_values)
+    for element in combined:
+      print(element)
     dim = (dims,dims)
-    template = cv2.resize(np.uint8(template), dim)
+    template = np.array(template)
 
     for i,ingredient in enumerate(ingredients):
         ingredient = cv2.resize(np.uint8(ingredient), dim)

@@ -91,12 +91,12 @@ control_net_img = load_image(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
-mask_1 = Image.open(args.mask_1).convert("RGB").resize((512,512))
-mask_2 = Image.open(args.mask_2).convert("RGB").resize((512,512))
-
+mask_1 = Image.open(args.mask_1).convert("RGBA").resize((512,512))
+mask_2 = Image.open(args.mask_2).convert("RGBA").resize((512,512))
 
 template,template_values = generate_template(len(ingredients),mask_1,mask_2)
 
+template_values = template_values[:-1]
 ingredient_prompt_embeds = []
 
 for ingredient in ingredients:
@@ -142,10 +142,10 @@ for i in range(args.num_samples):
                         num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                         guidance_scale = cfg).images[0]
         
-        texture.append(texture)
+        textures.append(texture)
     
     
-    input_img = composite_ingredients(ingredients,template,template_values)
+    input_img = composite_ingredients(textures,template,template_values)
 
     img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
@@ -160,8 +160,10 @@ for i in range(args.num_samples):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
+    ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
+
     out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
-    cv2.imwrite(f"{args.output_dir}/{args.ingredient_1}_{args.ingredient_2}_{i:4d}.jpg", out_img)
+    cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{i:4d}.jpg", out_img)
 
     pipeline_img = np.hstack([template,input_img, img.convert('RGB')])
     pipeline_img = cv2.cvtColor(np.uint8(pipeline_img),cv2.COLOR_BGR2RGB)
