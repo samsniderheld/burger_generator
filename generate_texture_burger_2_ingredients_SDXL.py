@@ -120,7 +120,7 @@ cfg = args.cfg_scale
 control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
 control_net_img = load_image(args.input_texture)
 
-img2img_pipe, img2img_proc = get_SDXL_img2img_pipe(args.base_img2img_model)
+img2img_pipe = get_SDXL_img2img_pipe(args.base_img2img_model)
 mask_1 = Image.open(args.mask_1).convert("RGB").resize((512,512))
 mask_2 = Image.open(args.mask_2).convert("RGB").resize((512,512))
 burger_template = Image.open(args.burger_template).convert("RGB").resize((512,512))
@@ -142,12 +142,10 @@ high quality, Fujifilm XT3\n\n"""
 
 control_embeds_1 = control_proc(texture_prompt_1)
 control_embeds_2 = control_proc(texture_prompt_2)
-img2img_embeds = img2img_proc(burger_prompt)
 
 negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
 
 negative_control_embeds = control_proc(negative_prompt)
-negative_img2img_embeds = img2img_proc(negative_prompt)
 
 for i in range(args.num_samples):
 
@@ -175,8 +173,8 @@ for i in range(args.num_samples):
     
     input_img = composite_ingredients(texture_img_1,mask_1,texture_img_2,mask_2,burger_template)
 
-    img = img2img_pipe(prompt_embeds=img2img_embeds,
-                    negative_prompt_embeds = negative_img2img_embeds,
+    img = img2img_pipe(prompt=burger_prompt,
+                    negative_prompt = negative_prompt,
                     image= input_img,
                     strength = img2img_strength,
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),

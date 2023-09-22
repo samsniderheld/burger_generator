@@ -51,7 +51,6 @@ def get_SDXL_img2img_pipe(sd_path):
     img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
         sd_path,
         safety_checker=None,
-    ).to('cuda')
-
-    compel_proc = Compel(tokenizer=img2img_pipe.tokenizer, text_encoder=img2img_pipe.text_encoder)
-    return img2img_pipe, compel_proc
+    )
+    img2img_pipe.enable_model_cpu_offload()
+    return img2img_pipe
