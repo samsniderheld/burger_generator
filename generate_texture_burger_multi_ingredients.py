@@ -30,10 +30,10 @@ def parse_args():
         '--input_texture', type=str, default='input_templates/00.jpg', 
         help='The directory for input data')
     parser.add_argument(
-        '--mask_1', type=str, default='burger_templates/burger_template_top_multi_ingredient', 
-        help='The burger mask')
+        '--overlay', type=str, default='burger_templates/burger_template_top_multi_ingredient', 
+        help='The burger overlay')
     parser.add_argument(
-        '--mask_2', type=str, default='burger_templates/burger_template_bottom_multi_ingredient', 
+        '--mask', type=str, default='burger_templates/burger_template_bottom_multi_ingredient', 
         help='The burger mask')
     parser.add_argument(
         '--output_dir', type=str, default='burger_outputs', 
@@ -91,10 +91,10 @@ control_net_img = load_image(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
-mask_1 = Image.open(args.mask_1).convert("RGBA").resize((512,512))
-mask_2 = Image.open(args.mask_2).convert("RGBA").resize((512,512))
+overlay = Image.open(args.overlay).convert("RGBA").resize((512,512))
+mask = Image.open(args.mask).convert("RGBA").resize((512,512))
 
-template,template_values = generate_template(len(ingredients),mask_1,mask_2)
+template,template_values = generate_template(len(ingredients),overlay)
 
 template_values = template_values[:-1]
 ingredient_prompt_embeds = []
@@ -157,7 +157,7 @@ for i in range(args.num_samples):
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    # img = blend_image(img,input_img,combined_mask,args.mask_blur)
+    img = blend_image(img,input_img,mask,args.mask_blur)
 
     end_time = time.time()
     elapsed_time = end_time - start_time

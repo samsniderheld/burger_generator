@@ -30,7 +30,7 @@ def generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0
 def multi_layer_image(width, height, num_layers,amplitude=10, scale=100.0, octaves=1):
     """Generate an image with multiple layers separated by mountain profiles."""
     img = np.zeros((height, width, 3), dtype=np.uint8)  # 3 for RGB
-    
+    num_layers+=2
     # Define tones for each layer (for demonstration, using grayscale tones)
     tones = np.linspace(0, 255, num_layers, dtype=np.uint8)
     
@@ -53,7 +53,7 @@ def multi_layer_image(width, height, num_layers,amplitude=10, scale=100.0, octav
             else:
                 img[base_y:base_y+layer_height, x] = tones[layer]
   
-    return img,tones
+    return img,tones[1:-1]
 
 def generate_noisy_circle_path(center, radius, width, amplitude=20, scale=0.2):
     angles = np.linspace(0, 2 * np.pi, width)
@@ -92,28 +92,17 @@ def apply_noisy_mask(image):
     
     return result_with_white_bg
 
-def generate_template(layers,top_overlay,bottom_overlay):
+def generate_template(layers,overlay):
   img, values = multi_layer_image(512, 512, layers+1, amplitude=100, scale=150, octaves=5)
+  cv2.imwrite("layers.png",img)
   masked_image = apply_noisy_mask(img)
   masked_image = Image.fromarray(masked_image)
 
-  # Calculate the separation based on the number of layers
-  separation = 512 / 7
+  separation = 60
 
   # Overlay the top image
   composite = masked_image.copy()
-  if layers > 2:
-      top_y_coordinate = 0-(int(separation / 2) * (layers - 2))  # Adjusting the Y-coordinate here
-  else:
-      top_y_coordinate = 0
-  composite.paste(top_overlay, (0, top_y_coordinate), top_overlay)
-
-  # Overlay the bottom image
-  if layers > 2:
-      bottom_y_coordinate = 0 + (int(separation / 2) * (layers - 2))  # Adjusting the Y-coordinate here
-  else:
-      bottom_y_coordinate = 0
-  composite.paste(bottom_overlay, (0, bottom_y_coordinate), bottom_overlay)
+  composite.paste(overlay, (0, 0), overlay)
 
   return composite, values
 
