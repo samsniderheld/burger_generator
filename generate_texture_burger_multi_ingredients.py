@@ -110,7 +110,7 @@ for ingredient in ingredients:
     ingredient_prompt_embeds.append(embeds)
 
 
-burger_ingredient_string = "".join([f"{ingredient}+++," for ingredient in ingredients[1:-1]]) 
+burger_ingredient_string = "".join([f"{ingredient}+++, " for ingredient in ingredients]) 
 
 burger_prompt = f"""image a burger with {burger_ingredient_string}, photorealistic photography, 
 8k uhd, full framed, photorealistic photography, dslr, soft lighting, 

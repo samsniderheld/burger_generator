@@ -52,7 +52,7 @@ def multi_layer_image(width, height, num_layers,amplitude=10, scale=100.0, octav
                         img[y + base_y, x] = tones[layer + 1]
             else:
                 img[base_y:base_y+layer_height, x] = tones[layer]
-    
+  
     return img,tones
 
 def generate_noisy_circle_path(center, radius, width, amplitude=20, scale=0.2):
@@ -74,19 +74,26 @@ def apply_noisy_mask(image):
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy circle
 
     # Convert the mask to 3 channel
-    mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+    mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR).astype(np.uint8)
 
     # Masking the image
-    result = cv2.bitwise_and(image, mask_3_channel)
+    result = cv2.bitwise_and(image, mask_3_channel).astype(np.uint8)
 
     # Use cv2.bitwise_or to combine the result with the white image
-    result_with_white_bg = cv2.bitwise_not(result, white_img)
-
+    result_with_white_bg = cv2.bitwise_not(result, white_img).astype(np.uint8)
+    
+    #this bitwise_not function introduces a bug which needs to be fixed.
+    input_vals = np.unique(image)
+    output_vals = np.unique(result_with_white_bg)
+    if  not np.array_equal(input_vals,output_vals):
+      for val in input_vals:
+        area = (result_with_white_bg[:,:,0] == val+1) & (result_with_white_bg[:,:,1] == val+1) & (result_with_white_bg[:,:,2] == val+1)
+        result_with_white_bg[area] = val
+    
     return result_with_white_bg
 
 def generate_template(layers,top_overlay,bottom_overlay):
   img, values = multi_layer_image(512, 512, layers+1, amplitude=100, scale=150, octaves=5)
-  print(values)
   masked_image = apply_noisy_mask(img)
   masked_image = Image.fromarray(masked_image)
 
@@ -124,13 +131,10 @@ def overlay_images(background, overlay):
 
 def composite_ingredients(ingredients,template,template_values,dims=512):
     combined = zip(ingredients,template_values)
-    for element in combined:
-      print(element)
     dim = (dims,dims)
     template = np.array(template)
-
+    
     for i,ingredient in enumerate(ingredients):
-        # ingredient = cv2.resize(np.uint8(ingredient), dim)
         ingredient = np.array(ingredient)
     
         # Identify areas in the mask and copy corresponding pixels from the base to the target image
@@ -140,27 +144,6 @@ def composite_ingredients(ingredients,template,template_values,dims=512):
     template = Image.fromarray(template)
 
     return template
-
-# def composite_ingredients(ingredient_1, mask_1, ingredient_2,mask_2,burger_template):
-    
-#     # Resize images to 512x512
-#     dim = (512, 512)
-#     base_array = cv2.resize(np.uint8(ingredient_1), dim)
-#     mask_array = cv2.resize(np.uint8(mask_1), dim)
-#     second_array = cv2.resize(np.uint8(ingredient_2), dim)
-#     second_mask_array = cv2.resize(np.uint8(mask_2), dim)
-#     target_array = cv2.resize(np.uint8(burger_template), dim)
-
-#     # Step 4: Identify white areas in the mask and copy corresponding pixels from the base to the target image
-#     white_area = (mask_array[:,:,0] == 255) & (mask_array[:,:,1] == 255) & (mask_array[:,:,2] == 255)
-#     target_array[white_area] = base_array[white_area]
-
-#     white_area_2 = (second_mask_array[:,:,0] == 255) & (second_mask_array[:,:,1] == 255) & (second_mask_array[:,:,2] == 255)
-#     target_array[white_area_2] = second_array[white_area_2]
-
-#     target_array = Image.fromarray(target_array)
-
-#     return target_array
 
 def blend_image(inpainted, original, mask, blur=3):
     mask = mask.convert("L")
