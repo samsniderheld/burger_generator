@@ -16,95 +16,110 @@ Functions:
 import csv
 import cv2
 import numpy as np
-import noise
+import random
+from noise import pnoise1
 from PIL import Image, ImageFilter
 
 def generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0,octaves=2):
     """Generate a 1D array resembling a mountain profile based on the width."""
-    # Seed the noise with layer index to make each boundary different
-    # random_seed = random.uniform(-10, 10)
-    random_seed = 0
-    mountain = [base_y + int(amplitude * noise.pnoise1(x/ scale + layer_index *10, octaves=octaves)+random_seed) for x in range(width)]
+    mountain = [base_y + int(amplitude * pnoise1(x/ scale + layer_index*10, octaves=octaves)) for x in range(width)]
     return mountain
 
-def multi_layer_image(width, height, num_layers,amplitude=10, scale=100.0, octaves=1):
-    """Generate an image with multiple layers separated by mountain profiles."""
+def multi_layer_img(width, height, gen_space_x, gen_space_y, num_layers, amplitude=10, scale=100.0, octaves=1):
     img = np.zeros((height, width, 3), dtype=np.uint8)  # 3 for RGB
-    num_layers+=2
-    # Define tones for each layer (for demonstration, using grayscale tones)
-    tones = np.linspace(0, 255, num_layers, dtype=np.uint8)
-    
-    # Calculate the height of each layer
-    layer_height = height // num_layers
-    
-    # Assign the tones
-    for x in range(width):
-        for layer in range(num_layers):
-            # Calculate base y for this layer
-            base_y = layer * layer_height
-            
+    tones = np.linspace(50, 200, num_layers, dtype=np.uint8)
+    left_over_height = height - gen_space_y
+    start_y = int(left_over_height / 2)
+    layer_height = gen_space_y // num_layers 
+
+    for layer in range(num_layers):
+      base_y = (layer * layer_height) + start_y
+      mountain = generate_noise_profile(width, base_y + layer_height, layer, amplitude, scale, octaves)
+      for x in range(width):
             if layer != num_layers - 1:
-                mountain_y = generate_noise_profile(width, base_y + layer_height, layer, amplitude, scale, octaves)[x]
+                mountain_y = mountain[x]
+                
                 for y in range(layer_height):
                     if y + base_y < mountain_y:
                         img[y + base_y, x] = tones[layer]
                     else:
                         img[y + base_y, x] = tones[layer + 1]
             else:
-                img[base_y:base_y+layer_height, x] = tones[layer]
-  
-    return img,tones[1:-1]
+                img[base_y:base_y + layer_height, x] = tones[layer]
 
-def generate_noisy_circle_path(center, radius, width, amplitude=20, scale=0.2):
-    angles = np.linspace(0, 2 * np.pi, width)
-    x_coords = center[0] + radius * np.cos(angles) + amplitude * np.array([noise.pnoise1(angle / scale) for angle in angles])
-    y_coords = center[1] + radius * np.sin(angles) + amplitude * np.array([noise.pnoise1(angle / scale + 10) for angle in angles])  # offset to create different noise
-    path = np.vstack((x_coords, y_coords)).T
+    masked_img = apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y)
+
+    return masked_img, tones
+
+def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2):
+    half_width = width // 2
+    half_height = height // 2
+    
+    # Coordinates of the four corners of the rectangle
+    top_left = (center[0] - half_width, center[1] - half_height)
+    top_right = (center[0] + half_width, center[1] - half_height)
+    bottom_left = (center[0] - half_width, center[1] + half_height)
+    bottom_right = (center[0] + half_width, center[1] + half_height)
+    
+    # Generate noisy paths for each edge
+    top_path = np.linspace(top_left, top_right, width)
+    bottom_path = np.linspace(bottom_left, bottom_right, width)
+    left_path = np.linspace(top_left, bottom_left, height)
+    right_path = np.linspace(top_right, bottom_right, height)
+    
+    # Apply noise
+    top_path[:, 1] += amplitude * np.array([pnoise1(x / scale) for x in np.linspace(0, width, width)])
+    bottom_path[:, 1] += amplitude * np.array([pnoise1(x / scale + 10) for x in np.linspace(0, width, width)])
+    left_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 20) for y in np.linspace(0, height, height)])
+    right_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 30) for y in np.linspace(0, height, height)])
+    
+    # Concatenate the paths to form a continuous loop
+    path = np.vstack((top_path, right_path, bottom_path[::-1], left_path[::-1]))  # [::-1] to reverse order
+    
     return path
 
-def apply_noisy_mask(image):
-    height, width, _ = image.shape
+def apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y):
+    height, width, _ = img.shape
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
-    white_img = np.ones((height, width, 3), dtype=np.uint8) * 255  # White image
+    white_img = np.ones((height, width, 3), dtype=np.uint8) * 255  # White img
 
     center = (width // 2, height // 2)
-    radius = min(width, height) // 2.3  # Adjust as necessary
-    path = generate_noisy_circle_path(center, radius, width)
+    # path = generate_noisy_ellipse_path(center, gen_space_x, gen_space_y)
+    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,random.randint(10,40),random.randint(25,50))
 
-    cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy circle
+    cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy ellipse
+    mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+    result = cv2.bitwise_and(img, mask_3_channel)
+    result_with_white_bg = cv2.bitwise_not(result, white_img)
 
-    # Convert the mask to 3 channel
-    mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR).astype(np.uint8)
-
-    # Masking the image
-    result = cv2.bitwise_and(image, mask_3_channel).astype(np.uint8)
-
-    # Use cv2.bitwise_or to combine the result with the white image
-    result_with_white_bg = cv2.bitwise_not(result, white_img).astype(np.uint8)
-    
-    #this bitwise_not function introduces a bug which needs to be fixed.
-    input_vals = np.unique(image)
-    output_vals = np.unique(result_with_white_bg)
-    if  not np.array_equal(input_vals,output_vals):
-      for val in input_vals:
-        area = (result_with_white_bg[:,:,0] == val+1) & (result_with_white_bg[:,:,1] == val+1) & (result_with_white_bg[:,:,2] == val+1)
-        result_with_white_bg[area] = val
-    
     return result_with_white_bg
 
-def generate_template(layers,overlay):
-  img, values = multi_layer_image(512, 512, layers+1, amplitude=100, scale=150, octaves=5)
-  cv2.imwrite("layers.png",img)
-  masked_image = apply_noisy_mask(img)
-  masked_image = Image.fromarray(masked_image)
+def generate_template_and_mask(layers,overlay):
+    width = 512
+    height = 512
+    x_mod = .8
+    y_mod = .55
+    gen_space_x = int(width * x_mod)
+    gen_space_y = int(height * y_mod)
+    layer_peaky_value=random.randint(50,80)
+    scale=random.randint(50,150)
+    octaves=random.randint(1,10)
+    #generates template
+    img, values = multi_layer_img(width, height, gen_space_x, 
+        gen_space_y, layers, layer_peaky_value, scale, octaves)
+    
+    #generates mask
+    mask = img.copy()
+    area_white = (mask[:,:,0] == 255) & (mask[:,:,1] == 255) & (mask[:,:,2] == 255)
+    mask[area_white] = 0
+    area_shade = (mask[:,:,0] != 0) & (mask[:,:,1] != 0) & (mask[:,:,2] != 0)
+    mask[area_shade] = 255
 
-  separation = 60
+    # Overlay the top image
+    composite = img.copy()
+    composite.paste(overlay, (0, 0), overlay)
 
-  # Overlay the top image
-  composite = masked_image.copy()
-  composite.paste(overlay, (0, 0), overlay)
-
-  return composite, values
+    return composite, values, mask
 
 def overlay_images(background, overlay):
     # Resize overlay image to fit the background

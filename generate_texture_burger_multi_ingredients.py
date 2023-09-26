@@ -12,7 +12,7 @@ import torch
 from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
-from utils import blend_image, composite_ingredients, generate_template
+from utils import blend_image, composite_ingredients, generate_template_and_mask
 
 def parse_args():
     """
@@ -30,11 +30,8 @@ def parse_args():
         '--input_texture', type=str, default='input_templates/00.jpg', 
         help='The directory for input data')
     parser.add_argument(
-        '--overlay', type=str, default='burger_templates/burger_template_top_multi_ingredient', 
+        '--overlay_dir', type=str, default='burger_templates/', 
         help='The burger overlay')
-    parser.add_argument(
-        '--mask', type=str, default='burger_templates/burger_template_bottom_multi_ingredient', 
-        help='The burger mask')
     parser.add_argument(
         '--output_dir', type=str, default='burger_outputs', 
         help='The directory for all the output results.')
@@ -91,10 +88,10 @@ control_net_img = load_image(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
-overlay = Image.open(args.overlay).convert("RGBA").resize((512,512))
-mask = Image.open(args.mask).convert("RGBA").resize((512,512))
+overlay = Image.open(os.path.join(args.overlay_dir,
+                                  f"{len(ingredients)}_template.png")).convert("RGBA").resize((512,512))
 
-template,template_values = generate_template(len(ingredients),overlay)
+template,template_values,mask = generate_template_and_mask(len(ingredients),overlay)
 
 template_values = template_values[:-1]
 ingredient_prompt_embeds = []
