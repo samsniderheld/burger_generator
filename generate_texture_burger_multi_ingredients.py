@@ -12,7 +12,8 @@ import torch
 from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
-from utils import blend_image, composite_ingredients, generate_template_and_mask
+from utils import(blend_image, composite_ingredients, 
+                  generate_template_and_mask,read_ingredients_from_csv)
 
 def parse_args():
     """
@@ -68,13 +69,15 @@ def parse_args():
     parser.add_argument(
         '--cfg_scale', type=float, default=3.5, 
         help='How much creativity the pipeline has')
+    parser.add_argument(
+        '--csv_file', type=str, default=None, 
+        help='The ingredient texture we want to generate.')
 
     return parser.parse_args()
 
 args = parse_args()
-os.makedirs(args.output_dir, exist_ok=True)
 
-ingredients = args.ingredients
+os.makedirs(args.output_dir, exist_ok=True)
 
 controlnet_conditioning_scale = args.controlnet_str
 height = args.dims
@@ -88,42 +91,51 @@ control_net_img = load_image(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
-overlay = Image.open(os.path.join(args.overlay_dir,
-                                  f"{len(ingredients)}_ingredient.png")).convert("RGBA").resize((512,512))
-
-template,template_values,mask = generate_template_and_mask(len(ingredients),overlay)
-
-ingredient_prompt_embeds = []
-
-for ingredient in ingredients:
-
-    prompt = f"""food-texture, a 2D texture of {ingredient}+++, layered++, side view, 
-    full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
-    Fujifilm XT3\n\n"""
-
-    embeds = control_proc(prompt)
-
-    ingredient_prompt_embeds.append(embeds)
-
-
-burger_ingredient_string = "".join([f"{ingredient}+++, " for ingredient in ingredients]) 
-
-burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string} photorealistic photography, 
-8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
-high quality, Fujifilm XT3\n\n"""
-
-print(burger_prompt)
-
-img2img_embeds = img2img_proc(burger_prompt)
-
 negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
 
 negative_control_embeds = control_proc(negative_prompt)
+
 negative_img2img_embeds = img2img_proc(negative_prompt)
+
 
 for i in range(args.num_samples):
 
     start_time = time.time()
+
+    ingredient_prompt_embeds = []
+
+    if args.csv_file != None:
+        all_ingredients = read_ingredients_from_csv(args.csv_file)
+        ingredients = random.choices(all_ingredients,k=random.randint(2,5))
+
+    else:
+        ingredients = args.ingredients
+
+    overlay = Image.open(os.path.join(args.overlay_dir,
+                                  f"{len(ingredients)}_ingredient.png")).convert("RGBA").resize((512,512))
+
+    template,template_values,mask = generate_template_and_mask(len(ingredients),overlay)
+
+    for ingredient in ingredients:
+
+        prompt = f"""food-texture, a 2D texture of {ingredient}+++, layered++, side view, 
+        full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
+        Fujifilm XT3\n\n"""
+
+        embeds = control_proc(prompt)
+
+        ingredient_prompt_embeds.append(embeds)
+        negative_control_embeds = control_proc(negative_prompt)
+    
+    burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients]) 
+
+    burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
+    8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
+    high quality, Fujifilm XT3\n\n"""
+
+    print(burger_prompt)
+
+    img2img_embeds = img2img_proc(burger_prompt)    
     
     random_seed = random.randrange(0,100000)
 
@@ -142,8 +154,7 @@ for i in range(args.num_samples):
         
         textures.append(texture)
     
-    
-    input_img = composite_ingredients(textures,template,template_values)
+    input_img = composite_ingredients(textures[::-1],template,template_values)
 
     cv2.imwrite(f"composite.jpg", cv2.cvtColor(np.uint8(input_img),cv2.COLOR_BGR2RGB))
     img = img2img_pipe(prompt_embeds=img2img_embeds,
@@ -159,7 +170,7 @@ for i in range(args.num_samples):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
-    ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients[1:-1]]) 
+    ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
 
     out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{i:4d}.jpg", out_img)

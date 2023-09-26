@@ -81,7 +81,6 @@ def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2
 def apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y):
     height, width, _ = img.shape
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
-    white_img = np.ones((height, width, 3), dtype=np.uint8) * 255  # White img
 
     center = (width // 2, height // 2)
     # path = generate_noisy_ellipse_path(center, gen_space_x, gen_space_y)
@@ -93,8 +92,6 @@ def apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y):
     result_with_white_bg = result.copy()
     area_black = (result_with_white_bg[:,:,0] == 0) & (result_with_white_bg[:,:,1] == 0) & (result_with_white_bg[:,:,2] == 0)
     result_with_white_bg[area_black] = 255
-
-   
 
     return result_with_white_bg
 
@@ -138,7 +135,6 @@ def overlay_images(background, overlay):
     return combined
 
 def composite_ingredients(ingredients,template,template_values,dims=512):
-    combined = zip(ingredients,template_values)
     dim = (dims,dims)
     template = np.array(template)
     
