@@ -90,7 +90,11 @@ def apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y):
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy ellipse
     mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
     result = cv2.bitwise_and(img, mask_3_channel)
-    result_with_white_bg = cv2.bitwise_not(result, white_img)
+    result_with_white_bg = result.copy()
+    area_black = (result_with_white_bg[:,:,0] == 0) & (result_with_white_bg[:,:,1] == 0) & (result_with_white_bg[:,:,2] == 0)
+    result_with_white_bg[area_black] = 255
+
+   
 
     return result_with_white_bg
 
@@ -116,7 +120,7 @@ def generate_template_and_mask(layers,overlay):
     mask[area_shade] = 255
 
     # Overlay the top image
-    composite = img.copy()
+    composite = Image.fromarray(img)
     composite.paste(overlay, (0, 0), overlay)
 
     return composite, values, mask
@@ -150,6 +154,7 @@ def composite_ingredients(ingredients,template,template_values,dims=512):
     return template
 
 def blend_image(inpainted, original, mask, blur=3):
+    mask = Image.fromarray(mask)
     mask = mask.convert("L")
     # Apply blur
     mask = mask.filter(ImageFilter.GaussianBlur(blur))

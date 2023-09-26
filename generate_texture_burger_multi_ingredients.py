@@ -89,11 +89,10 @@ control_net_img = load_image(args.input_texture)
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
 overlay = Image.open(os.path.join(args.overlay_dir,
-                                  f"{len(ingredients)}_template.png")).convert("RGBA").resize((512,512))
+                                  f"{len(ingredients)}_ingredient.png")).convert("RGBA").resize((512,512))
 
 template,template_values,mask = generate_template_and_mask(len(ingredients),overlay)
 
-template_values = template_values[:-1]
 ingredient_prompt_embeds = []
 
 for ingredient in ingredients:
@@ -109,7 +108,7 @@ for ingredient in ingredients:
 
 burger_ingredient_string = "".join([f"{ingredient}+++, " for ingredient in ingredients]) 
 
-burger_prompt = f"""image a burger with {burger_ingredient_string}, photorealistic photography, 
+burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string} photorealistic photography, 
 8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
 high quality, Fujifilm XT3\n\n"""
 
