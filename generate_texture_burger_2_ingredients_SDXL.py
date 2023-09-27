@@ -173,12 +173,15 @@ for i in range(args.num_samples):
     
     input_img = composite_ingredients(texture_img_1,mask_1,texture_img_2,mask_2,burger_template)
 
+    img = img.resize((1024,1024))
+
     img = img2img_pipe(prompt=burger_prompt,
                     negative_prompt = negative_prompt,
                     image= input_img,
                     strength = img2img_strength,
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
+    img = img.resize((512,512))
     
     img = blend_image(img,input_img,combined_mask,args.mask_blur)
 
