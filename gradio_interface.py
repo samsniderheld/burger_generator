@@ -32,9 +32,7 @@ import os
 import random
 import time
 
-import cv2
 import gradio as gr
-import numpy as np
 from PIL import Image
 import torch
 
@@ -119,17 +117,18 @@ all_textures = []
 template = None
 composite = None
 mask = None
+all_ingredients = []
 
 def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,steps,cfg):
     #generates the texture
-    global all_textures
+    global all_textures, all_ingredients
     all_textures = []
 
     start_time = time.time()
 
-    ingredients = ingredients.split(",")
+    all_ingredients = ingredients.split(",")
 
-    for ingredient in ingredients:
+    for ingredient in all_ingredients:
 
         texture_prompt = f"""food-texture, a 2D texture of {ingredient}+++, layered++, side view, 
         full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
@@ -145,11 +144,11 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
         
         random_seed = random.randrange(0,100000)
 
-        controlnet_img = Image.fromarray(controlnet_img)
+        controlnet_input = Image.fromarray(controlnet_img)
 
         texture_img = control_net_pipe(prompt_embeds=control_embeds,
                         negative_prompt_embeds = negative_control_embeds,
-                        image= controlnet_img,
+                        image= controlnet_input,
                         controlnet_conditioning_scale=controlnet_conditioning_scale,
                         height=512,
                         width=512,
@@ -175,11 +174,15 @@ def generate_template():
     return [template, mask,composite]
 
 
-def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
+def generate_burger(strength,mask_blur_strength,steps,cfg):
+
+    global all_textures,template,mask,composite,all_ingredients
 
     start_time = time.time()
 
-    burger_prompt = f"""image a burger with {ingredient}+++, photorealistic photography, 
+    burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in all_ingredients]) 
+
+    burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
     8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
     high quality, Fujifilm XT3\n\n"""
 
@@ -193,34 +196,20 @@ def generate_burger(ingredient,strength,mask_blur_strength,steps,cfg):
     
     random_seed = random.randrange(0,100000)
 
-    texture = Image.open("temp_textures/texture.jpg").convert("RGBA")
-    template = Image.open(args.template).convert("RGBA")
-    mask = Image.open(args.mask).convert("RGB").resize((512,512))
-    input_img = overlay_images(texture,template)
      
     img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
-                    img= input_img,
+                    image= composite,
                     strength = strength,
                     num_inference_steps=steps, 
                     generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
-    img = blend_image(img,input_img,mask,mask_blur_strength)
+    img = blend_image(img,composite,mask,mask_blur_strength)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
-
-    
-    texture = texture.convert('RGB')
-    template = template.resize((512,512)).convert('RGB')
-    img = img.convert('RGB')
-    out_img = np.hstack([texture,template,input_img,mask,img])
-    
-    
-    out_img = cv2.cvtColor(np.uint8(out_img),cv2.COLOR_BGR2RGB)
-    cv2.imwrite(f"pipeline.jpg", out_img)
 
     return img
     
@@ -271,17 +260,16 @@ with gr.Blocks() as demo:
                     mask_blur_strength = gr.Slider(0, 9, 
                         value=args.mask_blur, 
                         label="mask blur")
-                    img2img_steps_input = gr.Slider(0, 150, value=args.steps,
+                    steps_input = gr.Slider(0, 150, value=args.steps,
                         label="number of diffusion steps")
                     img2img_cfg_input = gr.Slider(0,30,value=args.cfg_scale,
                                                     label="cfg scale")
 
                     img2img_inputs = [
                         #use the same prompt from step 1
-                        controlnet_prompt_input,
                         img2img_strength,
                         mask_blur_strength,
-                        img2img_steps_input,
+                        steps_input,
                         img2img_cfg_input,
                     ]
 
