@@ -184,7 +184,7 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
 
     burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in all_ingredients]) 
 
-    burger_prompt = f"""image a burger with {ingredient}+++, photorealistic photography, 
+    burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
     8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
     high quality, Fujifilm XT3\n\n"""
 
@@ -201,7 +201,7 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
      
     img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
-                    img= composite,
+                    image= composite,
                     strength = strength,
                     num_inference_steps=steps, 
                     generator=torch.Generator(device='cuda').manual_seed(random_seed),
