@@ -186,6 +186,8 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
     8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
     high quality, Fujifilm XT3\n\n"""
 
+    print(burger_prompt)
+
     img2img_embeds = img2img_proc(burger_prompt)
 
     negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
