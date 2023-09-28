@@ -71,8 +71,8 @@ def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2
     right_path = np.linspace(top_right, bottom_right, height)
     
     # Apply noise
-    top_path[:, 1] += amplitude * np.array([pnoise1(x / scale) for x in np.linspace(0, width, width)])
-    bottom_path[:, 1] += amplitude * np.array([pnoise1(x / scale + 10) for x in np.linspace(0, width, width)])
+    # top_path[:, 1] += amplitude * np.array([pnoise1(x / scale) for x in np.linspace(0, width, width)])
+    # bottom_path[:, 1] += amplitude * np.array([pnoise1(x / scale + 10) for x in np.linspace(0, width, width)])
     left_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 20) for y in np.linspace(0, height, height)])
     right_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 30) for y in np.linspace(0, height, height)])
     
