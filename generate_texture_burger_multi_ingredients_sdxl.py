@@ -156,13 +156,14 @@ for i in range(args.num_samples):
     cv2.imwrite(f"composite.jpg", cv2.cvtColor(np.uint8(input_img),cv2.COLOR_BGR2RGB))
     
     input_img = input_img.resize((1024,1204))
-    img = img2img_pipe(promp = prompt,
+    img = img2img_pipe(prompt = prompt,
                     negative_prompt = prompt,
                     image= input_img,
                     strength = img2img_strength,
                     num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                     guidance_scale = cfg).images[0]
     
+    input_img = input_img.resize((512,512))
     img = img.resize((512,512))
     
     img = blend_image(img,input_img,mask,args.mask_blur)

@@ -25,7 +25,7 @@ def generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0
     mountain = [base_y + int(amplitude * pnoise1(x/ scale + layer_index*10, octaves=octaves)) for x in range(width)]
     return mountain
 
-def multi_layer_img(width, height, gen_space_x, gen_space_y, num_layers, amplitude=10, scale=100.0, octaves=1):
+def multi_layer_img(width, height, gen_space_x, gen_space_y, num_layers):
     img = np.zeros((height, width, 3), dtype=np.uint8)  # 3 for RGB
     tones = np.linspace(50, 200, num_layers, dtype=np.uint8)
     left_over_height = height - gen_space_y
@@ -33,6 +33,9 @@ def multi_layer_img(width, height, gen_space_x, gen_space_y, num_layers, amplitu
     layer_height = gen_space_y // num_layers 
 
     for layer in range(num_layers):
+      amplitude=random.randint(40,50)
+      scale=random.randint(150,160)
+      octaves=4
       base_y = (layer * layer_height) + start_y
       mountain = generate_noise_profile(width, base_y + layer_height, layer, amplitude, scale, octaves)
       for x in range(width):
@@ -83,7 +86,6 @@ def apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y):
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
 
     center = (width // 2, height // 2)
-    # path = generate_noisy_ellipse_path(center, gen_space_x, gen_space_y)
     path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,random.randint(10,40),random.randint(25,50))
 
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy ellipse
@@ -99,15 +101,12 @@ def generate_template_and_mask(layers,overlay):
     width = 512
     height = 512
     x_mod = .8
-    y_mod = .55
+    y_mod = .1
     gen_space_x = int(width * x_mod)
-    gen_space_y = int(height * y_mod)
-    layer_peaky_value=random.randint(50,80)
-    scale=random.randint(50,150)
-    octaves=random.randint(1,10)
+    gen_space_y = int(height * (y_mod + (layers*.05)))
     #generates template
     img, values = multi_layer_img(width, height, gen_space_x, 
-        gen_space_y, layers, layer_peaky_value, scale, octaves)
+        gen_space_y, layers)
     
     #generates mask
     mask = img.copy()
