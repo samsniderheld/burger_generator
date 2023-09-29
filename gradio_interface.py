@@ -31,6 +31,8 @@ import argparse
 import os
 import random
 import time
+import numpy as np
+import cv2
 
 import gradio as gr
 from PIL import Image
@@ -109,19 +111,30 @@ args = parse_args()
 
 os.makedirs("temp_textures", exist_ok=True)
 control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
-control_net_img = load_image(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
+controlnet_texture = None
 all_textures = []
 template = None
 composite = None
 mask = None
 all_ingredients = []
+controlnet_str = None
+controlnet_cfg = None
+controlnet_steps = None
+burger_str = None
+burger_cfg = None
+burger_steps = None
 
 def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,steps,cfg):
     #generates the texture
     global all_textures, all_ingredients
+    global controlnet_texture, controlnet_str, controlnet_cfg, controlnet_steps
+    controlnet_str = controlnet_conditioning_scale
+    controlnet_cfg = cfg
+    controlnet_steps = steps
+    
     all_textures = []
 
     start_time = time.time()
@@ -145,6 +158,8 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
         random_seed = random.randrange(0,100000)
 
         controlnet_input = Image.fromarray(controlnet_img)
+
+        controlnet_texture = controlnet_input
 
         texture_img = control_net_pipe(prompt_embeds=control_embeds,
                         negative_prompt_embeds = negative_control_embeds,
@@ -177,6 +192,12 @@ def generate_template():
 def generate_burger(strength,mask_blur_strength,steps,cfg):
 
     global all_textures,template,mask,composite,all_ingredients
+    global burger_str, burger_cfg, burger_steps
+    global controlnet_texture,controlnet_str, controlnet_cfg, controlnet_steps
+
+    burger_str = strength
+    burger_cfg = cfg
+    burger_steps = steps
 
     start_time = time.time()
 
@@ -210,6 +231,26 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
+    params = [f"prompt: {burger_prompt}",
+              f"controlnet_str: {controlnet_str}", 
+              f"controlnet_cfg: {controlnet_cfg}", 
+              f"controlnet_steps: {controlnet_steps}",
+              f"burger_str: {burger_str}", 
+              f"burger_cfg: {burger_cfg}", 
+              f"burger_str: {burger_str}"
+              ]
+    
+    with open("parameters.txt", 'w') as f:
+        for line in params:
+            f.write(f"{line}\n")
+
+
+    control_input = np.array(controlnet_texture.resize((512,512)))
+    output_images = [control_input] + all_textures + [template,composite, img.convert('RGB')]
+
+    pipeline_img = np.hstack(output_images)
+    pipeline_img = cv2.cvtColor(np.uint8(pipeline_img),cv2.COLOR_BGR2RGB)
+    cv2.imwrite(f"pipeline_img.jpg", pipeline_img)
 
     return img
     
