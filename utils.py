@@ -25,12 +25,12 @@ def generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0
     mountain = [base_y + int(amplitude * pnoise1(x/ scale + layer_index*10, octaves=octaves)) for x in range(width)]
     return mountain
 
-def multi_layer_img(width, height, gen_space_x, gen_space_y, num_layers):
+def multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
+    gen_space_y = num_layers*layer_height
     img = np.zeros((height, width, 3), dtype=np.uint8)  # 3 for RGB
     tones = np.linspace(50, 200, num_layers, dtype=np.uint8)
     left_over_height = height - gen_space_y
     start_y = int(left_over_height / 2)
-    layer_height = gen_space_y // num_layers 
 
     for layer in range(num_layers):
       amplitude=random.randint(40,50)
@@ -50,7 +50,7 @@ def multi_layer_img(width, height, gen_space_x, gen_space_y, num_layers):
             else:
                 img[base_y:base_y + layer_height, x] = tones[layer]
 
-    masked_img = apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y)
+    masked_img = apply_noisy_mask(img, gen_space_x, gen_space_y)
 
     return masked_img, tones
 
@@ -65,23 +65,19 @@ def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2
     bottom_right = (center[0] + half_width, center[1] + half_height)
     
     # Generate noisy paths for each edge
-    top_path = np.linspace(top_left, top_right, width)
-    bottom_path = np.linspace(bottom_left, bottom_right, width)
     left_path = np.linspace(top_left, bottom_left, height)
     right_path = np.linspace(top_right, bottom_right, height)
     
     # Apply noise
-    # top_path[:, 1] += amplitude * np.array([pnoise1(x / scale) for x in np.linspace(0, width, width)])
-    # bottom_path[:, 1] += amplitude * np.array([pnoise1(x / scale + 10) for x in np.linspace(0, width, width)])
     left_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 20) for y in np.linspace(0, height, height)])
     right_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 30) for y in np.linspace(0, height, height)])
     
     # Concatenate the paths to form a continuous loop
-    path = np.vstack((top_path, right_path, bottom_path[::-1], left_path[::-1]))  # [::-1] to reverse order
+    path = np.vstack(( right_path, left_path[::-1]))  # [::-1] to reverse order
     
     return path
 
-def apply_noisy_ellipse_mask(img, gen_space_x, gen_space_y):
+def apply_noisy_mask(img, gen_space_x, gen_space_y):
     height, width, _ = img.shape
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
 
@@ -101,12 +97,12 @@ def generate_template_and_mask(layers,overlay):
     width = 512
     height = 512
     x_mod = .8
-    y_mod = .1
+    layer_height = 40
     gen_space_x = int(width * x_mod)
-    gen_space_y = int(height * (y_mod + (layers*.05)))
+    
     #generates template
     img, values = multi_layer_img(width, height, gen_space_x, 
-        gen_space_y, layers)
+        layer_height, layers)
     
     #generates mask
     mask = img.copy()
