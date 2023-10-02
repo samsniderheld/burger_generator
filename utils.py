@@ -52,7 +52,7 @@ def multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
 
     masked_img = apply_noisy_mask(img, gen_space_x, gen_space_y)
 
-    return masked_img, tones
+    return masked_img,tones,start_y
 
 def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2):
     half_width = width // 2
@@ -93,15 +93,17 @@ def apply_noisy_mask(img, gen_space_x, gen_space_y):
 
     return result_with_white_bg
 
-def generate_template_and_mask(layers,overlay):
+def generate_template_and_mask(layers,overlay_top,overlay_bottom):
     width = 512
     height = 512
     x_mod = .8
     layer_height = 40
     gen_space_x = int(width * x_mod)
+    top_overlay_mod = 110
+    bottom_overlay_mod = 20
     
     #generates template
-    img, values = multi_layer_img(width, height, gen_space_x, 
+    img, values, start_y = multi_layer_img(width, height, gen_space_x, 
         layer_height, layers)
     
     #generates mask
@@ -113,7 +115,9 @@ def generate_template_and_mask(layers,overlay):
 
     # Overlay the top image
     composite = Image.fromarray(img)
-    composite.paste(overlay, (0, 0), overlay)
+    composite.paste(overlay_top, (0, start_y-top_overlay_mod), overlay_top)
+    composite.paste(overlay_bottom, 
+                    (0, start_y+(layers*layer_height-bottom_overlay_mod)), overlay_bottom)
 
     return composite, values, mask
 

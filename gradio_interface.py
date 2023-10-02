@@ -182,7 +182,11 @@ def generate_template():
 
     overlay = Image.open(os.path.join(args.overlay_dir,
                                   f"{len(all_textures)}_ingredient.png")).convert("RGBA").resize((512,512))
-    template,template_values,mask = generate_template_and_mask(len(all_textures),overlay)
+    
+    overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
+    overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
+    
+    template,template_values,mask = generate_template_and_mask(len(all_textures),overlay_top, overlay_bottom)
 
     composite = composite_ingredients(all_textures[::-1],template,template_values)
 
