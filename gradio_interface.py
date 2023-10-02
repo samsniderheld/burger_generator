@@ -180,8 +180,8 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
 def generate_template():
     global all_textures,template,mask,composite
 
-    overlay = Image.open(os.path.join(args.overlay_dir,
-                                  f"{len(all_textures)}_ingredient.png")).convert("RGBA").resize((512,512))
+    # # overlay = Image.open(os.path.join(args.overlay_dir,
+    #                               f"{len(all_textures)}_ingredient.png")).convert("RGBA").resize((512,512))
     
     overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
     overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
