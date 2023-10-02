@@ -82,7 +82,7 @@ def apply_noisy_mask(img, gen_space_x, gen_space_y):
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
 
     center = (width // 2, height // 2)
-    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,random.randint(10,40),random.randint(25,50))
+    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,10,random.randint(70,80))
 
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy ellipse
     mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
