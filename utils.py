@@ -99,7 +99,7 @@ def generate_template_and_mask(layers,overlay_top,overlay_bottom):
     x_mod = .8
     layer_height = 40
     gen_space_x = int(width * x_mod)
-    top_overlay_mod = 110
+    top_overlay_mod = 120
     bottom_overlay_mod = 20
     
     #generates template

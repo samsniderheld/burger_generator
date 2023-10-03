@@ -256,7 +256,7 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
     pipeline_img = cv2.cvtColor(np.uint8(pipeline_img),cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"pipeline_img.jpg", pipeline_img)
 
-    return img
+    return [composite,img]
     
 
 
@@ -320,7 +320,7 @@ with gr.Blocks() as demo:
 
                 with gr.Column():
 
-                    img2img_output = gr.Image()
+                    img2img_output = gr.Gallery()
 
         with gr.Row():
 
