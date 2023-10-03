@@ -166,3 +166,11 @@ def read_ingredients_from_csv(file_path):
         for row in reader:
             ingredients.append(row[0])
     return ingredients
+
+def read_ingredients_from_txt(file_path):
+    """Read ingredients from a text file and return them as a list."""
+    ingredients = []
+    with open(file_path, mode='r', encoding='utf-8') as file:
+        for line in file:
+            ingredients.append(line.strip())  # strip to remove any trailing whitespace and newline characters
+    return ingredients

@@ -22,7 +22,7 @@ import torch
 from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe
-from utils import read_ingredients_from_csv
+from utils import read_ingredients_from_txt
 
 def parse_args():
     """
@@ -123,7 +123,7 @@ if(not args.csv_file):
 
 else:
 
-    ingredients = read_ingredients_from_csv(args.csv_file)
+    ingredients = read_ingredients_from_txt(args.csv_file)
 
     for ingredient in ingredients:
 
