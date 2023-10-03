@@ -76,45 +76,47 @@ img2img_strength = args.img2img_strength
 steps = args.steps
 cfg = args.cfg_scale
 
-control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
-control_net_img = load_image(args.input_texture)
-
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
 negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
-
-negative_control_embeds = control_proc(negative_prompt)
 
 negative_img2img_embeds = img2img_proc(negative_prompt)
 
 directory_path = args.texture_dir
 
-file_urls = sorted(
-    [os.path.join(directory_path, f) for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))],
-    key=str.casefold,  # This will sort the URLs in a case-insensitive manner
-)
+image_extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.gif']
 
-all_ingredients = [file.split("_")[0] for file in file_urls]
+file_urls = sorted(
+    [
+        os.path.join(directory_path, f) for f in os.listdir(directory_path) 
+        if os.path.isfile(os.path.join(directory_path, f)) and 
+        os.path.splitext(f)[1].lower() in image_extensions
+    ],
+    key=str.casefold  # This will sort the URLs in a case-insensitive manner
+)
+all_ingredients = [os.path.basename(file).split("_")[0] for file in file_urls]
+
+all_ingredients = list(set(all_ingredients))
 
 for i in range(args.num_burgers):
 
-    ingredients = random.choices(all_ingredients, k=6)
+    num_ingredients = random.randint(3,6)
+    ingredients = random.choices(all_ingredients, k=num_ingredients)
 
     overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
     overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
     
 
-    for i in range(args.num_samples):
+    for j in range(args.num_samples):
 
         start_time = time.time()
         
-        burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients]) 
+        burger_ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients]) 
 
-        burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
-        8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
-        high quality, Fujifilm XT3\n\n"""
+        burger_prompt = f"""image a burger with a {burger_ingredient_string} photorealistic photography, 8k uhd, full framed, photorealistic photography, dslr, soft lighting, high quality, Fujifilm XT3\n\n"""
 
         print(burger_prompt)
+        print(img2img_strength,steps,cfg)
 
         img2img_embeds = img2img_proc(burger_prompt)    
         
@@ -153,7 +155,7 @@ for i in range(args.num_burgers):
         ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
 
         out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
-        cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{i:4d}.jpg", out_img)
+        cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{j:4d}.jpg", out_img)
 
 
 if torch.cuda.is_available():
