@@ -69,7 +69,7 @@ def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2
     right_path = np.linspace(top_right, bottom_right, height)
     
     # Apply noise
-    left_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 20) for y in np.linspace(0, height, height)])
+    left_path[:, 0] -= amplitude * np.array([pnoise1(y / scale + 30) for y in np.linspace(0, height, height)])
     right_path[:, 0] += amplitude * np.array([pnoise1(y / scale + 30) for y in np.linspace(0, height, height)])
     
     # Concatenate the paths to form a continuous loop
@@ -82,8 +82,8 @@ def apply_noisy_mask(img, gen_space_x, gen_space_y):
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
 
     center = (width // 2, height // 2)
-    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,10,random.randint(70,80))
-
+    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,random.randint(10,100),random.randint(70,80))
+    
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy ellipse
     mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
     result = cv2.bitwise_and(img, mask_3_channel)

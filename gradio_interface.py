@@ -241,7 +241,7 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
               f"controlnet_steps: {controlnet_steps}",
               f"burger_str: {burger_str}", 
               f"burger_cfg: {burger_cfg}", 
-              f"burger_str: {burger_str}"
+              f"burger_steps: {steps}"
               ]
     
     with open("parameters.txt", 'w') as f:

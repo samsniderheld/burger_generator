@@ -63,6 +63,9 @@ def parse_args():
     parser.add_argument(
         '--cfg_scale', type=float, default=3.5, 
         help='How much creativity the pipeline has')
+    parser.add_argument(
+        '--save_template', action='store_true', 
+        help='are we saving the template too')
 
     return parser.parse_args()
 
@@ -101,7 +104,8 @@ all_ingredients = list(set(all_ingredients))
 for i in range(args.num_burgers):
 
     num_ingredients = random.randint(3,6)
-    ingredients = random.choices(all_ingredients, k=num_ingredients)
+    # ingredients = random.choices(all_ingredients, k=num_ingredients)
+    ingredients = random.sample(all_ingredients, num_ingredients)
 
     overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
     overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
@@ -137,8 +141,7 @@ for i in range(args.num_burgers):
 
         input_img = composite_ingredients(textures[::-1],template,template_values)
 
-        strength = img2img_strength + (j * .05)
-
+        strength = img2img_strength
         print(burger_prompt)
         print(strength,steps,cfg)
 
@@ -149,7 +152,7 @@ for i in range(args.num_burgers):
                         num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                         guidance_scale = cfg).images[0]
         
-        img = blend_image(img,input_img,mask,args.mask_blur)
+        img = blend_image(img,input_img,mask,args.mask_blur).convert("RGB")
 
         end_time = time.time()
         elapsed_time = end_time - start_time
@@ -157,9 +160,13 @@ for i in range(args.num_burgers):
 
         ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
 
-        pair = np.hstack([input_img,img])
-        out_img = cv2.cvtColor(np.uint8(pair),cv2.COLOR_BGR2RGB)
-        cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{j:4d}.jpg", out_img)
+        if args.save_template:
+          pair = np.hstack([input_img,img])
+          out_img = cv2.cvtColor(np.uint8(pair),cv2.COLOR_BGR2RGB)
+          cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{j:4d}.jpg", out_img)
+        else:
+          out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
+          cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{j:4d}.jpg", out_img)
 
 
 if torch.cuda.is_available():
