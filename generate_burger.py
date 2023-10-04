@@ -9,11 +9,9 @@ import numpy as np
 from PIL import Image
 import torch
 
-from diffusers.utils import load_image
-
-from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
+from pipelines.pipelines import get_img2img_pipe
 from utils import(blend_image, composite_ingredients, 
-                  generate_template_and_mask,read_ingredients_from_csv)
+                  generate_template_and_mask)
 
 def parse_args():
     """
@@ -104,7 +102,6 @@ all_ingredients = list(set(all_ingredients))
 for i in range(args.num_burgers):
 
     num_ingredients = random.randint(3,6)
-    # ingredients = random.choices(all_ingredients, k=num_ingredients)
     ingredients = random.sample(all_ingredients, num_ingredients)
 
     overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")

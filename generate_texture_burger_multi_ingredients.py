@@ -9,11 +9,10 @@ import numpy as np
 from PIL import Image
 import torch
 
-from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
 from utils import(blend_image, composite_ingredients, 
-                  generate_template_and_mask,read_ingredients_from_csv)
+                  generate_template_and_mask,read_ingredients_from_txt)
 
 def parse_args():
     """
@@ -70,7 +69,7 @@ def parse_args():
         '--cfg_scale', type=float, default=3.5, 
         help='How much creativity the pipeline has')
     parser.add_argument(
-        '--csv_file', type=str, default=None, 
+        '--txt_file', type=str, default=None, 
         help='The ingredient texture we want to generate.')
 
     return parser.parse_args()
@@ -87,7 +86,7 @@ steps = args.steps
 cfg = args.cfg_scale
 
 control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
-control_net_img = load_image(args.input_texture)
+control_net_img = Image.open(args.input_texture)
 
 img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
@@ -104,8 +103,8 @@ for i in range(args.num_samples):
 
     ingredient_prompt_embeds = []
 
-    if args.csv_file != None:
-        all_ingredients = read_ingredients_from_csv(args.csv_file)
+    if args.txt_file != None:
+        all_ingredients = read_ingredients_from_txt(args.txt_file)
         ingredients = random.choices(all_ingredients,k=random.randint(2,5))
 
     else:

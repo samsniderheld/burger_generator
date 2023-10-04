@@ -25,8 +25,6 @@ Example:
     $ python gradio_interface.py --input_texture "path_to_texture.jpg" --ingredient "avocado"
 """
 
-import sys
-# sys.path.append('../')
 import argparse
 import os
 import random
@@ -41,7 +39,7 @@ import torch
 from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
-from utils import (overlay_images, blend_image, 
+from utils import (blend_image, 
                    generate_template_and_mask, composite_ingredients)
 
 def parse_args():

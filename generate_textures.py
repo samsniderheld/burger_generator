@@ -8,8 +8,6 @@ to the specified output directory.
 
 """
 
-import sys
-sys.path.append('../')
 import argparse
 import os
 import random

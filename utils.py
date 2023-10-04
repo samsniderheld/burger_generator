@@ -8,12 +8,10 @@ and read image ingredients from CSV files.
 Functions:
     - `generate_noise_profile`: Generates a 1D array resembling a mountain profile based on width.
     - `multi_layer_image`: Produces an image with multiple layers separated by mountain profiles.
-    - `overlay_images`: Overlays one image over another.
     - `composite_ingredients`: Composites multiple ingredients images into a burger template.
     - `blend_image`: Blends an inpainted image with an original using a mask.
     - `read_ingredients_from_csv`: Reads ingredient names from a CSV file.
 """
-import csv
 import cv2
 import numpy as np
 import random
@@ -121,18 +119,6 @@ def generate_template_and_mask(layers,overlay_top,overlay_bottom):
 
     return composite, values, mask
 
-def overlay_images(background, overlay):
-    # Resize overlay image to fit the background
-    overlay = overlay.resize(background.size, Image.ANTIALIAS)
-
-    # Composite the images
-    combined = Image.alpha_composite(background.convert("RGBA"), overlay)
-
-    # Convert to 'RGB' before saving as JPEG
-    combined = combined.convert("RGB")
-
-    return combined
-
 def composite_ingredients(ingredients,template,template_values,dims=512):
     dim = (dims,dims)
     template = np.array(template)
@@ -155,17 +141,6 @@ def blend_image(inpainted, original, mask, blur=3):
     mask = mask.filter(ImageFilter.GaussianBlur(blur))
     # Blend images together
     return Image.composite(inpainted.convert('RGBA'), original.convert('RGBA'), mask).convert('RGBA')
-
-
-def read_ingredients_from_csv(file_path):
-    """Read ingredients from a CSV file and return them as a list."""
-    ingredients = []
-    with open(file_path, mode='r', newline='', encoding='utf-8') as file:
-        reader = csv.reader(file)
-        next(reader)  # skip header if there is any
-        for row in reader:
-            ingredients.append(row[0])
-    return ingredients
 
 def read_ingredients_from_txt(file_path):
     """Read ingredients from a text file and return them as a list."""

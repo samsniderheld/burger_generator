@@ -13,7 +13,7 @@ from diffusers.utils import load_image
 
 from pipelines.pipelines import get_control_net_pipe, get_SDXL_img2img_pipe
 from utils import(blend_image, composite_ingredients, 
-                  generate_template_and_mask,read_ingredients_from_csv)
+                  generate_template_and_mask,read_ingredients_from_txt)
 
 def parse_args():
     """
@@ -70,7 +70,7 @@ def parse_args():
         '--cfg_scale', type=float, default=3.5, 
         help='How much creativity the pipeline has')
     parser.add_argument(
-        '--csv_file', type=str, default=None, 
+        '--txt_file', type=str, default=None, 
         help='The ingredient texture we want to generate.')
 
     return parser.parse_args()
@@ -102,8 +102,8 @@ for i in range(args.num_samples):
 
     ingredient_prompt_embeds = []
 
-    if args.csv_file != None:
-        all_ingredients = read_ingredients_from_csv(args.csv_file)
+    if args.txt_file != None:
+        all_ingredients = read_ingredients_from_txt(args.txt_file)
         ingredients = random.choices(all_ingredients,k=random.randint(2,5))
 
     else:
