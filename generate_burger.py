@@ -115,8 +115,7 @@ for i in range(args.num_burgers):
 
         burger_prompt = f"""image a burger with a {burger_ingredient_string} photorealistic photography, 8k uhd, full framed, photorealistic photography, dslr, soft lighting, high quality, Fujifilm XT3\n\n"""
 
-        print(burger_prompt)
-        print(img2img_strength,steps,cfg)
+        
 
         img2img_embeds = img2img_proc(burger_prompt)    
         
@@ -138,11 +137,15 @@ for i in range(args.num_burgers):
 
         input_img = composite_ingredients(textures[::-1],template,template_values)
 
-        
+        strength = img2img_strength + (j * .05)
+
+        print(burger_prompt)
+        print(strength,steps,cfg)
+
         img = img2img_pipe(prompt_embeds=img2img_embeds,
                         negative_prompt_embeds = negative_img2img_embeds,
                         image= input_img,
-                        strength = img2img_strength,
+                        strength = strength,
                         num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
                         guidance_scale = cfg).images[0]
         
@@ -154,7 +157,8 @@ for i in range(args.num_burgers):
 
         ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
 
-        out_img = cv2.cvtColor(np.uint8(img),cv2.COLOR_BGR2RGB)
+        pair = np.hstack([input_img,img])
+        out_img = cv2.cvtColor(np.uint8(pair),cv2.COLOR_BGR2RGB)
         cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{j:4d}.jpg", out_img)
 
 
