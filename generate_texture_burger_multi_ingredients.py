@@ -10,7 +10,8 @@ from PIL import Image
 import torch
 
 
-from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
+from pipelines.pipelines import (get_control_net_pipe, get_img2img_pipe,
+ControlNetPipeline,Img2ImgPipeline)
 from utils import(blend_image, composite_ingredients, 
                   generate_template_and_mask,read_ingredients_from_txt)
 
@@ -85,16 +86,15 @@ img2img_strength = args.img2img_strength
 steps = args.steps
 cfg = args.cfg_scale
 
-control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
+# control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
+
+controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
 control_net_img = Image.open(args.input_texture)
 
-img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
+img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
+# img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
 
 negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
-
-negative_control_embeds = control_proc(negative_prompt)
-
-negative_img2img_embeds = img2img_proc(negative_prompt)
 
 overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
 overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
@@ -114,41 +114,28 @@ for i in range(args.num_samples):
     else:
         ingredients = args.ingredients
 
-    overlay = Image.open(os.path.join(args.overlay_dir,
-                                  f"{len(ingredients)}_ingredient.png")).convert("RGBA").resize((512,512))
-
     #create templates, values, and mask
     template,template_values,mask = generate_template_and_mask(len(ingredients), overlay_top, overlay_bottom)
 
     #generated ingredient texture/s
+    textures = []
     for ingredient in ingredients:
 
         prompt = f"""food-texture, a 2D texture of {ingredient}+++, layered++, side view, 
         full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
         Fujifilm XT3\n\n"""
 
-        embeds = control_proc(prompt)
-
-        ingredient_prompt_embeds.append(embeds)
-        negative_control_embeds = control_proc(negative_prompt)
-
-    random_seed = random.randrange(0,100000)
-
-    textures = []
-
-    for embeds in ingredient_prompt_embeds:
-
-        texture = control_net_pipe(prompt_embeds=embeds,
-                        negative_prompt_embeds = negative_control_embeds,
-                        image= control_net_img,
-                        controlnet_conditioning_scale=controlnet_conditioning_scale,
-                        height=height,
-                        width=width,
-                        num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
-                        guidance_scale = cfg).images[0]
+        texture = controlnet_pipe.generate_img(prompt,
+                        negative_prompt,
+                        control_net_img,
+                        controlnet_conditioning_scale,
+                        width,
+                        height,
+                        steps,
+                        cfg)
         
         textures.append(texture)
-    
+        
     burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients]) 
 
     burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
@@ -157,16 +144,15 @@ for i in range(args.num_samples):
 
     print(burger_prompt)
 
-    img2img_embeds = img2img_proc(burger_prompt)    
     
     input_img = composite_ingredients(textures[::-1],template,template_values)
 
-    img = img2img_pipe(prompt_embeds=img2img_embeds,
-                    negative_prompt_embeds = negative_img2img_embeds,
-                    image= input_img,
-                    strength = img2img_strength,
-                    num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
-                    guidance_scale = cfg).images[0]
+    img = img2img_pipe(burger_prompt,
+                    negative_prompt,
+                    input_img,
+                    img2img_strength,
+                    steps,
+                    cfg)
     
     img = blend_image(img,input_img,mask,args.mask_blur)
 
