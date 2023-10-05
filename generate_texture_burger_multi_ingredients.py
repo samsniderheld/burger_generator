@@ -22,7 +22,8 @@ controlnet_conditioning_scale = args.controlnet_str
 height = args.dims
 width = args.dims
 img2img_strength = args.img2img_strength
-steps = args.steps
+texture_steps = args.texture_steps
+burger_steps = args.burger_steps
 cfg = args.cfg_scale
 control_net_img = Image.open(args.input_texture)
 overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
@@ -61,7 +62,7 @@ for i in range(args.num_samples):
                         controlnet_conditioning_scale,
                         width,
                         height,
-                        steps,
+                        texture_steps,
                         cfg)
         
         textures.append(texture)
@@ -79,7 +80,7 @@ for i in range(args.num_samples):
     img = img2img_pipe.generate_img(burger_prompt,
                     input_img,
                     img2img_strength,
-                    steps,
+                    burger_steps,
                     cfg)
     
     img = blend_image(img,input_img,mask,args.mask_blur)
