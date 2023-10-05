@@ -9,8 +9,7 @@ from PIL import Image
 import torch
 
 from arg_parser import parse_args
-from pipelines.pipelines import (get_control_net_pipe, get_img2img_pipe,
-ControlNetPipeline,Img2ImgPipeline)
+from pipelines.pipelines import ControlNetPipeline,Img2ImgPipeline
 from utils import(blend_image, composite_ingredients, 
                   generate_template_and_mask,read_ingredients_from_txt)
 
