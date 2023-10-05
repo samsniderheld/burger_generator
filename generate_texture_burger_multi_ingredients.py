@@ -96,11 +96,15 @@ negative_control_embeds = control_proc(negative_prompt)
 
 negative_img2img_embeds = img2img_proc(negative_prompt)
 
+overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
+overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
+
 
 for i in range(args.num_samples):
 
     start_time = time.time()
 
+    #set up ingredient list
     ingredient_prompt_embeds = []
 
     if args.txt_file != None:
@@ -113,8 +117,10 @@ for i in range(args.num_samples):
     overlay = Image.open(os.path.join(args.overlay_dir,
                                   f"{len(ingredients)}_ingredient.png")).convert("RGBA").resize((512,512))
 
-    template,template_values,mask = generate_template_and_mask(len(ingredients),overlay)
+    #create templates, values, and mask
+    template,template_values,mask = generate_template_and_mask(len(ingredients), overlay_top, overlay_bottom)
 
+    #generated ingredient texture/s
     for ingredient in ingredients:
 
         prompt = f"""food-texture, a 2D texture of {ingredient}+++, layered++, side view, 
@@ -125,17 +131,7 @@ for i in range(args.num_samples):
 
         ingredient_prompt_embeds.append(embeds)
         negative_control_embeds = control_proc(negative_prompt)
-    
-    burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients]) 
 
-    burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
-    8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
-    high quality, Fujifilm XT3\n\n"""
-
-    print(burger_prompt)
-
-    img2img_embeds = img2img_proc(burger_prompt)    
-    
     random_seed = random.randrange(0,100000)
 
     textures = []
@@ -153,9 +149,18 @@ for i in range(args.num_samples):
         
         textures.append(texture)
     
+    burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients]) 
+
+    burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
+    8k uhd, full framed, photorealistic photography, dslr, soft lighting, 
+    high quality, Fujifilm XT3\n\n"""
+
+    print(burger_prompt)
+
+    img2img_embeds = img2img_proc(burger_prompt)    
+    
     input_img = composite_ingredients(textures[::-1],template,template_values)
 
-    cv2.imwrite(f"composite.jpg", cv2.cvtColor(np.uint8(input_img),cv2.COLOR_BGR2RGB))
     img = img2img_pipe(prompt_embeds=img2img_embeds,
                     negative_prompt_embeds = negative_img2img_embeds,
                     image= input_img,

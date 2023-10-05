@@ -152,10 +152,9 @@ for i in range(args.num_samples):
         textures.append(texture)
     
     input_img = composite_ingredients(textures[::-1],template,template_values)
-
-    cv2.imwrite(f"composite.jpg", cv2.cvtColor(np.uint8(input_img),cv2.COLOR_BGR2RGB))
     
     input_img = input_img.resize((1024,1204))
+    
     img = img2img_pipe(prompt = prompt,
                     negative_prompt = prompt,
                     image= input_img,
