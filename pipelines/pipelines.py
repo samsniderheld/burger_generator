@@ -19,6 +19,9 @@ Functions:
     - get_img2img_pipe(sd_path): Construct an image-to-image pipeline.
 
 """
+import random
+import torch
+
 from diffusers import (ControlNetModel,StableDiffusionControlNetPipeline,
                        StableDiffusionImg2ImgPipeline, StableDiffusionXLImg2ImgPipeline
 )
@@ -26,30 +29,8 @@ from diffusers import UniPCMultistepScheduler
 
 from compel import Compel
 
-import torch
 
-import random
 
-def get_control_net_pipe(control_path, sd_path):
-    controlnet = ControlNetModel.from_pretrained(control_path)
-    control_netpipe = StableDiffusionControlNetPipeline.from_pretrained(
-        sd_path,
-        controlnet=controlnet,
-        safety_checker=None,
-    ).to('cuda')
-    control_netpipe.scheduler = UniPCMultistepScheduler.from_config(control_netpipe.scheduler.config)
-    compel_proc = Compel(tokenizer=control_netpipe.tokenizer, text_encoder=control_netpipe.text_encoder)
-
-    return control_netpipe, compel_proc
-
-def get_img2img_pipe(sd_path):
-    img2img_pipe = StableDiffusionImg2ImgPipeline.from_pretrained(
-        sd_path,
-        safety_checker=None,
-    ).to('cuda')
-
-    compel_proc = Compel(tokenizer=img2img_pipe.tokenizer, text_encoder=img2img_pipe.text_encoder)
-    return img2img_pipe, compel_proc
 
 def get_SDXL_img2img_pipe(sd_path):
     img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
@@ -81,12 +62,14 @@ class ControlNetPipeline():
         self.pipeline = controlnet_pipe
         self.compel_proc = compel_proc
 
-    def generate_img(self, prompt,negative_prompt, width, height, steps, cfg):
+    def generate_img(self,prompt,negative_prompt, img, controlnet_str, width, height, steps, cfg):
         prompt_embeds = self.compel_proc(prompt)
         negative_prompt_embeds = self.compel_proc(negative_prompt)
         random_seed = random.randrange(0,100000)
         img = self.pipeline(prompt_embeds=prompt_embeds,
             negative_prompt_embeds=negative_prompt_embeds,
+            image=img,
+            controlnet_conditioning_scale=controlnet_str,
             width=width,
             height=height,
             num_inference_steps=steps, 
@@ -95,10 +78,10 @@ class ControlNetPipeline():
         return img
 
 
-class Img2ImgPipeline(BasePipeline):
-    def __init__(self, pipeline_path,controlnet_path):
+class Img2ImgPipeline():
+    def __init__(self, pipeline_path):
         self.pipeline_path = pipeline_path
-        self.pipeline = self.load_pipeline()
+        self.load_pipeline()
 
     def load_pipeline(self):
         img2img_pipe = StableDiffusionImg2ImgPipeline.from_pretrained(

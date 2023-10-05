@@ -147,7 +147,7 @@ for i in range(args.num_samples):
     
     input_img = composite_ingredients(textures[::-1],template,template_values)
 
-    img = img2img_pipe(burger_prompt,
+    img = img2img_pipe.generate_img(burger_prompt,
                     negative_prompt,
                     input_img,
                     img2img_strength,
