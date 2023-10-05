@@ -62,8 +62,9 @@ class ControlNetPipeline():
         self.pipeline = controlnet_pipe
         self.compel_proc = compel_proc
 
-    def generate_img(self,prompt,negative_prompt, img, controlnet_str, width, height, steps, cfg):
+    def generate_img(self,prompt, img, controlnet_str, width, height, steps, cfg):
         prompt_embeds = self.compel_proc(prompt)
+        negative_prompt = 'illustration, sketch, drawing, poor quality, low quality'
         negative_prompt_embeds = self.compel_proc(negative_prompt)
         random_seed = random.randrange(0,100000)
         img = self.pipeline(prompt_embeds=prompt_embeds,
@@ -95,8 +96,9 @@ class Img2ImgPipeline():
         self.compel_proc = compel_proc
         
 
-    def generate_img(self, prompt,negative_prompt,input_img, strength, steps, cfg):
+    def generate_img(self, prompt,input_img, strength, steps, cfg):
         prompt_embeds = self.compel_proc(prompt)
+        negative_prompt = 'illustration, sketch, drawing, poor quality, low quality'
         negative_prompt_embeds = self.compel_proc(negative_prompt)
         random_seed = random.randrange(0,100000)
         img = self.pipeline(prompt_embeds=prompt_embeds,
