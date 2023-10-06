@@ -60,6 +60,15 @@ def parse_args():
     parser.add_argument(
         '--txt_file', type=str, default=None, 
         help='The ingredient texture swe want to generate.')
+    parser.add_argument(
+        '--gen_texture', action='store_true',
+        help='generate textures')
+    parser.add_argument(
+        '--gen_burger', action='store_true',
+        help='generate burgers')
+    parser.add_argument(
+        '--use_sdxl', action='store_true',
+        help='use SDXL')
 
     return parser.parse_args()
 

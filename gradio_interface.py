@@ -24,7 +24,6 @@ Usage:
 Example:
     $ python gradio_interface.py --input_texture "path_to_texture.jpg" --ingredient "avocado"
 """
-
 import os
 import time
 import numpy as np
@@ -77,7 +76,6 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
         full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
         Fujifilm XT3\n\n"""
 
-
         start_time = time.time()
         
         controlnet_input = Image.fromarray(controlnet_img)
@@ -114,7 +112,6 @@ def generate_template():
 
 
 def generate_burger(strength,mask_blur_strength,steps,cfg):
-
     global all_textures,template,mask,composite,all_ingredients
     global burger_str, burger_cfg, burger_steps
     global controlnet_texture,controlnet_str, controlnet_cfg, controlnet_steps

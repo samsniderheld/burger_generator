@@ -30,8 +30,6 @@ from diffusers import UniPCMultistepScheduler
 from compel import Compel
 
 
-
-
 def get_SDXL_img2img_pipe(sd_path):
     img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
         sd_path,
