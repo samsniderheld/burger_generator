@@ -22,6 +22,9 @@ def parse_args():
         '--output_dir', type=str, default='burger_outputs', 
         help='The directory for all the output results.')
     parser.add_argument(
+        '--texture_dir', type=str, default='burger_outputs', 
+        help='The directory for all the output results.')
+    parser.add_argument(
         '--base_texture_model', type=str, default='SG161222/Realistic_Vision_V1.4', 
         help='The SD model we are using')
     parser.add_argument(

@@ -18,13 +18,6 @@ args = parse_args()
 
 os.makedirs(args.output_dir, exist_ok=True)
 
-controlnet_conditioning_scale = args.controlnet_str
-height = args.dims
-width = args.dims
-img2img_strength = args.img2img_strength
-texture_steps = args.texture_steps
-burger_steps = args.burger_steps
-cfg = args.cfg_scale
 control_net_img = Image.open(args.input_texture)
 overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
 overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
@@ -49,9 +42,6 @@ for i in range(args.num_samples):
     else:
         ingredients = args.ingredients
 
-    #create templates, values, and mask
-    template,template_values,mask = generate_template_and_mask(len(ingredients), overlay_top, overlay_bottom)
-
     if(args.gen_texture):
         #generated ingredient texture/s
         textures = []
@@ -63,11 +53,11 @@ for i in range(args.num_samples):
 
             texture = controlnet_pipe.generate_img(prompt,
                             control_net_img,
-                            controlnet_conditioning_scale,
-                            width,
-                            height,
-                            texture_steps,
-                            cfg)
+                            args.controlnet_str,
+                            args.dims,
+                            args.dims,
+                            args.texture_steps,
+                            args.cfg)
             
             if(args.gen_burger): 
                 textures.append(texture)
@@ -78,9 +68,13 @@ for i in range(args.num_samples):
                 print(f"The script took {elapsed_time:.2f} seconds to execute.")
 
                 out_img = cv2.cvtColor(np.uint8(texture),cv2.COLOR_BGR2RGB)
-                cv2.imwrite(f"{args.output_dir}/{args.ingredient}_{i:04d}.jpg", out_img)
+                cv2.imwrite(f"{args.output_dir}/{ingredient}_{i:04d}.jpg", out_img)
 
-    if(args.gen_burger):    
+    if(args.gen_burger):
+
+         #create templates, values, and mask
+        template,template_values,mask = generate_template_and_mask(len(ingredients), overlay_top, overlay_bottom)
+
         burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients]) 
 
         burger_prompt = f"""image a burger with a burger king beef patty+++, {burger_ingredient_string}, poppyseed bun+++, photorealistic photography, 
@@ -89,13 +83,50 @@ for i in range(args.num_samples):
 
         print(burger_prompt)
 
+        if(args.gen_texture):
+
+            ingredient_textures = textures[::-1]
+        
+        else:
+            directory_path = args.texture_dir
+
+            image_extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.gif']
+
+            file_urls = sorted(
+                [
+                    os.path.join(directory_path, f) for f in os.listdir(directory_path) 
+                    if os.path.isfile(os.path.join(directory_path, f)) and 
+                    os.path.splitext(f)[1].lower() in image_extensions
+                ],
+                key=str.casefold  # This will sort the URLs in a case-insensitive manner
+            )
+            all_ingredients = [os.path.basename(file).split("_")[0] for file in file_urls]
+
+            all_ingredients = list(set(all_ingredients))
+
+            num_ingredients = random.randint(1,len(all_ingredients))
+            ingredients = random.sample(all_ingredients, num_ingredients)
+
+            ingredient_textures = []
+
+            for ingredient in ingredients:
+
+                texture_paths = [path for path in file_urls if ingredient in  path]
+
+                texture_path = random.choice(texture_paths)
+
+                texture = Image.open(texture_path)
+
+                ingredient_textures.append(texture)
+        
+
         input_img = composite_ingredients(textures[::-1],template,template_values)
 
         img = img2img_pipe.generate_img(burger_prompt,
                         input_img,
-                        img2img_strength,
-                        burger_steps,
-                        cfg)
+                        args.img2img_strength,
+                        args.burger_steps,
+                        args.cfg)
         
         img = blend_image(img,input_img,mask,args.mask_blur)
 
