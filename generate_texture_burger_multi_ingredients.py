@@ -57,7 +57,7 @@ for i in range(args.num_samples):
                             args.dims,
                             args.dims,
                             args.texture_steps,
-                            args.cfg)
+                            args.cfg_scale)
             
             if(args.gen_burger): 
                 textures.append(texture)
@@ -120,13 +120,13 @@ for i in range(args.num_samples):
                 ingredient_textures.append(texture)
         
 
-        input_img = composite_ingredients(textures[::-1],template,template_values)
+        input_img = composite_ingredients(ingredient_textures[::-1],template,template_values)
 
         img = img2img_pipe.generate_img(burger_prompt,
                         input_img,
                         args.img2img_strength,
                         args.burger_steps,
-                        args.cfg)
+                        args.cfg_scale)
         
         img = blend_image(img,input_img,mask,args.mask_blur)
 
