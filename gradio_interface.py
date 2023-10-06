@@ -25,87 +25,21 @@ Example:
     $ python gradio_interface.py --input_texture "path_to_texture.jpg" --ingredient "avocado"
 """
 
-import argparse
 import os
-import random
 import time
 import numpy as np
 import cv2
 
 import gradio as gr
+
+from arg_parser import parse_gradio_args
 from PIL import Image
-import torch
 
-from diffusers.utils import load_image
-
-from pipelines.pipelines import get_control_net_pipe, get_img2img_pipe
+from pipelines.pipelines import ControlNetPipeline,Img2ImgPipeline
 from utils import (blend_image, 
                    generate_template_and_mask, composite_ingredients)
 
-def parse_args():
-    """
-    Parses the command-line arguments for the script.
-
-    Returns:
-    argparse.Namespace: The namespace containing the script arguments.
-    """
-    desc = "A Hugging Face Diffusers Pipeline for generating ingredient textures"
-
-    parser = argparse.ArgumentParser(description=desc)
-
-    # Adding the script arguments with default values and help text
-    parser.add_argument(
-        '--input_texture', type=str, default='input_templates/00.jpg', 
-        help='The directory for input data')
-    parser.add_argument(
-        '--template', type=str, default='burger_templates/burger_template.png', 
-        help='The burger template')
-    parser.add_argument(
-        '--overlay_dir', type=str, default='burger_templates/', 
-        help='The burger overlay')
-    parser.add_argument(
-        '--mask', type=str, default='burger_templates/burger_mask.png', 
-        help='The burger mask')
-    parser.add_argument(
-        '--output_dir', type=str, default='burger_outputs', 
-        help='The directory for all the output results.')
-    parser.add_argument(
-        '--base_texture_model', type=str, default='SG161222/Realistic_Vision_V1.4', 
-        help='The SD model we are using')
-    parser.add_argument(
-        '--base_img2img_model', type=str, default='SG161222/Realistic_Vision_V1.4', 
-        help='The SD model we are using for img2img')
-    parser.add_argument(
-        '--controlnet_path', type=str, default='lllyasviel/sd-controlnet-scribble', 
-        help='The controlnet model we are using.')
-    parser.add_argument(
-        '--ingredient', type=str, default='avocado', 
-        help='The ingredient texture we want to generate.')
-    parser.add_argument(
-        '--steps', type=int, default=20, 
-        help='The number of diffusion steps')
-    parser.add_argument(
-        '--num_samples', type=int, default=1, 
-        help='The number of diffusion steps')
-    parser.add_argument(
-        '--dims', type=int, default=512, 
-        help='The Dimensions to Render at')
-    parser.add_argument(
-        '--controlnet_str', type=float, default=.85, 
-        help='How much impact does the control net have.')
-    parser.add_argument(
-        '--img2img_strength', type=float, default=.2, 
-        help='How much impact does the control net have.')
-    parser.add_argument(
-        '--mask_blur', type=int, default=3, 
-        help='How to blur mask composition')
-    parser.add_argument(
-        '--cfg_scale', type=float, default=3.5, 
-        help='How much creativity the pipeline has')
-
-    return parser.parse_args()
-
-args = parse_args()
+args = parse_gradio_args()
 
 controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
 img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
@@ -201,7 +135,7 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
 
     img = img2img_pipe.generate_img(burger_prompt,
                     composite,
-                    img2img_strength,
+                    burger_str,
                     burger_steps,
                     cfg)
     
@@ -232,8 +166,6 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
     cv2.imwrite(f"pipeline_img.jpg", pipeline_img)
 
     return [composite,img]
-    
-
 
 with gr.Blocks() as demo:
 
