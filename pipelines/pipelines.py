@@ -183,12 +183,12 @@ class Img2ImgSDXLPipeline():
         #     generator=torch.Generator(device='cuda').manual_seed(random_seed),
         #     guidance_scale = cfg).images[0]
 
-        original_size = input_img.size()
-        input_img = input_img.resize((1024,104))
+        original_size = input_img.size
+        input_img = input_img.resize((768,768))
 
         img = self.pipeline(
             prompt = prompt,
-            negative_prompts=negative_prompt,
+            negative_prompt=negative_prompt,
             image=input_img,
             strength=strength,
             num_inference_steps=steps, 

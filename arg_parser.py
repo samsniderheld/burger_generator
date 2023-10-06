@@ -70,7 +70,7 @@ def parse_args():
         '--gen_burger', action='store_true',
         help='generate burgers')
     parser.add_argument(
-        '--use_sdxl', action='store_true',
+        '--use_SDXL', action='store_true',
         help='use SDXL')
 
     return parser.parse_args()
