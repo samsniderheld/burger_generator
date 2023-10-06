@@ -107,10 +107,8 @@ def parse_args():
 
 args = parse_args()
 
-os.makedirs("temp_textures", exist_ok=True)
-control_net_pipe, control_proc = get_control_net_pipe(args.controlnet_path,args.base_texture_model)
-
-img2img_pipe, img2img_proc = get_img2img_pipe(args.base_img2img_model)
+controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
+img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
 
 controlnet_texture = None
 all_textures = []
@@ -145,30 +143,23 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
         full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
         Fujifilm XT3\n\n"""
 
-        control_embeds = control_proc(texture_prompt)
-
-        negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
-
-        negative_control_embeds = control_proc(negative_prompt)
 
         start_time = time.time()
         
-        random_seed = random.randrange(0,100000)
-
         controlnet_input = Image.fromarray(controlnet_img)
 
         controlnet_texture = controlnet_input
 
-        texture_img = control_net_pipe(prompt_embeds=control_embeds,
-                        negative_prompt_embeds = negative_control_embeds,
-                        image= controlnet_input,
-                        controlnet_conditioning_scale=controlnet_conditioning_scale,
-                        height=512,
-                        width=512,
-                        num_inference_steps=steps, generator=torch.Generator(device='cuda').manual_seed(random_seed),
-                        guidance_scale = cfg).images[0]
+        texture_img = controlnet_pipe.generate_img(texture_prompt,
+                        controlnet_input,
+                        controlnet_conditioning_scale,
+                        512,
+                        512,
+                        steps,
+                        cfg)
         
         all_textures.append(texture_img)
+
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
@@ -177,9 +168,6 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
 
 def generate_template():
     global all_textures,template,mask,composite
-
-    # # overlay = Image.open(os.path.join(args.overlay_dir,
-    #                               f"{len(all_textures)}_ingredient.png")).convert("RGBA").resize((512,512))
     
     overlay_top = Image.open(os.path.join(args.overlay_dir,"top.png")).convert("RGBA")
     overlay_bottom = Image.open(os.path.join(args.overlay_dir,"bottom.png")).convert("RGBA")
@@ -209,24 +197,13 @@ def generate_burger(strength,mask_blur_strength,steps,cfg):
 
     print(burger_prompt)
 
-    img2img_embeds = img2img_proc(burger_prompt)
-
-    negative_prompt = f'illustration, sketch, drawing, poor quality, low quality'
-
-    negative_img2img_embeds = img2img_proc(negative_prompt)
-
     start_time = time.time()
-    
-    random_seed = random.randrange(0,100000)
 
-     
-    img = img2img_pipe(prompt_embeds=img2img_embeds,
-                    negative_prompt_embeds = negative_img2img_embeds,
-                    image= composite,
-                    strength = strength,
-                    num_inference_steps=steps, 
-                    generator=torch.Generator(device='cuda').manual_seed(random_seed),
-                    guidance_scale = cfg).images[0]
+    img = img2img_pipe.generate_img(burger_prompt,
+                    composite,
+                    img2img_strength,
+                    burger_steps,
+                    cfg)
     
     img = blend_image(img,composite,mask,mask_blur_strength)
 
