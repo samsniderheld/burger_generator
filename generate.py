@@ -50,7 +50,8 @@ import cv2
 import numpy as np
 from PIL import Image
 from arg_parser import parse_args
-from pipelines.pipelines import ControlNetPipeline, Img2ImgPipeline
+from pipelines.pipelines import (ControlNetPipeline, Img2ImgPipeline,
+                                Img2ImgSDXLPipeline)
 from utils import (blend_image, composite_ingredients, 
                   generate_template_and_mask, read_ingredients_from_txt)
 
@@ -69,7 +70,10 @@ overlay_bottom = Image.open(os.path.join(args.overlay_dir, "bottom.png")).conver
 if args.gen_texture:
     controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
 if args.gen_burger:
-    img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
+    if args.use_SDXL:
+        img2img_pipe = Img2ImgSDXLPipeline(args.base_img2img_model)
+    else:
+        img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
 
 # Main loop to generate images
 for i in range(args.num_samples):

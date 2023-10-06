@@ -1,16 +1,37 @@
 """
 Image Processing Utility Functions
 
-This module contains a set of utility functions designed for image processing and manipulation.
-It provides functionalities to generate noise profiles, create layered images, blend, and overlay images, 
-and read image ingredients from CSV files.
+This module offers utility functions for various image processing tasks. Key functionalities include:
+- Generating noise profiles which resemble mountain ranges.
+- Constructing images with multiple layers.
+- Compositing multiple images based on specific conditions.
+- Blending images with masks.
+- Reading image-related details from text files.
 
 Functions:
-    - `generate_noise_profile`: Generates a 1D array resembling a mountain profile based on width.
-    - `multi_layer_image`: Produces an image with multiple layers separated by mountain profiles.
-    - `composite_ingredients`: Composites multiple ingredients images into a burger template.
-    - `blend_image`: Blends an inpainted image with an original using a mask.
-    - `read_ingredients_from_csv`: Reads ingredient names from a CSV file.
+    generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0, octaves=2):
+        Produces a 1D array resembling a mountain profile.
+
+    multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
+        Generates an image with multiple layers separated by mountain profiles.
+
+    generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2):
+        Constructs a noisy path for a rectangle.
+
+    apply_noisy_mask(img, gen_space_x, gen_space_y):
+        Applies a noisy mask to an image based on specified dimensions.
+
+    generate_template_and_mask(layers, overlay_top, overlay_bottom):
+        Generates a layered template and a corresponding mask.
+
+    composite_ingredients(ingredients, template, template_values, dims=512):
+        Composites multiple ingredients images into a layered template.
+
+    blend_image(inpainted, original, mask, blur=3):
+        Blends an inpainted image with an original using a mask.
+
+    read_ingredients_from_txt(file_path):
+        Extracts ingredient names from a text file.
 """
 import cv2
 import numpy as np
@@ -18,11 +39,15 @@ import random
 from noise import pnoise1
 from PIL import Image, ImageFilter
 
+
+# Generate a noise profile based on the given parameters.
+# This profile simulates the profile of a mountain.
 def generate_noise_profile(width, base_y, layer_index, amplitude=10, scale=100.0,octaves=2):
     """Generate a 1D array resembling a mountain profile based on the width."""
     mountain = [base_y + int(amplitude * pnoise1(x/ scale + layer_index*10, octaves=octaves)) for x in range(width)]
     return mountain
 
+# Generate an image with multiple layers, where each layer simulates a mountain range.
 def multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
     gen_space_y = num_layers*layer_height
     img = np.zeros((height, width, 3), dtype=np.uint8)  # 3 for RGB
@@ -52,6 +77,7 @@ def multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
 
     return masked_img,tones,start_y
 
+# Generate a noisy rectangle path. This path is used for masking.
 def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2):
     half_width = width // 2
     half_height = height // 2
@@ -75,6 +101,7 @@ def generate_noisy_rectangle_path(center, width, height, amplitude=20, scale=0.2
     
     return path
 
+# Apply a noisy mask to the given image.
 def apply_noisy_mask(img, gen_space_x, gen_space_y):
     height, width, _ = img.shape
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
@@ -91,6 +118,7 @@ def apply_noisy_mask(img, gen_space_x, gen_space_y):
 
     return result_with_white_bg
 
+# Generate a template image and a mask based on provided overlays.
 def generate_template_and_mask(layers,overlay_top,overlay_bottom):
     width = 512
     height = 512
@@ -119,6 +147,7 @@ def generate_template_and_mask(layers,overlay_top,overlay_bottom):
 
     return composite, values, mask
 
+# Composite multiple images (ingredients) onto a template based on a mask.
 def composite_ingredients(ingredients,template,template_values,dims=512):
     dim = (dims,dims)
     template = np.array(template)
@@ -134,6 +163,7 @@ def composite_ingredients(ingredients,template,template_values,dims=512):
 
     return template
 
+# Blend two images together using a mask and an optional blur.
 def blend_image(inpainted, original, mask, blur=3):
     mask = Image.fromarray(mask)
     mask = mask.convert("L")
@@ -142,6 +172,7 @@ def blend_image(inpainted, original, mask, blur=3):
     # Blend images together
     return Image.composite(inpainted.convert('RGBA'), original.convert('RGBA'), mask).convert('RGBA')
 
+# Read ingredient image paths from a text file and return them as a list.
 def read_ingredients_from_txt(file_path):
     """Read ingredients from a text file and return them as a list."""
     ingredients = []
