@@ -172,17 +172,6 @@ class Img2ImgSDXLPipeline():
         # Generate a random seed for reproducibility
         random_seed = random.randrange(0,100000)
 
-
-        # Generate the image using the pipeline
-        # img = self.pipeline(
-        #     prompt_embeds=prompt_embeds,
-        #     negative_prompt_embeds=negative_prompt_embeds,
-        #     image=input_img,
-        #     strength=strength,
-        #     num_inference_steps=steps, 
-        #     generator=torch.Generator(device='cuda').manual_seed(random_seed),
-        #     guidance_scale = cfg).images[0]
-
         original_size = input_img.size
         input_img = input_img.resize((768,768))
 
@@ -198,17 +187,3 @@ class Img2ImgSDXLPipeline():
         img = img.resize(original_size)
         
         return img
-
-# Placeholder for possible future pipeline implementation
-# class SDXLPipeline(BasePipeline):
-#     # Add specific methods or override base methods if needed
-#     pass
-
-# Function to load the SDXL Image-to-Image pipeline (currently commented out)
-# def get_SDXL_img2img_pipe(sd_path):
-#     img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
-#         sd_path,
-#         safety_checker=None,
-#     )
-#     img2img_pipe.enable_model_cpu_offload()
-#     return img2img_pipe

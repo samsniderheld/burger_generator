@@ -40,14 +40,16 @@ from noise import pnoise1
 from PIL import Image, ImageFilter
 
 layer_amplitude_min = 40
-layer_amplitude_max = 50
+layer_amplitude_max = 70
 layer_scale_min = 150
-layer_scale_max = 160
+layer_scale_max = 180
 
 side_amplitude_min = 10
-side_amplitude_max = 100
+side_amplitude_max = 25
 side_scale_min = 70
 side_scale_max = 80
+
+layer_height = 40
 
 # Generate a noise profile based on the given parameters.
 # This profile simulates the profile of a mountain.
@@ -65,7 +67,7 @@ def multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
     start_y = int(left_over_height / 2)
 
     for layer in range(num_layers):
-      amplitude=random.randint(layer_amplitude_min,layer_amplitude_masx)
+      amplitude=random.randint(layer_amplitude_min,layer_amplitude_max)
       scale=random.randint(layer_scale_min, layer_scale_max)
       octaves=4
       base_y = (layer * layer_height) + start_y
@@ -135,7 +137,6 @@ def generate_template_and_mask(layers,overlay_top,overlay_bottom):
     width = 512
     height = 512
     x_mod = .8
-    layer_height = 40
     gen_space_x = int(width * x_mod)
     top_overlay_mod = 120
     bottom_overlay_mod = 20
