@@ -38,7 +38,9 @@ import numpy as np
 import random
 from noise import pnoise1
 from PIL import Image, ImageFilter
+from arg_parser import parse_template_args
 
+args = parse_template_args()
 
 # Generate a noise profile based on the given parameters.
 # This profile simulates the profile of a mountain.
@@ -56,8 +58,8 @@ def multi_layer_img(width, height, gen_space_x, layer_height, num_layers):
     start_y = int(left_over_height / 2)
 
     for layer in range(num_layers):
-      amplitude=random.randint(40,50)
-      scale=random.randint(150,160)
+      amplitude=random.randint(args.layer_amplitude_min,args.layer_amplitude_masx)
+      scale=random.randint(args.layer_scale_min, args.layer_scale_max)
       octaves=4
       base_y = (layer * layer_height) + start_y
       mountain = generate_noise_profile(width, base_y + layer_height, layer, amplitude, scale, octaves)
@@ -107,7 +109,10 @@ def apply_noisy_mask(img, gen_space_x, gen_space_y):
     mask = np.zeros((height, width), dtype=np.uint8)  # Black mask
 
     center = (width // 2, height // 2)
-    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,random.randint(10,100),random.randint(70,80))
+    amplitude = random.randint(args.side_amplitude_min,
+                               args.side_amplitude_max)
+    scale = random.randint(args.side_scale_min,args.side_scale_max)
+    path = generate_noisy_rectangle_path(center, gen_space_x, gen_space_y,amplitude,scale)
     
     cv2.fillPoly(mask, [path.astype(np.int32)], 255)  # Fill with white (255) inside the noisy ellipse
     mask_3_channel = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)

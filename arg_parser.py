@@ -137,3 +137,44 @@ def parse_gradio_args():
         help='How much creativity the pipeline has')
 
     return parser.parse_args()
+
+
+
+def parse_template_args():
+    """
+    Parses the command-line arguments for the script.
+
+    Returns:
+    argparse.Namespace: The namespace containing the script arguments.
+    """
+    desc = "Arguments for our template generator"
+
+    parser = argparse.ArgumentParser(description=desc)
+
+    # Adding the script arguments with default values and help text
+    parser.add_argument(
+        '--layer_amplitude_min', type=int, default=40, 
+        help='how low the layer noise peaks can get')
+    parser.add_argument(
+        '--layer_amplitude_max', type=int, default=50, 
+        help='how high the layer noise peaks can get')
+    parser.add_argument(
+        '--layer_scale_min', type=int, default=150, 
+        help='layer noise scale min')
+    parser.add_argument(
+        '--layer_scale_max', type=int, default=160, 
+        help='layer noise scale max')
+    parser.add_argument(
+        '--side_noise_amplitude_min', type=int, default=10, 
+        help='how thin the side peaks can get')
+    parser.add_argument(
+        '--side_noise_amplitude_max', type=int, default=100, 
+        help='how wide the side peaks can get')
+    parser.add_argument(
+        '--side_scale_min', type=int, default=70, 
+        help='side scale min')
+    parser.add_argument(
+        '--side_scale_max', type=int, default=80, 
+        help='side scale max')
+
+    return parser.parse_args()
