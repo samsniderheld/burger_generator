@@ -111,6 +111,13 @@ for i in range(args.num_samples):
 
     # Generate final burger image if the flag is set
     if args.gen_burger:
+        # Load ingredients from a text file or directly from arguments
+        if args.txt_file:
+            all_ingredients = read_ingredients_from_txt(args.txt_file)
+            num_ingredients = random.randint(1,4)
+            ingredients = random.choices(all_ingredients,k=num_ingredients)
+        else:
+            ingredients = args.ingredients
         # Generate burger template
         template, template_values, mask = generate_template_and_mask(
             len(ingredients), overlay_top, overlay_bottom

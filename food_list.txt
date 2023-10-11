@@ -5,29 +5,20 @@ arugula
 asparagus
 avocado
 bacon
-banana
-barley
-basil leaves
-bay leaves
 beetroot
 bell peppers
 black beans
 blueberries
 bok choy
-bread crumbs
 broccoli
 brown rice
 brussel sprouts
 butternut squash
-cabbage
 canned chickpeas
 cantaloupe
 cauliflower
-celery
 cheddar cheese
 chicken breast
-chocolate chips
-cilantro
 corn
 couscous
 cucumber
@@ -36,26 +27,15 @@ dates
 dried apricots
 eggplant
 eggs
-garlic
-ginger root
-goji berries
-golden raisins
-granny smith apples
-greek yogurt
-honeydew melon
 jasmine rice
 lamb chops
 lentils
 mushrooms
 oatmeal
-oats
 onions
 pancetta
-parsnips
-pasta
 peaches
 pecans
-pineapple
 pinto beans
 pork chops
 pork tenderloin
@@ -64,7 +44,6 @@ prawns
 pumpkin
 quinoa
 romaine lettuce
-rye bread
 salami
 sausage
 shrimp
