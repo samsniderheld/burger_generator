@@ -81,8 +81,7 @@ for i in range(args.num_samples):
 
     # Load ingredients from a text file or directly from arguments
     if args.txt_file:
-        all_ingredients = read_ingredients_from_txt(args.txt_file)
-        ingredients = random.choices(all_ingredients, k=random.randint(2, 5))
+        ingredients = read_ingredients_from_txt(args.txt_file)
     else:
         ingredients = args.ingredients
 
