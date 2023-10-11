@@ -34,14 +34,18 @@ import gradio as gr
 from arg_parser import parse_gradio_args
 from PIL import Image
 
-from pipelines.pipelines import ControlNetPipeline,Img2ImgPipeline
+from pipelines.pipelines import (ControlNetPipeline,Img2ImgPipeline,
+                                Img2ImgSDXLPipeline)
 from utils import (blend_image, 
                    generate_template_and_mask, composite_ingredients)
 
 args = parse_gradio_args()
 
 controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
-img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
+if args.use_SDXL:
+    img2img_pipe = Img2ImgSDXLPipeline(args.base_img2img_model)
+else:
+    img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
 
 controlnet_texture = None
 all_textures = []

@@ -173,7 +173,7 @@ class Img2ImgSDXLPipeline():
         random_seed = random.randrange(0,100000)
 
         original_size = input_img.size
-        input_img = input_img.resize((768,768))
+        input_img = input_img.resize((1024,1024))
 
         img = self.pipeline(
             prompt = prompt,
