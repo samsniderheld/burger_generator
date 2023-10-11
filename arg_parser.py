@@ -135,5 +135,8 @@ def parse_gradio_args():
     parser.add_argument(
         '--cfg_scale', type=float, default=3.5, 
         help='How much creativity the pipeline has')
+    parser.add_argument(
+        '--use_SDXL', action='store_true',
+        help='use SDXL')
 
     return parser.parse_args()
