@@ -1,5 +1,3 @@
-strawberry
-yogurt
 acorn squash
 almond
 american cheese
@@ -66,8 +64,6 @@ cheese
 cheesecake
 cheesesteak
 cherries
-fries
-waffle fries
 chicken
 chickpeas
 chili
@@ -105,7 +101,6 @@ croutons
 cucumbers
 cupcake
 curly fries
-yogurt
 dark chocolate
 dates
 deviled eggs
@@ -116,7 +111,6 @@ dumplings
 edamame
 eel
 egg
-egg and cheese biscuits
 egg whites
 egg yolk
 eggplant
