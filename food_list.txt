@@ -1,7 +1,6 @@
 acorn squash
 almond
 american cheese
-mint
 apple
 apricot
 artichoke
@@ -12,11 +11,8 @@ bacon
 banana
 basil
 basmati rice
-basmati rice cooked
-bay leaf ground
 beans
 beef
-beef and broccoli
 beet
 beets
 bell peppers
