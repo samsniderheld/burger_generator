@@ -1,1 +1,1 @@
-a 2D texture of guacamole
+a 2D texture of food, guacamole

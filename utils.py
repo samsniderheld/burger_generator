@@ -49,7 +49,7 @@ side_amplitude_max = 25
 side_scale_min = 70
 side_scale_max = 80
 
-layer_height = 40
+layer_height = 60
 
 # Generate a noise profile based on the given parameters.
 # This profile simulates the profile of a mountain.
