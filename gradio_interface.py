@@ -76,7 +76,7 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
 
     for ingredient in all_ingredients:
 
-        texture_prompt = f"""food-texture, a 2D texture of {ingredient}+++, layered++, side view, 
+        texture_prompt = f"""a 2D texture of food, {ingredient}+++, layered++, side view, 
         full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
         Fujifilm XT3\n\n"""
 
