@@ -1,58 +1,343 @@
-almonds
-anchovies
-apples
+strawberry
+yogurt
+acorn squash
+almond
+american cheese
+mint
+apple
+apricot
+artichoke
 arugula
 asparagus
 avocado
 bacon
-beetroot
+banana
+basil
+basmati rice
+basmati rice cooked
+bay leaf ground
+beans
+beef
+beef and broccoli
+beet
+beets
+bell pepper
 bell peppers
+berries
+berry
+waffles
 black beans
-blueberries
+blackberries
+bluberries
+blue cheese
 bok choy
+bologna
+bratwurst
+brazil nuts
+bread
+brie
 broccoli
 brown rice
+brownie
 brussel sprouts
+buffalo chicken wings
+onion rings
+burger patty
 butternut squash
-canned chickpeas
+cabbage
+cake
+calamari
+canadian bacon
+candy
+canned tuna
+cannoli
 cantaloupe
+capers
+caramel
+carnitas
+carrot
+cashew
+catfish
 cauliflower
-cheddar cheese
-chicken breast
+celery
+cereal
+cheddar
+cheese
+cheesecake
+cheesesteak
+cherries
+fries
+waffle fries
+chicken
+chickpeas
+chili
+chips
+chocolate
+chorizo
+chow mein
+chutney
+clams
+clementines
+coconut
+cod fish
+colby jack cheese
+cold cuts
+coleslaw
+collard greens
+combination fried rice
+cookie dough
+cookies
 corn
+cornbread
+corned beef
+cottage cheese
+cotton candy
+country fried steak
 couscous
-cucumber
+crab
+crab sticks
+crackers
+cranberries
+crawfish
+cream cheese
+crepes
+croutons
+cucumbers
+cupcake
+curly fries
+yogurt
 dark chocolate
 dates
-dried apricots
+deviled eggs
+donut
+duck
+dumpling
+dumplings
+edamame
+eel
+egg
+egg and cheese biscuits
+egg whites
+egg yolk
 eggplant
-eggs
-jasmine rice
-lamb chops
+eggplant parmesan
+empanada
+falafel
+feta cheese
+fettuccine
+figs
+filet mignon
+fingerling potato
+fish
+flank steak
+french fries
+frittata
+fruit
+fudge
+funnel cake
+fusilli
+garlic
+garlic knots
+gelato
+gnocchi
+gorgonzola
+gouda
+goulash
+graham crackers
+granola
+granola bar
+grapefruit
+grapes
+green beans
+green bell pepper
+green chili pepper
+green olives
+green peas
+grits
+guacamole
+gumbo
+gummy bears
+gummy worms
+gyro
+ham
+hash brown
+home fries
+hot dog
+hummus
+hush puppies
+ice cream
+iceberg lettuce
+italian ice
+jalapenos
+jam
+jambalaya
+jelly beans
+kale
+biscuit
+kidney beans
+kielbasa
+kimchi
+kiwi
+kung pao chicken
+lamb
+pizza
+leek
 lentils
-mushrooms
+licorice
+lima beans
+limes
+linguine
+lo mein
+lobster
+mac n cheese
+mandarin
+mango
+manicotti
+marshmallow
+mashed potato
+mayonnaise
+meatball
+meatloaf
+melon
+monterey jack cheese
+mozzarella
+muenster
+muenster cheese
+muffins
+mushroom
+mussels
+mustard
+nachos
+noodles
+nuggets
 oatmeal
+octopus
+onion rings
 onions
-pancetta
+oranges
+orzo
+oysters
+pad thai
+paella
+pancake
+papaya
+pasta
+pastrami
 peaches
+peanut butter
+peanuts
+pears
+peas
 pecans
-pinto beans
-pork chops
-pork tenderloin
+penne pasta
+peppers
+pesto
+pickles
+pine nuts
+pineapple chunks
+pistachios
+plantains
+plums
+polenta
+popcorn
+popcorn chicken
+popcorn shrimp
+pork
+pork belly
+portobello mushrooms
 potatoes
 prawns
+pretzels
+prosciutto
+provolone cheese
+prunes
+pudding
 pumpkin
+rice cakes
+quesadilla
+quiche
 quinoa
+raisins
+ramen noodles
+raspberries
+ravioli
+red beans
+rhubarb
+rib eye steak
+ribs
+ricciolini
+rice
+rice and beans
+rice noodles
+rice pilaf
+ricotta cheese
+risotto
+roast beef
 romaine lettuce
 salami
+salmon
+salsa
+sauerkraut
 sausage
+scallions
+scallops
+schnitzel
+seaweed salad
+seitan
+shallots
+shawarma
+shepherds pie
+sherbet
 shrimp
-smoked salmon
+sloppy joe
+soba noodles
+sour cream
+spaghetti
 spinach
-sun-dried tomatoes
-sweet corn
+spring onion
+spring rolls
+sprinkles
+squash
+squid
+sriracha
+steak
+stew
+stir fry
+strawberries
+string beans
+strudel
+stuffed grape leaves
+stuffing
+sushi
+sushi rice
+sweet and sour chicken
 sweet potatoes
+swiss cheese
+swordfish
+tabouli
+tamales
+tangerine
+tater tots
+tempura
+tenderloin
+teriyaki chicken
 tofu
 tomatoes
+tortellini
+trail mix
+tuna
+turkey
+udon
+veal
+vegetables
+veggie burger
+vermicelli pasta
+waffle
+walnuts
+watermelon
+whipped cream
+yakisoba
+yams
+yogurt
+ziti pasta
 zucchini
-
