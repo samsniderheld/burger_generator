@@ -115,7 +115,7 @@ def parse_gradio_args():
         '--ingredient', type=str, default='avocado', 
         help='The ingredient texture we want to generate.')
     parser.add_argument(
-        '--steps', type=int, default=20, 
+        '--steps', type=int, default=100, 
         help='The number of diffusion steps')
     parser.add_argument(
         '--num_samples', type=int, default=1, 
@@ -127,13 +127,13 @@ def parse_gradio_args():
         '--controlnet_str', type=float, default=.85, 
         help='How much impact does the control net have.')
     parser.add_argument(
-        '--img2img_strength', type=float, default=.2, 
+        '--img2img_strength', type=float, default=.4, 
         help='How much impact does the control net have.')
     parser.add_argument(
         '--mask_blur', type=int, default=3, 
         help='How to blur mask composition')
     parser.add_argument(
-        '--cfg_scale', type=float, default=3.5, 
+        '--cfg_scale', type=float, default=4.5, 
         help='How much creativity the pipeline has')
     parser.add_argument(
         '--use_SDXL', action='store_true',

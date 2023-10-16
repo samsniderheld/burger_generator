@@ -132,6 +132,12 @@ def apply_noisy_mask(img, gen_space_x, gen_space_y):
 
     return result_with_white_bg
 
+# return the layer height based on the number of layers
+def get_layer_height(layers):
+    
+    layer_heights = {1:80,2:70,3:60,4:60,5:60,6:50,7:40,8:40}
+    return layer_heights[layers]
+
 # Generate a template image and a mask based on provided overlays.
 def generate_template_and_mask(layers,overlay_top,overlay_bottom):
     width = 512
@@ -140,6 +146,8 @@ def generate_template_and_mask(layers,overlay_top,overlay_bottom):
     gen_space_x = int(width * x_mod)
     top_overlay_mod = 120
     bottom_overlay_mod = 20
+
+    layer_height = get_layer_height(layers)
     
     #generates template
     img, values, start_y = multi_layer_img(width, height, gen_space_x, 
