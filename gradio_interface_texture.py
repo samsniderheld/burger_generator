@@ -39,6 +39,9 @@ from utils import read_ingredients_from_txt
 
 args = parse_gradio_args()
 
+# Create the output directory if it doesn't exist
+os.makedirs(args.output_dir, exist_ok=True)
+
 controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
 
 controlnet_texture = None
