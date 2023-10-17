@@ -93,7 +93,6 @@ dates
 deviled eggs
 donut
 duck
-dumpling
 dumplings
 edamame
 eel
@@ -126,7 +125,6 @@ gouda
 goulash
 graham crackers
 granola
-granola bar
 grapefruit
 grapes
 green beans
@@ -208,7 +206,6 @@ peaches
 peanut butter
 peanuts
 pears
-peas
 pecans
 penne pasta
 peppers
@@ -233,7 +230,6 @@ prosciutto
 provolone cheese
 prunes
 pudding
-pumpkin
 rice cakes
 quesadilla
 quiche
@@ -290,13 +286,11 @@ strudel
 stuffed grape leaves
 stuffing
 sushi
-sushi rice
 sweet and sour chicken
 sweet potatoes
 swiss cheese
 swordfish
 tabouli
-tamales
 tangerine
 tater tots
 tempura
