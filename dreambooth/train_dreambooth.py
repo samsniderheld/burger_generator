@@ -632,7 +632,6 @@ class DreamBoothDataset(Dataset):
         if not self.instance_data_root.exists():
             raise ValueError(f"Instance {self.instance_data_root} images root doesn't exists.")
 
-        self.inputs = sorted(glob.glob(self.input_dir))
         self.instance_images_path = sorted(glob.glob(instance_data_root))
         print( self.instance_images_path)
         self.instance_captions_path = sorted(glob.glob(instance_captions_root))
