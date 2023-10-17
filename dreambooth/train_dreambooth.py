@@ -21,7 +21,6 @@ import itertools
 import logging
 import math
 import os
-import glob
 import shutil
 import warnings
 from pathlib import Path
@@ -632,9 +631,9 @@ class DreamBoothDataset(Dataset):
         if not self.instance_data_root.exists():
             raise ValueError(f"Instance {self.instance_data_root} images root doesn't exists.")
 
-        self.instance_images_path = sorted(glob.glob(instance_data_root))
+        self.instance_images_path = sorted(list(Path(instance_data_root).iterdir()))
         print( self.instance_images_path)
-        self.instance_captions_path = sorted(glob.glob(instance_captions_root))
+        self.instance_captions_path = sorted(list(Path(instance_captions_root).iterdir()))
         print( self.instance_captions_path)
         self.num_instance_images = len(self.instance_images_path)
         self.instance_prompt = instance_prompt
