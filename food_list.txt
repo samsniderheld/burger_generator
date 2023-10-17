@@ -13,12 +13,9 @@ basil
 basmati rice
 beans
 beef
-beet
 beets
 bell peppers
 berries
-berry
-waffles
 black beans
 blackberries
 bluberries
@@ -26,8 +23,6 @@ blue cheese
 bok choy
 bologna
 bratwurst
-brazil nuts
-bread
 brie
 broccoli
 brown rice
@@ -35,7 +30,6 @@ brownie
 brussel sprouts
 buffalo chicken wings
 onion rings
-burger patty
 butternut squash
 cabbage
 cake
@@ -55,7 +49,6 @@ cauliflower
 celery
 cereal
 cheddar
-cheese
 cheesecake
 cheesesteak
 cherries
@@ -75,7 +68,6 @@ colby jack cheese
 cold cuts
 coleslaw
 collard greens
-combination fried rice
 cookie dough
 cookies
 corn
