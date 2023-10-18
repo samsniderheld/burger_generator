@@ -12,10 +12,8 @@ banana
 basil
 basmati rice
 beans
-beef
 beets
 bell peppers
-berries
 black beans
 blackberries
 bluberries
@@ -34,9 +32,6 @@ cabbage
 cake
 calamari
 canadian bacon
-candy
-canned tuna
-cannoli
 cantaloupe
 capers
 caramel
@@ -58,7 +53,6 @@ chips
 chocolate
 chorizo
 chow mein
-chutney
 clams
 clementines
 coconut
@@ -67,7 +61,6 @@ colby jack cheese
 cold cuts
 coleslaw
 collard greens
-cookie dough
 cookies
 corn
 cornbread
@@ -76,7 +69,6 @@ cottage cheese
 cotton candy
 country fried steak
 couscous
-crab
 crab sticks
 crackers
 cranberries
@@ -91,13 +83,10 @@ dark chocolate
 dates
 deviled eggs
 donut
-duck
 dumplings
 edamame
 eel
 egg
-egg whites
-egg yolk
 eggplant
 eggplant parmesan
 empanada
@@ -133,13 +122,10 @@ green peas
 grits
 guacamole
 gumbo
-gummy bears
-gummy worms
 gyro
 ham
 hash brown
 home fries
-hot dog
 hummus
 hush puppies
 ice cream
@@ -177,23 +163,19 @@ meatball
 meatloaf
 melon
 monterey jack cheese
-mozzarella
 muenster
 muenster cheese
 muffins
 mushroom
-mussels
 mustard
 nachos
 noodles
 nuggets
 oatmeal
-octopus
 onion rings
 onions
 oranges
 orzo
-oysters
 pad thai
 paella
 pancake
@@ -237,7 +219,6 @@ ramen noodles
 raspberries
 ravioli
 red beans
-rhubarb
 rib eye steak
 ribs
 ricciolini
@@ -271,10 +252,7 @@ spaghetti
 spinach
 spring onion
 spring rolls
-sprinkles
 squash
-squid
-sriracha
 steak
 stew
 stir fry
@@ -287,8 +265,6 @@ sushi
 sweet and sour chicken
 sweet potatoes
 swiss cheese
-swordfish
-tabouli
 tangerine
 tater tots
 tempura
@@ -302,7 +278,6 @@ tuna
 turkey
 udon
 veal
-vegetables
 veggie burger
 vermicelli pasta
 waffle

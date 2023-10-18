@@ -76,6 +76,9 @@ if args.gen_burger:
         img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
 
 # Main loop to generate images
+
+generated_recipes = []
+
 for i in range(args.num_samples):
     start_time = time.time()
 
@@ -115,7 +118,11 @@ for i in range(args.num_samples):
         if args.txt_file:
             all_ingredients = read_ingredients_from_txt(args.txt_file)
             num_ingredients = random.randint(1,4)
-            ingredients = random.choices(all_ingredients,k=num_ingredients)
+            ingredients = random.sample(all_ingredients,num_ingredients)
+            while ingredients in generated_recipes:
+                num_ingredients = random.randint(1,4)
+                ingredients = random.sample(all_ingredients,num_ingredients)
+            generated_recipes.append(ingredients)
         else:
             ingredients = args.ingredients
         # Generate burger template
