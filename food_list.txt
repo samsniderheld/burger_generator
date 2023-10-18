@@ -29,7 +29,6 @@ brown rice
 brownie
 brussel sprouts
 buffalo chicken wings
-onion rings
 butternut squash
 cabbage
 cake
@@ -116,7 +115,6 @@ fruit
 fudge
 funnel cake
 fusilli
-garlic
 garlic knots
 gelato
 gnocchi

@@ -50,19 +50,27 @@ controlnet_str = None
 controlnet_cfg = None
 controlnet_steps = None
 
-index = 0
-current_ingredient = None
-
 all_ingredients = read_ingredients_from_txt(args.txt_file)
+index = 0
+current_ingredient = current_ingredient = all_ingredients[index]
+
+
 
 def get_next():
      global current_ingredient,index,all_ingredients
-     current_ingredient = all_ingredients[index]
      index+=1
+     current_ingredient = all_ingredients[index]
+     return current_ingredient
+
+def get_previous():
+     global current_ingredient,index,all_ingredients
+     index-=1
+     current_ingredient = all_ingredients[index]
+
      return current_ingredient
 
 
-def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,steps,cfg):
+def generate_texture(controlnet_img,controlnet_conditioning_scale,steps,cfg):
     #generates the texture
     global current_ingredient
     global controlnet_texture, controlnet_str, controlnet_cfg, controlnet_steps
@@ -76,7 +84,7 @@ def generate_texture(ingredients,controlnet_img,controlnet_conditioning_scale,st
     full framed, photorealistic photography, 8k uhd, dslr, soft lighting, high quality, 
     Fujifilm XT3\n\n"""
 
-    print(texture_img)
+    print(texture_prompt)
 
     start_time = time.time()
     
@@ -131,13 +139,15 @@ with gr.Blocks() as demo:
 
 
         with gr.Row():
-
+                previous_buttom_submit = gr.Button("previous")
                 controlnet_submit = gr.Button("Submit")
                 next_buttom_submit = gr.Button("next")
+                
 
 
     controlnet_submit.click(generate_texture,inputs=controlnet_inputs,outputs=controlnet_output)
     next_buttom_submit.click(get_next,outputs=ingredient)
+    previous_buttom_submit.click(get_previous,outputs=ingredient)
 
 
 if __name__ == "__main__":
