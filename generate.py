@@ -117,10 +117,10 @@ for i in range(args.num_samples):
         # Load ingredients from a text file or directly from arguments
         if args.txt_file:
             all_ingredients = read_ingredients_from_txt(args.txt_file)
-            num_ingredients = random.randint(1,4)
+            num_ingredients = random.randint(args.min_num_ingredinets,args.max_num_ingredients)
             ingredients = random.sample(all_ingredients,num_ingredients)
             while ingredients in generated_recipes:
-                num_ingredients = random.randint(1,4)
+                num_ingredients = random.randint(args.min_num_ingredinets,args.max_num_ingredients)
                 ingredients = random.sample(all_ingredients,num_ingredients)
             generated_recipes.append(ingredients)
         else:

@@ -37,6 +37,12 @@ def parse_args():
         '--ingredients', type=str, nargs='+', default=['fried chicken', 'raspberries'],
         help='The ingredients we are generating')
     parser.add_argument(
+        '--min_num_ingredients', type=int, default=1,
+        help='The min num of ingredients')
+    parser.add_argument(
+        '--max_num_ingredients', type=int, default=4,
+        help='The max num of ingredients')
+    parser.add_argument(
         '--texture_steps', type=int, default=20, 
         help='The number of diffusion steps for texture generation')
     parser.add_argument(

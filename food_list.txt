@@ -28,7 +28,6 @@ brussel sprouts
 buffalo chicken wings
 butternut squash
 cabbage
-cake
 calamari
 canadian bacon
 cantaloupe
@@ -38,7 +37,6 @@ carnitas
 carrot
 catfish
 cauliflower
-celery
 cereal
 cheddar
 cheesecake
@@ -74,7 +72,6 @@ cream cheese
 crepes
 croutons
 cucumbers
-cupcake
 curly fries
 dark chocolate
 dates
@@ -159,12 +156,10 @@ melon
 monterey jack cheese
 muenster
 muenster cheese
-muffins
 mushroom
 mustard
 nachos
 noodles
-nuggets
 oatmeal
 onion rings
 onions
@@ -177,8 +172,6 @@ papaya
 pasta
 pastrami
 peaches
-peanut butter
-peanuts
 pears
 penne pasta
 peppers
