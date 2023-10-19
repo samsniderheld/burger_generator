@@ -2,7 +2,7 @@ import os
 
 # Define your source and destination directories
 imgs = "imgs"
-captions = "path_to_captions"
+captions = "captions"
 
 # Ensure the destination directory exists; if not, create it
 if not os.path.exists(captions):

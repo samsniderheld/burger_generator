@@ -572,6 +572,13 @@ def parse_args(input_args=None):
         help="Select which scheduler to use for validation. DDPMScheduler is recommended for DeepFloyd IF.",
     )
 
+    parser.add_argument(
+        "--dynamic_captions",
+        action="store_true",
+        required=False,
+        help="a differerent caption for each img",
+    )
+
     if input_args is not None:
         args = parser.parse_args(input_args)
     else:
@@ -667,10 +674,11 @@ class DreamBoothDataset(Dataset):
         instance_image = Image.open(self.instance_images_path[index % self.num_instance_images])
         instance_image = exif_transpose(instance_image)
 
-        ##here we modify the based diffusers code to alow for captions via .txt files
-        caption_path = self.instance_captions_path[index % self.num_instance_images]
-        with open(caption_path, 'r') as file:
-          self.instance_prompt = file.readline().strip()
+        if args.dynamic_captions:
+            ##here we modify the based diffusers code to alow for captions via .txt files
+            caption_path = self.instance_captions_path[index % self.num_instance_images]
+            with open(caption_path, 'r') as file:
+                self.instance_prompt = file.readline().strip()
 
         if not instance_image.mode == "RGB":
             instance_image = instance_image.convert("RGB")
