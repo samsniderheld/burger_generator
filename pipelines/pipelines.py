@@ -147,16 +147,27 @@ class SDXLPipeline():
         # Load the pipeline upon initialization
         self.load_pipeline()
 
-    def load_pipeline(self):
-        # Load the Image-to-Image pipeline
-        sdxl_pipe = StableDiffusionXLPipeline.from_pretrained(
-            self.pipeline_path,
-            torch_dtype=torch.float16,
-            variant="fp16",
-            use_safetensors=True,
-            safety_checker=None,
-        )
-        sdxl_pipe = sdxl_pipe.to("cuda")
+    def load_pipeline(self,load_from_file=False):
+
+        if load_from_file:
+            sdxl_pipe = StableDiffusionXLPipeline.from_single_file(
+                self.pipeline_path,
+                torch_dtype=torch.float16,
+                variant="fp16",
+                use_safetensors=True,
+                safety_checker=None,
+            )
+            sdxl_pipe = sdxl_pipe.to("cuda")
+        else:
+            # Load the Image-to-Image pipeline
+            sdxl_pipe = StableDiffusionXLPipeline.from_pretrained(
+                self.pipeline_path,
+                torch_dtype=torch.float16,
+                variant="fp16",
+                use_safetensors=True,
+                safety_checker=None,
+            )
+            sdxl_pipe = sdxl_pipe.to("cuda")
         
         # Store the loaded pipeline and Compel processor as instance attributes
         self.pipeline = sdxl_pipe
