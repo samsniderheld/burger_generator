@@ -1,1 +1,1 @@
- img of a burger with extra patty++, cheese++, bacon++, pickles++, onions++, tomatoes++, lettuce++, mayonnaise++
+ img of a burger with extra patty, cheese, bacon, pickles, onions, tomatoes, lettuce, mayonnaise

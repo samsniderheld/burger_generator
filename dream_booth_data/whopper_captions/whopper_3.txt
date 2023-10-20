@@ -1,1 +1,1 @@
- img of a burger with ketchup++, pickles++, onions++, tomatoes++, lettuce++, mayonnaise++
+ img of a burger with ketchup, pickles, onions, tomatoes, lettuce, mayonnaise

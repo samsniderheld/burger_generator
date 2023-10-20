@@ -146,3 +146,33 @@ def parse_gradio_args():
         help='use SDXL')
 
     return parser.parse_args()
+
+def parse_sdxl_args():
+    """
+    Parses the command-line arguments for the script.
+
+    Returns:
+    argparse.Namespace: The namespace containing the script arguments.
+    """
+    desc = "A Hugging Face Diffusers Pipeline for generating burgers with multiple ingredients"
+
+    parser = argparse.ArgumentParser(description=desc)
+
+    # Adding the script arguments with default values and help text
+    parser.add_argument(
+        '--output_dir', type=str, default='burger_outputs', 
+        help='The directory for all the output results.')
+    parser.add_argument(
+        '--sdxl_model', type=str, default='stabilityai/stable-diffusion-xl-base-1.0', 
+        help='The SD model we are using')
+    parser.add_argument(
+        '--ingredients', type=str, nargs='+', default=['fried chicken', 'raspberries'],
+        help='The ingredients we are generating')
+    parser.add_argument(
+        '--burger_steps', type=int, default=20, 
+        help='The number of diffusion steps for burger generation')
+    parser.add_argument(
+        '--num_samples', type=int, default=1, 
+        help='The number of diffusion steps')
+
+    return parser.parse_args()

@@ -27,7 +27,8 @@ import torch
 
 # Import necessary modules from the diffusers package
 from diffusers import (ControlNetModel,StableDiffusionControlNetPipeline,
-                       StableDiffusionImg2ImgPipeline, StableDiffusionXLImg2ImgPipeline
+                       StableDiffusionImg2ImgPipeline, StableDiffusionXLImg2ImgPipeline,
+                       StableDiffusionXLPipeline
 )
 
 # Import scheduler for controlling the pipeline's learning rate adjustments
@@ -135,6 +136,44 @@ class Img2ImgPipeline():
             num_inference_steps=steps, 
             generator=torch.Generator(device='cuda').manual_seed(random_seed),
             guidance_scale = cfg).images[0]
+        
+        return img
+    
+class SDXLPipeline():
+    def __init__(self, pipeline_path):
+        # Store the path for the pipeline
+        self.pipeline_path = pipeline_path
+        
+        # Load the pipeline upon initialization
+        self.load_pipeline()
+
+    def load_pipeline(self):
+        # Load the Image-to-Image pipeline
+        sdxl_pipe = StableDiffusionXLPipeline.from_pretrained(
+            self.pipeline_path,
+            safety_checker=None,
+        )
+        sdxl_pipe.enable_model_cpu_offload()
+        sdxl_pipe = sdxl_pipe.to("cuda")
+        
+        # Store the loaded pipeline and Compel processor as instance attributes
+        self.pipeline = sdxl_pipe
+        
+        
+    def generate_img(self, prompt, steps, cfg):        
+        # Negative prompts to avoid certain characteristics in the generated image
+        negative_prompt = 'illustration, sketch, drawing, poor quality, low quality'
+        # negative_prompt_embeds = self.compel_proc(negative_prompt)
+        # Generate a random seed for reproducibility
+        random_seed = random.randrange(0,100000)
+
+        img = self.pipeline(
+            prompt = prompt,
+            negative_prompt=negative_prompt,
+            num_inference_steps=steps, 
+            generator=torch.Generator(device='cuda').manual_seed(random_seed),
+            guidance_scale = cfg).images[0]
+        
         
         return img
 
