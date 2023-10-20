@@ -7,11 +7,11 @@ import time
 import cv2
 import numpy as np
 from PIL import Image
-from arg_parser import parse_args
+from arg_parser import parse_sdxl_args
 from pipelines.pipelines import (SDXLPipeline)
 
 # Parse arguments from command line or script input
-args = parse_args()
+args = parse_sdxl_args()
 
 # Create the output directory if it doesn't exist
 os.makedirs(args.output_dir, exist_ok=True)
@@ -24,7 +24,6 @@ sdxl_pipe  = SDXLPipeline(args.sdxl_model)
 for i in range(args.num_samples):
     start_time = time.time()
 
-
     ingredients = args.ingredients
 
     # Generate burger image with ingredients
@@ -35,8 +34,7 @@ for i in range(args.num_samples):
     )
     print(burger_prompt)
 
-    # Composite and blend images to get the final output
-    img = sdxl_pipe_.generate_img(burger_prompt, args.burger_steps, args.cfg_scale)
+    img = sdxl_pipe.generate_img(burger_prompt, args.burger_steps, args.cfg_scale)
 
     # Save the final burger image
     end_time = time.time()

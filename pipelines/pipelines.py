@@ -151,9 +151,11 @@ class SDXLPipeline():
         # Load the Image-to-Image pipeline
         sdxl_pipe = StableDiffusionXLPipeline.from_pretrained(
             self.pipeline_path,
+            torch_dtype=torch.float16,
+            variant="fp16",
+            use_safetensors=True,
             safety_checker=None,
         )
-        sdxl_pipe.enable_model_cpu_offload()
         sdxl_pipe = sdxl_pipe.to("cuda")
         
         # Store the loaded pipeline and Compel processor as instance attributes

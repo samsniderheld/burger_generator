@@ -174,5 +174,8 @@ def parse_sdxl_args():
     parser.add_argument(
         '--num_samples', type=int, default=1, 
         help='The number of diffusion steps')
+    parser.add_argument(
+        '--cfg_scale', type=float, default=4.5, 
+        help='How much creativity the pipeline has')
 
     return parser.parse_args()
