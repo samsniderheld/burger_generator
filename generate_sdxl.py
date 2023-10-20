@@ -30,7 +30,7 @@ for i in range(args.num_samples):
     ingredients = args.ingredients
 
     # Generate burger image with ingredients
-    burger_ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
+    burger_ingredient_string = "".join([f"{ingredient}, " for ingredient in ingredients])
     burger_prompt = (
         f"image a burger with a {burger_ingredient_string} photorealistic photography, 8k uhd, "
         "full framed, photorealistic photography, dslr, soft lighting, high quality, Fujifilm XT3\n\n"
