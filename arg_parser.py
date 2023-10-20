@@ -177,5 +177,8 @@ def parse_sdxl_args():
     parser.add_argument(
         '--cfg_scale', type=float, default=4.5, 
         help='How much creativity the pipeline has')
+    parser.add_argument(
+        '--load_from_file', action='store_true',
+        help='load_from_file')
 
     return parser.parse_args()

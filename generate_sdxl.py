@@ -19,7 +19,10 @@ os.makedirs(args.output_dir, exist_ok=True)
 # Load base images
 
 # Initialize pipelines based on the flags
-sdxl_pipe  = SDXLPipeline(args.sdxl_model)
+if args.load_from_file:
+    sdxl_pipe  = SDXLPipeline(args.sdxl_model,True)
+else:
+    sdxl_pipe  = SDXLPipeline(args.sdxl_model)
 
 for i in range(args.num_samples):
     start_time = time.time()

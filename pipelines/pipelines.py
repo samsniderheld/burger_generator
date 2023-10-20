@@ -140,16 +140,17 @@ class Img2ImgPipeline():
         return img
     
 class SDXLPipeline():
-    def __init__(self, pipeline_path):
+    def __init__(self, pipeline_path,load_from_file=False):
         # Store the path for the pipeline
         self.pipeline_path = pipeline_path
+        self.load_from_file = load_from_file
         
         # Load the pipeline upon initialization
         self.load_pipeline()
 
-    def load_pipeline(self,load_from_file=False):
+    def load_pipeline(self):
 
-        if load_from_file:
+        if self.load_from_file:
             sdxl_pipe = StableDiffusionXLPipeline.from_single_file(
                 self.pipeline_path,
                 torch_dtype=torch.float16,
