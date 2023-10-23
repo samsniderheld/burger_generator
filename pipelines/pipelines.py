@@ -192,27 +192,34 @@ class SDXLPipeline():
         return img
 
 class Img2ImgSDXLPipeline():
-    def __init__(self, pipeline_path):
+    def __init__(self, pipeline_path,load_from_file=False):
         # Store the path for the pipeline
         self.pipeline_path = pipeline_path
-        
+        self.load_from_file = load_from_file
         # Load the pipeline upon initialization
         self.load_pipeline()
 
     def load_pipeline(self):
         # Load the Image-to-Image pipeline
-        img2img_pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained(
-            self.pipeline_path,
-            safety_checker=None,
-        )
-        img2img_pipe.enable_model_cpu_offload()
-        
-        # Initialize the Compel processor for tokenization and encoding
-        # compel_proc = Compel(tokenizer=img2img_pipe.tokenizer, text_encoder=img2img_pipe.text_encoder)
-        
-        # Store the loaded pipeline and Compel processor as instance attributes
-        self.pipeline = img2img_pipe
-        # self.compel_proc = compel_proc
+        if self.load_from_file:
+            sdxl_pipe = StableDiffusionXLPipeline.from_single_file(
+                self.pipeline_path,
+                torch_dtype=torch.float16,
+                variant="fp16",
+                use_safetensors=True,
+                safety_checker=None,
+            )
+            sdxl_pipe = sdxl_pipe.to("cuda")
+        else:
+            # Load the Image-to-Image pipeline
+            sdxl_pipe = StableDiffusionXLPipeline.from_pretrained(
+                self.pipeline_path,
+                torch_dtype=torch.float16,
+                variant="fp16",
+                use_safetensors=True,
+                safety_checker=None,
+            )
+            sdxl_pipe = sdxl_pipe.to("cuda")
         
     def generate_img(self, prompt,input_img, strength, steps, cfg):
         # Convert prompt to embeddings

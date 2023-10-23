@@ -78,6 +78,9 @@ def parse_args():
     parser.add_argument(
         '--use_SDXL', action='store_true',
         help='use SDXL')
+    parser.add_argument(
+        '--load_from_file', action='store_true',
+        help='load_from_file')
 
     return parser.parse_args()
 

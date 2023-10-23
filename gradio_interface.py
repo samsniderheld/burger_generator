@@ -43,7 +43,10 @@ args = parse_gradio_args()
 
 controlnet_pipe = ControlNetPipeline(args.base_texture_model, args.controlnet_path)
 if args.use_SDXL:
-    img2img_pipe = Img2ImgSDXLPipeline(args.base_img2img_model)
+    if args.load_from_file:
+        img2img_pipe = Img2ImgSDXLPipeline(args.base_img2img_model,True)
+    else:
+        img2img_pipe = Img2ImgSDXLPipeline(args.base_img2img_model)
 else:
     img2img_pipe = Img2ImgPipeline(args.base_img2img_model)
 
