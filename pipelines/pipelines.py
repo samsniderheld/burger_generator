@@ -202,25 +202,27 @@ class Img2ImgSDXLPipeline():
     def load_pipeline(self):
         # Load the Image-to-Image pipeline
         if self.load_from_file:
-            sdxl_pipe = StableDiffusionXLPipeline.from_single_file(
+            sdxl_pipe = StableDiffusionXLImg2ImgPipeline.from_single_file(
                 self.pipeline_path,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 use_safetensors=True,
                 safety_checker=None,
             )
-            sdxl_pipe = sdxl_pipe.to("cuda")
+            sdxl_pipe.to("cuda")
         else:
             # Load the Image-to-Image pipeline
-            sdxl_pipe = StableDiffusionXLPipeline.from_pretrained(
+            sdxl_pipe = StableDiffusionXLImg2ImgPipeline.from_pretrained(
                 self.pipeline_path,
                 torch_dtype=torch.float16,
                 variant="fp16",
                 use_safetensors=True,
                 safety_checker=None,
             )
-            sdxl_pipe = sdxl_pipe.to("cuda")
+            sdxl_pipe.to("cuda")
         
+        self.pipeline = sdxl_pipe
+
     def generate_img(self, prompt,input_img, strength, steps, cfg):
         # Convert prompt to embeddings
         # prompt_embeds = self.compel_proc(prompt)
