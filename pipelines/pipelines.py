@@ -28,7 +28,8 @@ import torch
 # Import necessary modules from the diffusers package
 from diffusers import (ControlNetModel,StableDiffusionControlNetPipeline,
                        StableDiffusionImg2ImgPipeline, StableDiffusionXLImg2ImgPipeline,
-                       StableDiffusionXLPipeline
+                       StableDiffusionXLPipeline, AutoPipelineForInpainting,
+                       DPMSolverMultistepScheduler
 )
 
 # Import scheduler for controlling the pipeline's learning rate adjustments
@@ -245,6 +246,44 @@ class Img2ImgSDXLPipeline():
             num_inference_steps=steps, 
             generator=torch.Generator(device='cuda').manual_seed(random_seed),
             guidance_scale = cfg).images[0]
+        
+        img = img.resize(original_size)
+        
+        return img
+
+class InpaintingSDXLPipeline():
+    def __init__(self, pipeline_path):
+        # Store the path for the pipeline
+        self.pipeline_path = pipeline_path
+        # Load the pipeline upon initialization
+        self.load_pipeline()
+
+    def load_pipeline(self):
+        # Load the Image-to-Image pipeline
+        sdxl_pipe = AutoPipelineForInpainting.from_pretrained(
+                    self.pipeline_path,
+                    torch_dtype=torch.float16,
+                    variant="fp16").to("cuda")
+
+        sdxl_pipe.scheduler =  DPMSolverMultistepScheduler.from_config(sdxl_pipe.scheduler.config, use_karras=True)   
+        
+        self.pipeline = sdxl_pipe
+
+    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, steps, cfg):        
+
+        original_size = input_img.size
+        input_img = input_img.resize((1024,1024))
+        mask_img = mask_img.resize((1024,1024))
+        
+        img = self.pipe(
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            image= input_img,
+            mask_image=mask_img,
+            strength=strength,
+            guidance_scale=cfg,
+            num_inference_steps=steps,
+        ).images[0]
         
         img = img.resize(original_size)
         

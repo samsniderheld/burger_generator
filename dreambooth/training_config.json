@@ -1,0 +1,77 @@
+{
+    "params": [
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/10_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_10_samples_500_steps",
+            "max_train_step": 500,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/10_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_10_samples_1000_steps",
+            "max_train_step": 1000,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/10_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_10_samples_2000_steps",
+            "max_train_step": 2000,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/50_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_50_samples_500_steps",
+            "max_train_step": 500,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/50_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_50_samples_1000_steps",
+            "max_train_step": 1000,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/50_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_50_samples_2000_steps",
+            "max_train_step": 2000,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/100_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_100_samples_500_steps",
+            "max_train_step": 500,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/100_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_100_samples_1000_steps",
+            "max_train_step": 1000,
+            "sample_every_ste": 10000 
+        },
+        {
+            "base_model":"/content/kohya-trainer/finetune/SDXL/sd_xl_base_0.9.safetensors",
+            "train_data_dir": "/content/kohya-trainer/finetune/SDXL/sdxl_dataset/100_samples",
+            "output_dir": "experiments",
+            "new_model_name": "bk_100_samples_2000_steps",
+            "max_train_step": 2000,
+            "sample_every_ste": 10000 
+        }
+    ]
+    
+}

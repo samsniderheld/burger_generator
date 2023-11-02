@@ -16,11 +16,15 @@ A whopper with a beef patty and 2 extra ingredients. layer 1: fried fish cutlet,
 A whopper with a beef patty and 1 extra ingredients. layer 1: macaroni and cheese, on a white background.
 A whopper with a beef patty and 2 extra ingredients. layer 1: lobster, layer 2: cauliflower, on a white background.
 A whopper with a beef patty and 2 extra ingredients. layer 1: oranges, layer 2: broccoli, on a white background.
-A whopper with a beef patty and 5 extra ingredients. layer 1: prosciutto, layer 2: pesto, layer 3: tomato, layer 4: basil, layer 5: mayonaise, on a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: prosciutto, layer 2: pesto, layer 3: tomato, layer 4: basil, layer 5: mayonnaise, on a white background.
 A whopper with a beef patty and 3 extra ingredients. layer 1: mayonnaise, layer 2: pineapple chunks, layer 3: steak on a white background.
 A whopper with a beef patty and 2 extra ingredients. layer 1: extra patty, layer 2: shepherds pie, on a white background.
 A whopper with a beef patty and 3 extra ingredients. layer 1: extra patty, layer 2: kimchi, layer 3: lettuce, on a white background.
 A whopper with a beef patty and 5 extra ingredients. layer 1: extra patty, layer 2: tomatoes, layer 3: lettuce, layer 4: bacon, layer 5: coleslaw, layer 6: onions, on a white background.
 A whopper with a beef patty and 3 extra ingredients. layer 1: bacon, layer 2: jalepenos, layer 3: red bell peppers, on a white background.
 A whopper with a beef patty and 6 extra ingredients. layer 1: extra patty, layer 2: ketchup, layer 3: lettuce, layer 4: tomato, layer 5: onion, layer_6: ramen noodles, on a white background.
-
+A whopper with a beef patty and 3 extra ingredients. layer 1: fried egg, layer 2: broccoli, layer 3: american cheese.
+A whopper with a beef patty and 3 extra ingredients. layer 1: cottage_cheese, layer 2: peaches, layer 3: arugula.
+A whopper with a beef patty and 5 extra ingredients. layer 1: lettuce, layer 2: tomatoes, layer 3: bleu cheese, layer 4: brisket, layer 5: lobster.
+A whopper with a beef patty and 3 extra ingredients. layer 1: extra patty, layer 2: asparagus, layer 3: egg salad. 
+A whopper with a beef patty and 4 extra ingredients. layer 1: lettuce, layer 2: tomatoes, layer 3: cookies, layer 4: mayonnaise
