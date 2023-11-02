@@ -13,7 +13,6 @@ def json_to_params(path):
 
     with open(path, 'r') as file:
         params = json.load(file)
-
     return params
 
 
@@ -26,11 +25,11 @@ def run_training_script(params):
         f"--min_timestep=0"
         f"--max_timestep=1000"
         f"--shuffle_caption=false"
-        f"--pretrained_model_name_or_path='{params.base_model}'"
+        f"--pretrained_model_name_or_path='{params['base_model']}'"
         f"--vae='/content/kohya-trainer/finetune/SDXL/sdxl_vae.safetensors'"
         f"--debug_dataset=false"
         f"--in_json='/content/kohya-trainer/finetune/SDXL/meta_lat.json'"
-        f"--train_data_dir='{params.train_data_dir}'"
+        f"--train_data_dir='{params['train_data_dir']}'"
         f"--dataset_repeats=1"
         f"--keep_tokens=0"
         f"--resolution='1024,1024'"
@@ -41,14 +40,14 @@ def run_training_script(params):
         f"--token_warmup_min=1"
         f"--token_warmup_step=0"
         f"--output_dir='/content/output'"
-        f"--output_name='{params.new_model_name}'"
+        f"--output_name='{params['new_model_name']}'"
         f"--save_precision='fp16'"
-        f"--save_every_n_steps='{params.max_train_steps}'"
+        f"--save_every_n_steps='{params['max_train_steps']}'"
         f"--train_batch_size=4"
         f"--max_token_length=75"
         f"--mem_eff_attn=false"
         f"--xformers=true"
-        f"--max_train_steps='{params.max_train_steps}'"
+        f"--max_train_steps='{params['max_train_steps']}'"
         f"--max_data_loader_n_workers=8"
         f"--persistent_data_loader_workers=true"
         f"--gradient_checkpointing=true"
@@ -57,7 +56,7 @@ def run_training_script(params):
         f"--log_with='tensorboard'"
         f"--logging_dir='/content/logs'"
         f"--log_prefix='sdxl_finetune'"
-        f"--sample_every_n_steps='{params.sample_steps}'"
+        f"--sample_every_n_steps='{params['sample_steps']}'"
         f"--sample_sampler='euler_a'"
         f"--save_model_as='diffusers'"
         f"--optimizer_type='AdaFactor'"
@@ -69,15 +68,13 @@ def run_training_script(params):
         f"--lr_warmup_steps=100"
     )
 
-    cmd_str += " ".join(params)
-
     print("\n\n================")
     print(cmd_str)
     subprocess.run(cmd_str, shell=True)
 
     print("\n\nTesting Model")
 
-    sdxl_pipe  = InpaintingSDXLPipeline(params.sdxl_model)
+    sdxl_pipe  = InpaintingSDXLPipeline(params['sdxl_model'])
 
     test_prompts = read_ingredients_from_txt("test_captions.txt")
 
@@ -107,21 +104,23 @@ def run_training_script(params):
             5
         )
 
-        save_path = f"{params.output_dir}/{prompt}.jpg"
+        save_path = f"{params['output_dir']}/{prompt}.jpg"
         img.save(save_path)
-        
+
     shutil.rmtree(params.sdxl_model)
 
 def main(config_path):
 
     param_combinations = json_to_params(config_path)
 
+    print(param_combinations)
+
     for params in param_combinations:
         run_training_script(params)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Training Script with Config File")
-    parser.add_argument("--config", default="training_config.json",required=True, help="Path to the JSON config file")
+    parser.add_argument("--config", default="training_config.json", help="Path to the JSON config file")
     args = parser.parse_args()
 
     main(args.config)
