@@ -1,7 +1,7 @@
 import argparse
 import json
 import subprocess
-
+import os
 import shutil
 import random
 
@@ -13,66 +13,97 @@ def json_to_params(path):
 
     with open(path, 'r') as file:
         params = json.load(file)
-    return params
+    return params["params"]
 
 
 def run_training_script(params):
     """Run the training script with the specified parameters."""
 
-    cmd_str = (
-        f"--cache_text_encoder_outputs=false"
-        f"--no_half_vae=true"
-        f"--min_timestep=0"
-        f"--max_timestep=1000"
-        f"--shuffle_caption=false"
-        f"--pretrained_model_name_or_path='{params['base_model']}'"
-        f"--vae='/content/kohya-trainer/finetune/SDXL/sdxl_vae.safetensors'"
-        f"--debug_dataset=false"
-        f"--in_json='/content/kohya-trainer/finetune/SDXL/meta_lat.json'"
-        f"--train_data_dir='{params['train_data_dir']}'"
-        f"--dataset_repeats=1"
-        f"--keep_tokens=0"
-        f"--resolution='1024,1024'"
-        f"--caption_dropout_rate=0"
-        f"--caption_tag_dropout_rate=0"
-        f"--caption_dropout_every_n_epochs=0"
-        f"--color_aug=false"
-        f"--token_warmup_min=1"
-        f"--token_warmup_step=0"
-        f"--output_dir='/content/output'"
-        f"--output_name='{params['new_model_name']}'"
-        f"--save_precision='fp16'"
-        f"--save_every_n_steps='{params['max_train_steps']}'"
-        f"--train_batch_size=4"
-        f"--max_token_length=75"
-        f"--mem_eff_attn=false"
-        f"--xformers=true"
-        f"--max_train_steps='{params['max_train_steps']}'"
-        f"--max_data_loader_n_workers=8"
-        f"--persistent_data_loader_workers=true"
-        f"--gradient_checkpointing=true"
-        f"--gradient_accumulation_steps=1"
-        f"--mixed_precision='fp16'"
-        f"--log_with='tensorboard'"
-        f"--logging_dir='/content/logs'"
-        f"--log_prefix='sdxl_finetune'"
-        f"--sample_every_n_steps='{params['sample_steps']}'"
-        f"--sample_sampler='euler_a'"
-        f"--save_model_as='diffusers'"
-        f"--optimizer_type='AdaFactor'"
-        f"--learning_rate=4e-7"
-        f"--train_text_encoder=false"
-        f"--max_grad_norm=0"
-        f"--optimizer_args=[ 'scale_parameter=False', 'relative_step=False', 'warmup_init=False',]"
-        f"--lr_scheduler='constant_with_warmup'"
-        f"--lr_warmup_steps=100"
-    )
+    conf_text = f"""[sdxl_arguments]
+        cache_text_encoder_outputs = false
+        no_half_vae = true
+        min_timestep = 0
+        max_timestep = 1000
+        shuffle_caption = false
+
+        [model_arguments]
+        pretrained_model_name_or_path = '{params['base_model']}'
+        vae = "/content/kohya-trainer/finetune/SDXL/sdxl_vae.safetensors"
+
+        [dataset_arguments]
+        debug_dataset = false
+        in_json = "/content/kohya-trainer/finetune/SDXL/meta_lat.json"
+        train_data_dir = '{params['train_data_dir']}'
+        dataset_repeats = 1
+        keep_tokens = 0
+        resolution = "1024,1024"
+        caption_dropout_rate = 0
+        caption_tag_dropout_rate = 0
+        caption_dropout_every_n_epochs = 0
+        color_aug = false
+        token_warmup_min = 1
+        token_warmup_step = 0
+
+        [training_arguments]
+        output_dir = "/content/output"
+        output_name = '{params['new_model_name']}'
+        save_precision = "fp16"
+        save_every_n_steps = {params['max_train_steps']}
+        train_batch_size = 4
+        max_token_length = 75
+        mem_eff_attn = false
+        xformers = true
+        max_train_steps = {params['max_train_steps']}
+        max_data_loader_n_workers = 8
+        persistent_data_loader_workers = true
+        gradient_checkpointing = true
+        gradient_accumulation_steps = 1
+        mixed_precision = "fp16"
+
+        [logging_arguments]
+        log_with = "tensorboard"
+        logging_dir = "/content/logs"
+        log_prefix = "sdxl_finetune"
+
+        [sample_prompt_arguments]
+        sample_every_n_steps = {params['sample_every_step']}
+        sample_sampler = "euler_a"
+
+        [saving_arguments]
+        save_model_as = "safetensors"
+
+        [optimizer_arguments]
+        optimizer_type = "AdaFactor"
+        learning_rate = 4e-7
+        train_text_encoder = false
+        max_grad_norm = 0
+        optimizer_args = [ "scale_parameter=False", "relative_step=False", "warmup_init=False",]
+        lr_scheduler = "constant_with_warmup"
+        lr_warmup_steps = 100
+        """
+
+    with open("config_file.toml", 'w') as new_file:
+        new_file.write(conf_text)
+
+    cmd = [
+        "accelerate", "launch",
+        "--num_cpu_threads_per_process=1",
+        "--config_file", "/content/kohya-trainer/accelerate_config/config.yaml",
+        "./sdxl_train.py",
+        "--sample_prompts","/content/kohya-trainer/sample_prompt.toml" ,
+        "--config_file", "/content/kohya-trainer/config_file.toml"  
+    ]
 
     print("\n\n================")
-    print(cmd_str)
-    subprocess.run(cmd_str, shell=True)
+
+
+    print(cmd)
+    subprocess.run(cmd)
 
     print("\n\nTesting Model")
+
+    sample_dir_path = os.path.join(params['output_dir'],"samples")
+    os.makedirs(sample_dir_path, exist_ok=True)
 
     sdxl_pipe  = InpaintingSDXLPipeline(params['sdxl_model'])
 
@@ -104,7 +135,7 @@ def run_training_script(params):
             5
         )
 
-        save_path = f"{params['output_dir']}/{prompt}.jpg"
+        save_path = f"{sample_dir_path}/{prompt}.jpg"
         img.save(save_path)
 
     shutil.rmtree(params.sdxl_model)
@@ -124,10 +155,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.config)
-
-
-
-
-
-
-
