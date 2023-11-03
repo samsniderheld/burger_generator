@@ -32,7 +32,7 @@ def run_training_script(params):
 
         [dataset_arguments]
         debug_dataset = false
-        in_json = "/content/kohya-trainer/finetune/SDXL/meta_lat.json"
+        in_json = '{params['json_file']}'
         train_data_dir = '{params['train_data_dir']}'
         dataset_repeats = 1
         keep_tokens = 0
