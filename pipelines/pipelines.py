@@ -275,7 +275,7 @@ class InpaintingSDXLPipeline():
         input_img = input_img.resize((1024,1024))
         mask_img = mask_img.resize((1024,1024))
         
-        img = self.pipe(
+        img = self.pipeline(
             prompt=prompt,
             negative_prompt=negative_prompt,
             image= input_img,

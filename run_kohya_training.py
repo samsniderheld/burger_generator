@@ -4,10 +4,12 @@ import subprocess
 import os
 import shutil
 import random
-
+import torch
+import gc
 from PIL import Image
 from pipelines.pipelines import (InpaintingSDXLPipeline)
 from utils import read_ingredients_from_txt
+from diffusers import StableDiffusionXLPipeline
 
 def json_to_params(path):
 
@@ -48,7 +50,7 @@ def run_training_script(params):
         output_dir = "/content/output"
         output_name = '{params['new_model_name']}'
         save_precision = "fp16"
-        save_every_n_steps = {params['max_train_steps']}
+        save_every_n_steps = 10000
         train_batch_size = 4
         max_token_length = 75
         mem_eff_attn = false
@@ -102,10 +104,22 @@ def run_training_script(params):
 
     print("\n\nTesting Model")
 
-    sample_dir_path = os.path.join(params['output_dir'],"samples")
+    sample_dir_path = os.path.join(params['output_dir'],params['new_model_name'],"samples")
     os.makedirs(sample_dir_path, exist_ok=True)
 
-    sdxl_pipe  = InpaintingSDXLPipeline(params['sdxl_model'])
+    sd_path = f"/content/output/{params['new_model_name']}"
+
+    pipe = StableDiffusionXLPipeline.from_single_file(
+      f"{sd_path}.safetensors",
+      torch_dtype=torch.float16, variant="fp16",
+      use_safetensors=True
+    )
+
+    pretrain_path = sd_path
+
+    pipe.save_pretrained(pretrain_path)
+
+    sdxl_pipe  = InpaintingSDXLPipeline(sd_path)
 
     test_prompts = read_ingredients_from_txt("test_captions.txt")
 
@@ -116,12 +130,12 @@ def run_training_script(params):
 
         mask_num = random.randint(1,5)
 
-        path = f"/content/burger_generator/burger_templates/{mask_num}_ingredient.png"
+        path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredient.png"
         base_img = Image.open(path)
         base_img = base_img.convert("RGB")
         base_img = base_img.resize((1024,1024))
 
-        mask_path = f"/content/burger_generator/burger_templates/{mask_num}_ingredient_mask.png"
+        mask_path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredient_mask.png"
         mask_img = Image.open(mask_path)
         mask_img = mask_img.convert("RGB")
         mask_img = mask_img.resize((1024,1024))
@@ -135,10 +149,15 @@ def run_training_script(params):
             5
         )
 
-        save_path = f"{sample_dir_path}/{prompt}.jpg"
+        save_path = f"{sample_dir_path}/{prompt.replace('.','').replace(' ','')}_{params['new_model_name']}.jpg"
         img.save(save_path)
 
-    shutil.rmtree(params.sdxl_model)
+    del pipe
+    del sdxl_pipe
+    gc.collect()
+    torch.cuda.empty_cache()
+
+    shutil.rmtree("/content/output/")
 
 def main(config_path):
 
