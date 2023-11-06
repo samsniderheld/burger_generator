@@ -52,7 +52,7 @@ class InpaintingSDXLPipeline():
 
         seed = random.randint(0,10000)
 
-        generator = torch.Generator(device='cuda').manual_seed(1234)
+        generator = torch.Generator(device='cuda').manual_seed(seed)
 
         img = self.pipeline(
             # prompt=prompt,
