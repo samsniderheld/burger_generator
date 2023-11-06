@@ -1,28 +1,28 @@
-A whopper with a beef patty and 9 extra ingredients. An extra patty, cheese, bacon, pickles, ketchup, onions, tomatoes, lettuce, mayonnaise. On a white background.
-A whopper with a beef patty and 8 extra ingredients. Cheese, bacon, pickles, ketchup, onions, tomatoes, lettuce, mayonnaise. On a white background.
-A whopper with a beef patty and 7 extra ingredients. An extra patty, ketchup, pickles, onions, tomatoes, lettuce, mayonnaise. On a white background.
-A whopper with a beef patty and 6 extra ingredients. Ketchup, pickles, onions, tomatoes, lettuce, mayonnaise. On a white background.
-A whopper with a beef patty and 8 extra ingredients. An extra patty, cheese, bacon, pickles, onions, tomatoes, lettuce, mayonnaise. On a white background.
-A whopper with a beef patty and 6 extra ingredients. Pickles, ketchup, onions, tomatoes, lettuce, mayonnaise. On a white background.
-A whopper with a beef patty and 4 extra ingredients. vanilla ice cream, chocolate sauce, sprinkles, cotton candy. On a white background.
-A whopper with a beef patty and 3 extra ingredients. black beans, avocado, sala, On a white background.
-A whopper with a beef patty and 3 extra ingredients. filet mignon, steak sauce, sauteed mushrooms. On a white background.
-A whopper with a beef patty and 5 extra ingredients. basmatti rice, chickent tikka massala, chickpeas, cilantro, green chili peppers.  On a white background.
-A whopper with a beef patty and 3 extra ingredients. pulled pork, barbeque sauce, zucchini slices. On a white background.
-A whopper with a beef patty and 2 extra ingredients. salmon, seaweed salad. On a white background.
-A whopper with a beef patty and 5 extra ingredients. fried chicken cutlet, kale, caesar dressing, red bell peppers, feta cheese crumble, on a white background.
-A whopper with a beef patty and 6 extra ingredients. lo mein noodles, shrimp, carrot sticks, soy sauce, beef, asparagus, on a white background.
-A whopper with a beef patty and 2 extra ingredients. fried fish cutlet, chips(french fries), on a white background.
-A whopper with a beef patty and 1 extra ingredients. macaroni and cheese, on a white background.
-A whopper with a beef patty and 2 extra ingredients. lobster, cauliflower, on a white background.
-A whopper with a beef patty and 2 extra ingredients. oranges, broccoli, on a white background.
-A whopper with a beef patty and 5 extra ingredients. prosciutto, pesto, tomato, basil, mayonnaise, on a white background.
-A whopper with a beef patty and 3 extra ingredients. mayonnaise, pineapple chunks, steak on a white background.
-A whopper with a beef patty and 2 extra ingredients. extra patty, shepherds pie, on a white background.
-A whopper with a beef patty and 3 extra ingredients. extra patty, kimchi, lettuce, on a white background.
-A whopper with a beef patty and 5 extra ingredients. extra patty, tomatoes, lettuce, bacon, coleslaw, onions, on a white background.
-A whopper with a beef patty and 3 extra ingredients. bacon, jalepenos, red bell peppers, on a white background.
-A whopper with a beef patty and 6 extra ingredients. extra patty, ketchup, lettuce, tomato, onion, layer_6: ramen noodles, on a white background.
+A whopper with a beef patty and 9 extra ingredients. An extra patty, cheese, bacon, pickles, ketchup, onions, tomatoes, lettuce, mayonnaise
+A whopper with a beef patty and 8 extra ingredients. Cheese, bacon, pickles, ketchup, onions, tomatoes, lettuce, mayonnaise
+A whopper with a beef patty and 7 extra ingredients. An extra patty, ketchup, pickles, onions, tomatoes, lettuce, mayonnaise
+A whopper with a beef patty and 6 extra ingredients. Ketchup, pickles, onions, tomatoes, lettuce, mayonnaise
+A whopper with a beef patty and 8 extra ingredients. An extra patty, cheese, bacon, pickles, onions, tomatoes, lettuce, mayonnaise
+A whopper with a beef patty and 6 extra ingredients. Pickles, ketchup, onions, tomatoes, lettuce, mayonnaise
+A whopper with a beef patty and 4 extra ingredients. vanilla ice cream, chocolate sauce, sprinkles, cotton candy
+A whopper with a beef patty and 3 extra ingredients. black beans, avocado, sala
+A whopper with a beef patty and 3 extra ingredients. filet mignon, steak sauce, sauteed mushrooms
+A whopper with a beef patty and 5 extra ingredients. basmatti rice, chickent tikka massala, chickpeas, cilantro, green chili peppers.
+A whopper with a beef patty and 3 extra ingredients. pulled pork, barbeque sauce, zucchini slices
+A whopper with a beef patty and 2 extra ingredients. salmon, seaweed salad
+A whopper with a beef patty and 5 extra ingredients. fried chicken cutlet, kale, caesar dressing, red bell peppers, feta cheese crumble
+A whopper with a beef patty and 6 extra ingredients. lo mein noodles, shrimp, carrot sticks, soy sauce, beef, asparagus
+A whopper with a beef patty and 2 extra ingredients. fried fish cutlet, chips(french fries)
+A whopper with a beef patty and 1 extra ingredients. macaroni and cheese
+A whopper with a beef patty and 2 extra ingredients. lobster, cauliflower
+A whopper with a beef patty and 2 extra ingredients. oranges, broccoli
+A whopper with a beef patty and 5 extra ingredients. prosciutto, pesto, tomato, basil, mayonnaise
+A whopper with a beef patty and 3 extra ingredients. mayonnaise, pineapple chunks, stea
+A whopper with a beef patty and 2 extra ingredients. extra patty, shepherds pie
+A whopper with a beef patty and 3 extra ingredients. extra patty, kimchi, lettuce
+A whopper with a beef patty and 5 extra ingredients. extra patty, tomatoes, lettuce, bacon, coleslaw, onions
+A whopper with a beef patty and 3 extra ingredients. bacon, jalepenos, red bell peppers
+A whopper with a beef patty and 6 extra ingredients. extra patty, ketchup, lettuce, tomato, onion, layer_6: ramen noodles
 A whopper with a beef patty and 3 extra ingredients. fried egg, broccoli, american cheese.
 A whopper with a beef patty and 3 extra ingredients. cottage_cheese, peaches, arugula.
 A whopper with a beef patty and 5 extra ingredients. lettuce, tomatoes, bleu cheese, brisket, lobster.

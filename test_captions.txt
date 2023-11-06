@@ -1,26 +1,26 @@
-A whopper with a beef patty and 9 extra ingredients. layer 1: An extra patty, layer 2: cheese, layer 3: bacon, layer 4: pickles, layer 5: ketchup, layer 6: onions, layer 7: tomatoes, layer 8: lettuce, layer 9: mayonnaise. On a white background.
-A whopper with a beef patty and 8 extra ingredients. layer 1: Cheese, layer 2: bacon, layer 3: pickles, layer 4: ketchup, layer 5: onions, layer 6: tomatoes, layer 7: lettuce, layer 8: mayonnaise. On a white background.
-A whopper with a beef patty and 7 extra ingredients. layer 1: An extra patty, layer 2: ketchup, layer 3: pickles, layer 4: onions, layer 5: tomatoes, layer 6: lettuce, layer 7: mayonnaise. On a white background.
-A whopper with a beef patty and 6 extra ingredients. layer 1: Ketchup, layer 2: pickles, layer 3: onions, layer 4: tomatoes, layer 5: lettuce, layer 6: mayonnaise. On a white background.
-A whopper with a beef patty and 8 extra ingredients. layer 1: An extra patty, layer 2: cheese, layer 3: bacon, layer 4: pickles, layer 5: onions, layer 6: tomatoes, layer 7: lettuce, layer 8: mayonnaise. On a white background.
-A whopper with a beef patty and 6 extra ingredients. layer 1: Pickles, layer 2: ketchup, layer 3: onions, layer 4: tomatoes, layer 5: lettuce, layer 6: mayonnaise. On a white background.
-A Whopper with a beef patty and 1 extra ingredient. Layer 1: Barbecue sauce. On a white background.
-A Whopper with a beef patty and 2 extra ingredients. Layer 1: Swiss cheese, Layer 2: Mushrooms. On a white background.
-A Whopper with a beef patty and 3 extra ingredients. Layer 1: Swiss cheese, Layer 2: Mushrooms, Layer 3: Mustard. On a white background.
-A Whopper with a beef patty and 4 extra ingredients. Layer 1: American cheese, Layer 2: Pickles, Layer 3: Onion rings, Layer 4: Ranch dressing. On a white background.
-A Whopper with a beef patty and 1 extra ingredient. Layer 1: Avocado. On a white background.
-A Whopper with a beef patty and 2 extra ingredients. Layer 1: Cheddar cheese, Layer 2: Bacon. On a white background.
-A Whopper with a beef patty and 3 extra ingredients. Layer 1: Cheddar cheese, Layer 2: Bacon, Layer 3: Jalapeños. On a white background.
-A Whopper with a beef patty and 4 extra ingredients. Layer 1: Pepper jack cheese, Layer 2: Onion, Layer 3: Tomato, Layer 4: Spicy mayo. On a white background.
-A Whopper with a beef patty and 1 extra ingredient. Layer 1: Extra patty. On a white background.
-A Whopper with a beef patty and 2 extra ingredients. Layer 1: American cheese, Layer 2: Ketchup. On a white background.
-A Whopper with a beef patty and 3 extra ingredients. Layer 1: American cheese, Layer 2: Lettuce, Layer 3: Mayonnaise. On a white background.
-A Whopper with a beef patty and 4 extra ingredients. Layer 1: Provolone cheese, Layer 2: Grilled onions, Layer 3: Grilled mushrooms, Layer 4: A1 Steak Sauce. On a white background.
-A Whopper with a beef patty and 1 extra ingredient. Layer 1: Blue cheese. On a white background.
-A Whopper with a beef patty and 2 extra ingredients. Layer 1: Mozzarella cheese, Layer 2: Marinara sauce. On a white background.
-A Whopper with a beef patty and 3 extra ingredients. Layer 1: Goat cheese, Layer 2: Sun-dried tomatoes, Layer 3: Pesto. On a white background.
-A Whopper with a beef patty and 4 extra ingredients. Layer 1: Feta cheese, Layer 2: Olives, Layer 3: Cucumber slices, Layer 4: Tzatziki sauce. On a white background.
-A Whopper with a beef patty and 1 extra ingredient. Layer 1: Pineapple slice. On a white background.
-A Whopper with a beef patty and 2 extra ingredients. Layer 1: Pepper jack cheese, Layer 2: Sliced jalapeños. On a white background.
-A Whopper with a beef patty and 3 extra ingredients. Layer 1: Brie cheese, Layer 2: Caramelized onions, Layer 3: Fig jam. On a white background.
-A Whopper with a beef patty and 4 extra ingredients. Layer 1: Gouda cheese, Layer 2: Sliced apple, Layer 3: Arugula, Layer 4: Honey mustard. On a white background.
+A whopper with a beef patty and 9 extra ingredients. An extra patty, cheese, bacon, pickles, ketchup, onions, tomatoes, lettuce, mayonnaise.
+A whopper with a beef patty and 8 extra ingredients. Cheese, bacon, pickles, ketchup, onions, tomatoes, lettuce, mayonnaise.
+A whopper with a beef patty and 7 extra ingredients. An extra patty, ketchup, pickles, onions, tomatoes, lettuce, mayonnaise.
+A whopper with a beef patty and 6 extra ingredients. Ketchup, pickles, onions, tomatoes, lettuce, mayonnaise.
+A whopper with a beef patty and 8 extra ingredients. An extra patty, cheese, bacon, pickles, onions, tomatoes, lettuce, mayonnaise.
+A whopper with a beef patty and 6 extra ingredients. Pickles, ketchup, onions, tomatoes, lettuce, mayonnaise.
+A Whopper with a beef patty and 1 extra ingredient. Barbecue sauce.,
+A Whopper with a beef patty and 2 extra ingredients. Swiss cheese, Mushrooms.,
+A Whopper with a beef patty and 3 extra ingredients. Swiss cheese, Mushrooms, Mustard.,
+A Whopper with a beef patty and 4 extra ingredients. American cheese, Pickles, Onion rings, Ranch dressing.,
+A Whopper with a beef patty and 1 extra ingredient. Avocado.,
+A Whopper with a beef patty and 2 extra ingredients. Cheddar cheese, Bacon.,
+A Whopper with a beef patty and 3 extra ingredients. Cheddar cheese, Bacon, Jalapeños.,
+A Whopper with a beef patty and 4 extra ingredients. Pepper jack cheese, Onion, Tomato, Spicy mayo.,
+A Whopper with a beef patty and 1 extra ingredient. Extra patty.,
+A Whopper with a beef patty and 2 extra ingredients. American cheese, Ketchup.,
+A Whopper with a beef patty and 3 extra ingredients. American cheese, Lettuce, Mayonnaise.,
+A Whopper with a beef patty and 4 extra ingredients. Provolone cheese, Grilled onions, Grilled mushrooms, A1 Steak Sauce.,
+A Whopper with a beef patty and 1 extra ingredient. Blue cheese.,
+A Whopper with a beef patty and 2 extra ingredients. Mozzarella cheese, Marinara sauce.,
+A Whopper with a beef patty and 3 extra ingredients. Goat cheese, Sun-dried tomatoes, Pesto.,
+A Whopper with a beef patty and 4 extra ingredients. Feta cheese, Olives, Cucumber slices, Tzatziki sauce.,
+A Whopper with a beef patty and 1 extra ingredient. Pineapple slice.,
+A Whopper with a beef patty and 2 extra ingredients. Pepper jack cheese, Sliced jalapeños.,
+A Whopper with a beef patty and 3 extra ingredients. Brie cheese, Caramelized onions, Fig jam.,
+A Whopper with a beef patty and 4 extra ingredients. Gouda cheese, Sliced apple, Arugula, Honey mustard.,
