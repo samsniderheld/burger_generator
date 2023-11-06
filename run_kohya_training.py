@@ -6,7 +6,7 @@ import shutil
 import random
 import torch
 import gc
-from PIL import Image
+from PIL import Image, ImageDraw
 from pipelines.pipelines import (InpaintingSDXLPipeline)
 from utils import read_ingredients_from_txt
 from diffusers import StableDiffusionXLPipeline
@@ -105,6 +105,7 @@ def run_training_script(params):
     print("\n\nTesting Model")
 
     sample_dir_path = os.path.join(params['output_dir'],params['new_model_name'],"samples")
+    model_dir_path = os.path.join(params['output_dir'],params['new_model_name'])
     os.makedirs(sample_dir_path, exist_ok=True)
 
     sd_path = f"/content/output/{params['new_model_name']}"
@@ -149,6 +150,9 @@ def run_training_script(params):
             5
         )
 
+        draw_img = ImageDraw(img)
+        draw_img.text((50,50),prompt, fill=(255,0,0))
+
         save_path = f"{sample_dir_path}/{prompt.replace('.','').replace(' ','')}_{params['new_model_name']}.jpg"
         img.save(save_path)
 
@@ -156,6 +160,8 @@ def run_training_script(params):
     del sdxl_pipe
     gc.collect()
     torch.cuda.empty_cache()
+
+    shutil.copytree(sd_path,model_dir_path)
 
     shutil.rmtree("/content/output/")
 
