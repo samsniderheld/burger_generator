@@ -25,7 +25,7 @@ def parse_sdxl_args():
         help='Which XL pipeline you are using')
     parser.add_argument(
         '--template_dir', 
-         type=str, default='stabilityai/stable-diffusion-xl-base-1.0', 
+         type=str, default='burger_templates', 
         help='Which template dir')
     parser.add_argument(
         '--prompt', 

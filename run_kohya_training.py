@@ -150,7 +150,7 @@ def run_training_script(params):
             5
         )
 
-        draw_img = ImageDraw(img)
+        draw_img = ImageDraw.Draw(img)
         draw_img.text((50,50),prompt, fill=(255,0,0))
 
         save_path = f"{sample_dir_path}/{prompt.replace('.','').replace(' ','')}_{params['new_model_name']}.jpg"

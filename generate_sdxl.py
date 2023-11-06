@@ -3,6 +3,7 @@ import random
 import time
 import cv2
 import numpy as np
+from PIL import ImageDraw
 
 from arg_parser import parse_sdxl_args
 from pipelines.pipelines import (ControlnetSDXLPipeline,InpaintingSDXLPipeline)
@@ -39,10 +40,11 @@ for i in range(args.num_samples):
             args.negative_prompt,
             base_img,
             mask_img,
-            1, 
+            1,
             args.cfg_scale,
             args.steps
-        ).images[0]
+            
+        )
         
     elif args.pipeline_type == 'controlnet':
 
@@ -56,15 +58,17 @@ for i in range(args.num_samples):
             args.controlnet_str,
             args.cfg_scale,
             args.steps
-        ).images[0]
+        )
+
+    draw_img = ImageDraw.Draw(img)
+    draw_img.text((50,50),args.prompt, fill=(255,0,0))
 
     # Save the final burger image
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
-    ingredient_string = "".join([f"{ingredient}_" for ingredient in ingredients]) 
     out_img = cv2.cvtColor(np.uint8(img), cv2.COLOR_BGR2RGB)
-    cv2.imwrite(f"{args.output_dir}/{ingredient_string}_{i:4d}.jpg", out_img)
+    cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
 
 

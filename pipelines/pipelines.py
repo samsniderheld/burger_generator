@@ -57,7 +57,7 @@ class ControlnetSDXLPipeline():
         
         self.pipeline = sdxl_pipe
 
-    def generate_img(self, prompt,negative_prompt,base_img, controlnet_conditioning_scale, steps, cfg):
+    def generate_img(self, prompt,negative_prompt,base_img, controlnet_conditioning_scale, cfg,steps):
         
         base_img = np.array(base_img)
         control_net_img = cv2.Canny(base_img, 150, 200)
@@ -96,7 +96,7 @@ class InpaintingSDXLPipeline():
         
         self.pipeline = sdxl_pipe
 
-    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, steps, cfg):        
+    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps):        
 
         img = self.pipeline(
             prompt=prompt,
