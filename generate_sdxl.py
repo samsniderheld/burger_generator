@@ -3,14 +3,20 @@ import random
 import time
 import cv2
 import numpy as np
+import random
 from PIL import ImageDraw
 
 from arg_parser import parse_sdxl_args
 from pipelines.pipelines import (ControlnetSDXLPipeline,InpaintingSDXLPipeline)
-from utils import load_img_for_sdxl
+from utils import load_img_for_sdxl, read_ingredients_from_txt
 
 # Parse arguments from command line or script input
 args = parse_sdxl_args()
+
+if args.food_list != None:
+
+    all_ingredients = read_ingredients_from_txt("food_list.txt")
+
 
 # Create the output directory if it doesn't exist
 os.makedirs(args.output_dir, exist_ok=True)
@@ -26,7 +32,16 @@ for i in range(args.num_samples):
     start_time = time.time()
 
     if args.pipeline_type == 'inpainting':
+
+        if args.food_list != None:
+            ingredients = random.sample(all_ingredients, args.num_ingredients)
+            ingredient_string = "".join([f"layer {i}: {ingredient}, " for i, ingredient in enumerate(ingredients,1)])
+            prompt = [f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.']
         
+        else:
+
+            prompt = args.prompt
+
         mask_num = random.randint(1,5)
 
         path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
@@ -48,10 +63,12 @@ for i in range(args.num_samples):
         
     elif args.pipeline_type == 'controlnet':
 
+        mask_num = random.randint(1,5)
+
         path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
         base_img = load_img_for_sdxl(path)
 
-        img = sdxl_pipe(
+        img = sdxl_pipe.generate_img(
             args.prompt,
             args.negative_prompt,
             base_img,

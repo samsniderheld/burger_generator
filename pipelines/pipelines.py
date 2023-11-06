@@ -25,6 +25,7 @@ Usage Example:
 import numpy as np
 import torch
 import cv2
+from PIL import Image
 # Import necessary modules from the diffusers package
 from diffusers import (ControlNetModel,
                        StableDiffusionXLControlNetPipeline,
@@ -60,13 +61,13 @@ class ControlnetSDXLPipeline():
     def generate_img(self, prompt,negative_prompt,base_img, controlnet_conditioning_scale, cfg,steps):
         
         base_img = np.array(base_img)
-        control_net_img = cv2.Canny(base_img, 150, 200)
-        control_net_img = control_net_img[:, :, None]
-        control_net_img = np.concatenate([control_net_img, control_net_img, control_net_img], axis=2)
-        control_net_img = Image.fromarray(control_net_img)
+        controlnet_img = cv2.Canny(base_img, 150, 200)
+        controlnet_img = controlnet_img[:, :, None]
+        controlnet_img = np.concatenate([controlnet_img, controlnet_img, controlnet_img], axis=2)
+        controlnet_img = Image.fromarray(controlnet_img)
 
         img = self.pipeline(
-            pprompt=prompt,
+            prompt=prompt,
             negative_prompt=negative_prompt,
             image=controlnet_img,
             width=1024,

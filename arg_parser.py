@@ -19,6 +19,9 @@ def parse_sdxl_args():
         '--sdxl_model', type=str, default='stabilityai/stable-diffusion-xl-base-1.0', 
         help='The SD model we are using')
     parser.add_argument(
+        '--food_list', type=str, default=None, 
+        help='the food list we are using to generate')
+    parser.add_argument(
         '--pipeline_type', 
         choices=['controlnet', 'inpainting'],
         default='inpainting',
