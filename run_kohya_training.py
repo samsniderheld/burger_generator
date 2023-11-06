@@ -110,8 +110,11 @@ def run_training_script(params):
 
     sd_path = f"/content/output/{params['new_model_name']}"
 
+    
+    safe_tensor_path = f"{sd_path}.safetensors"
+
     pipe = StableDiffusionXLPipeline.from_single_file(
-      f"{sd_path}.safetensors",
+      safe_tensor_path,
       torch_dtype=torch.float16, variant="fp16",
       use_safetensors=True
     )
@@ -130,6 +133,7 @@ def run_training_script(params):
         negative_prompt = "poor quality, unappetizing"
 
         mask_num = random.randint(1,5)
+        mask_num = 3
 
         path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredient.png"
         base_img = Image.open(path)
@@ -146,8 +150,8 @@ def run_training_script(params):
             base_img,
             mask_img,
             1, 
-            20, 
-            5
+            7, 
+            20
         )
 
         draw_img = ImageDraw.Draw(img)
@@ -161,8 +165,8 @@ def run_training_script(params):
     gc.collect()
     torch.cuda.empty_cache()
 
-    shutil.copytree(sd_path,model_dir_path)
 
+    shutil.copy(safe_tensor_path,model_dir_path)
     shutil.rmtree("/content/output/")
 
 def main(config_path):
