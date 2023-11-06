@@ -36,7 +36,7 @@ for i in range(args.num_samples):
         if args.food_list != None:
             ingredients = random.sample(all_ingredients, args.num_ingredients)
             ingredient_string = "".join([f"layer {i}: {ingredient}, " for i, ingredient in enumerate(ingredients,1)])
-            prompt = [f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.']
+            prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
         
         else:
 
@@ -51,7 +51,7 @@ for i in range(args.num_samples):
         mask_img = load_img_for_sdxl(mask_path)
 
         img = sdxl_pipe.generate_img(
-            args.prompt, 
+            prompt, 
             args.negative_prompt,
             base_img,
             mask_img,
@@ -60,7 +60,7 @@ for i in range(args.num_samples):
             args.steps
             
         )
-        
+
     elif args.pipeline_type == 'controlnet':
 
         mask_num = random.randint(1,5)
@@ -78,14 +78,16 @@ for i in range(args.num_samples):
         )
 
     draw_img = ImageDraw.Draw(img)
-    draw_img.text((50,50),args.prompt, fill=(255,0,0))
-
+    draw_img.text((50,50),prompt, fill=(255,0,0))
+    
     # Save the final burger image
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
     out_img = cv2.cvtColor(np.uint8(img), cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
+
+    
 
 
 
