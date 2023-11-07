@@ -20,6 +20,8 @@ from diffusers import (ControlNetModel,
 
 from compel import Compel, ReturnedEmbeddingsType
 
+from util import blend_image
+
 class InpaintingSDXLPipeline():
     def __init__(self, pipeline_path):
         # Store the path for the pipeline
@@ -45,7 +47,7 @@ class InpaintingSDXLPipeline():
           requires_pooled=[False, True]
         )
 
-    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps):        
+    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, blend_img=False):        
 
 
         conditioning, pooled = self.compel(prompt)
@@ -66,6 +68,9 @@ class InpaintingSDXLPipeline():
             generator=generator,
             num_inference_steps=steps,
         ).images[0]
+
+        if(blend_image):
+            img = blend_image(img,input_img,mask_img)
                 
         return img
 
