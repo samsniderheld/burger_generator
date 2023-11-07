@@ -1,30 +1,23 @@
-A whopper with a beef patty and 9 extra ingredients. layer 1: An extra patty, layer 2: cheese, layer 3: bacon, layer 4: pickles, layer 5: ketchup, layer 6: onions, layer 7: tomatoes, layer 8: lettuce, layer 9: mayonnaise. On a white background.
+A whopper with a beef patty and 9 extra ingredients. layer 1: An extra patty, layer 2: cheese, layer 3: bacon, layer 4: pickles, layer 5: ketchup, layer 6: onions, layer 7: tomatoes, l8: lettuce, layer 9: mayonnaise. On a white background.
 A whopper with a beef patty and 8 extra ingredients. layer 1: Cheese, layer 2: bacon, layer 3: pickles, layer 4: ketchup, layer 5: onions, layer 6: tomatoes, layer 7: lettuce, layer 8: mayonnaise. On a white background.
-A whopper with a beef patty and 7 extra ingredients. layer 1: An extra patty, layer 2: ketchup, layer 3: pickles, layer 4: onions, layer 5: tomatoes, layer 6: lettuce, layer 7: mayonnaise. On a white background.
+A whopper with a beef patty and 7 ingredinets. layer 1: An extra patty, layer 2: ketchup, layer 3: pickles, layer 4: onions, layer 5: tomatoes, layer 6: lettuce, layer 7: mayonnaise. On a white background.
 A whopper with a beef patty and 6 extra ingredients. layer 1: Ketchup, layer 2: pickles, layer 3: onions, layer 4: tomatoes, layer 5: lettuce, layer 6: mayonnaise. On a white background.
 A whopper with a beef patty and 8 extra ingredients. layer 1: An extra patty, layer 2: cheese, layer 3: bacon, layer 4: pickles, layer 5: onions, layer 6: tomatoes, layer 7: lettuce, layer 8: mayonnaise. On a white background.
 A whopper with a beef patty and 6 extra ingredients. layer 1: Pickles, layer 2: ketchup, layer 3: onions, layer 4: tomatoes, layer 5: lettuce, layer 6: mayonnaise. On a white background.
-A whopper with a beef patty and 4 extra ingredients. layer 1: vanilla ice cream, layer 2: chocolate sauce, layer 3: sprinkles, layer 4: cotton candy. On a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: black beans, layer 2: avocado, layer 3: sala, On a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: filet mignon, layer 2: steak sauce, layer 3: sauteed mushrooms. On a white background.
-A whopper with a beef patty and 5 extra ingredients. layer 1: basmatti rice, layer 2: chickent tikka massala, layer 3: chickpeas, layer 5: cilantro, layer 6: green chili peppers.  On a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: pulled pork, layer 2: barbeque sauce, layer 3: zucchini slices. On a white background.
-A whopper with a beef patty and 2 extra ingredients. layer 1: salmon, layer 2: seaweed salad. On a white background.
-A whopper with a beef patty and 5 extra ingredients. layer 1: fried chicken cutlet, layer 2: kale, layer 3: caesar dressing, layer 4: red bell peppers, layer 5: feta cheese crumble, on a white background.
-A whopper with a beef patty and 6 extra ingredients. layer 1: lo mein noodles, layer 2: shrimp, layer 3: carrot sticks, layer 4: soy sauce, layer 5: beef, layer 6: asparagus, on a white background.
-A whopper with a beef patty and 2 extra ingredients. layer 1: fried fish cutlet, layer 2: chips(french fries), on a white background.
-A whopper with a beef patty and 1 extra ingredients. layer 1: macaroni and cheese, on a white background.
-A whopper with a beef patty and 2 extra ingredients. layer 1: lobster, layer 2: cauliflower, on a white background.
-A whopper with a beef patty and 2 extra ingredients. layer 1: oranges, layer 2: broccoli, on a white background.
-A whopper with a beef patty and 5 extra ingredients. layer 1: prosciutto, layer 2: pesto, layer 3: tomato, layer 4: basil, layer 5: mayonnaise, on a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: mayonnaise, layer 2: pineapple chunks, layer 3: steak on a white background.
-A whopper with a beef patty and 2 extra ingredients. layer 1: extra patty, layer 2: shepherds pie, on a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: extra patty, layer 2: kimchi, layer 3: lettuce, on a white background.
-A whopper with a beef patty and 5 extra ingredients. layer 1: extra patty, layer 2: tomatoes, layer 3: lettuce, layer 4: bacon, layer 5: coleslaw, layer 6: onions, on a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: bacon, layer 2: jalepenos, layer 3: red bell peppers, on a white background.
-A whopper with a beef patty and 6 extra ingredients. layer 1: extra patty, layer 2: ketchup, layer 3: lettuce, layer 4: tomato, layer 5: onion, layer_6: ramen noodles, on a white background.
-A whopper with a beef patty and 3 extra ingredients. layer 1: fried egg, layer 2: broccoli, layer 3: american cheese.
-A whopper with a beef patty and 3 extra ingredients. layer 1: cottage_cheese, layer 2: peaches, layer 3: arugula.
-A whopper with a beef patty and 5 extra ingredients. layer 1: lettuce, layer 2: tomatoes, layer 3: bleu cheese, layer 4: brisket, layer 5: lobster.
-A whopper with a beef patty and 3 extra ingredients. layer 1: extra patty, layer 2: asparagus, layer 3: egg salad. 
-A whopper with a beef patty and 4 extra ingredients. layer 1: lettuce, layer 2: tomatoes, layer 3: cookies, layer 4: mayonnaise
+A whopper with a beef patty and 3 extra ingredients. layer 1: An exra patty, layer 2: avocado, layer 3: lettuce. On a white background.
+A whopper with a beef patty and 4 extra ingredients. layer 1: An raisins, layer 2: onions, layer 3: tomatoes, layer 4: mayonnaise. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: An extra patty, layer 2: lettuce, layer 3: onions, layer 4: tomatoes, layer 5: french fries. On a white background.
+A whopper with a beef patty and 3 extra ingredients. layer 1: Mushrooms, layer 2: onions, layer 3: tomatoes. On a white background.
+A whopper with a beef patty and 4 extra ingredients. layer 1: Lettuce, layer 3: onions, layer 3: tomatoes, layer 4: french fries. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: An extra patty, layer 2: yakisoba, layer 3: lettuce, layer 4: onions, layer 5: tomatoes. On a white background.
+A whopper with a beef patty and 3 extra ingredients. layer 1: Salmon, layer 2: lettuce, layer 3: tomatoes. On a white background.
+A whopper with a beef patty and 2 extra ingredients. layer 1: Whipped cream, layer 2: tomatoes. On a white background.
+A whopper with a beef patty and 4 extra ingredients. layer 1: An extra patty, layer 2: hummus, layer 3: tomatoes, layer 4: lettuce. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: Onions, layer 2: tomatoes, layer 3: cheese, layer 4: lettuce, layer 5: french fries. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: An extra patty, layer 2: ketchup, layer 3: basil, layer 4: tomatoes, layer 5: mayonaise. On a white background.
+A whopper with a beef patty and 4 extra ingredients. layer 1: An extra patty, layer 2: ketchup, layer 3: cream cheese, layer 4: tomatoes. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: An extra patty, layer 2: ketchup, layer 3: lettuce, layer 4: mayonaise, layer 5: baked ziti. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: An extra patty, layer 2: cheese, layer 3: steak, layer 4: pine apple, layer 5: jalepenos. On a white background.
+A whopper with a beef patty and 5 extra ingredients. layer 1: An extra patty, layer 3: string beans, layer 4: onions, layer 5: tomatoes, layer 6: mayonaise. On a white background.
+A whopper with a beef patty and 2 extra ingredients. layer 1: An extra patty, layer 2: gummy worms. On a white background.
+A whopper with a beef patty and 4 extra ingredients. layer 1: Black beans, layer 2: onions, layer 3: tomatoes, layer 4: lettuce. On a white background.

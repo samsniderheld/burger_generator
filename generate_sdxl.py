@@ -35,8 +35,8 @@ for i in range(args.num_samples):
 
         if args.food_list != None:
             ingredients = random.sample(all_ingredients, args.num_ingredients)
-            ingredient_string = "".join([f"layer {i}: {ingredient}, " for i, ingredient in enumerate(ingredients,1)])
-            prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
+            ingredient_string = "".join([f"{ingredient}, " for i, ingredient in enumerate(ingredients,1)])
+            prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. ({ingredient_string[:-1]})+.'
         
         else:
 

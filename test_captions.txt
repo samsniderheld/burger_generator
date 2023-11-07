@@ -4,23 +4,18 @@ A whopper with a beef patty and 7 extra ingredients. An extra patty, ketchup, pi
 A whopper with a beef patty and 6 extra ingredients. Ketchup, pickles, onions, tomatoes, lettuce, mayonnaise.
 A whopper with a beef patty and 8 extra ingredients. An extra patty, cheese, bacon, pickles, onions, tomatoes, lettuce, mayonnaise.
 A whopper with a beef patty and 6 extra ingredients. Pickles, ketchup, onions, tomatoes, lettuce, mayonnaise.
-A Whopper with a beef patty and 1 extra ingredient. Barbecue sauce.,
-A Whopper with a beef patty and 2 extra ingredients. Swiss cheese, Mushrooms.,
-A Whopper with a beef patty and 3 extra ingredients. Swiss cheese, Mushrooms, Mustard.,
-A Whopper with a beef patty and 4 extra ingredients. American cheese, Pickles, Onion rings, Ranch dressing.,
-A Whopper with a beef patty and 1 extra ingredient. Avocado.,
-A Whopper with a beef patty and 2 extra ingredients. Cheddar cheese, Bacon.,
-A Whopper with a beef patty and 3 extra ingredients. Cheddar cheese, Bacon, Jalapeños.,
-A Whopper with a beef patty and 4 extra ingredients. Pepper jack cheese, Onion, Tomato, Spicy mayo.,
-A Whopper with a beef patty and 1 extra ingredient. Extra patty.,
-A Whopper with a beef patty and 2 extra ingredients. American cheese, Ketchup.,
-A Whopper with a beef patty and 3 extra ingredients. American cheese, Lettuce, Mayonnaise.,
-A Whopper with a beef patty and 4 extra ingredients. Provolone cheese, Grilled onions, Grilled mushrooms, A1 Steak Sauce.,
-A Whopper with a beef patty and 1 extra ingredient. Blue cheese.,
-A Whopper with a beef patty and 2 extra ingredients. Mozzarella cheese, Marinara sauce.,
-A Whopper with a beef patty and 3 extra ingredients. Goat cheese, Sun-dried tomatoes, Pesto.,
-A Whopper with a beef patty and 4 extra ingredients. Feta cheese, Olives, Cucumber slices, Tzatziki sauce.,
-A Whopper with a beef patty and 1 extra ingredient. Pineapple slice.,
-A Whopper with a beef patty and 2 extra ingredients. Pepper jack cheese, Sliced jalapeños.,
-A Whopper with a beef patty and 3 extra ingredients. Brie cheese, Caramelized onions, Fig jam.,
-A Whopper with a beef patty and 4 extra ingredients. Gouda cheese, Sliced apple, Arugula, Honey mustard.,
+A Whopper with a beef patty and 1 extra ingredient. Barbecue sauce.
+A Whopper with a beef patty and 2 extra ingredients. Swiss cheese, Mushrooms.
+A Whopper with a beef patty and 3 extra ingredients. Cotton candy, chocolate sauce, sprinkles.
+A Whopper with a beef patty and 4 extra ingredients. Popcorn, salsa, chickpeas, hot sauce.
+A Whopper with a beef patty and 1 extra ingredient. Avocado.
+A Whopper with a beef patty and 2 extra ingredients. Salmon, feta cheese.
+A Whopper with a beef patty and 3 extra ingredients. Cheddar cheese, Bacon, Jalapeños.
+A Whopper with a beef patty and 4 extra ingredients. Fried egg, Asparagus, BBQ Sauce, calamari.
+A Whopper with a beef patty and 1 extra ingredient. Extra patty.
+A Whopper with a beef patty and 2 extra ingredients. Blueberries, bananas.
+A Whopper with a beef patty and 3 extra ingredients. American cheese, fried chicken, coleslaw.
+A Whopper with a beef patty and 4 extra ingredients. Provolone cheese, Grilled onions, Grilled mushrooms, A1 Steak Sauce.
+A Whopper with a beef patty and 3 extra ingredients. Goat cheese, Sun-dried tomatoes, Pesto.
+A Whopper with a beef patty and 4 extra ingredients. Feta cheese, Olives, Cucumber slices, Tzatziki sauce.
+

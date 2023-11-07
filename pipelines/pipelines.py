@@ -59,7 +59,7 @@ class InpaintingSDXLPipeline():
             prompt_embeds=conditioning,
             pooled_prompt_embeds=pooled,
             negative_prompt=negative_prompt,
-            image= input_img,
+            image=input_img,
             mask_image=mask_img,
             strength=strength,
             guidance_scale=cfg,
