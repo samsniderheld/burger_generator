@@ -35,14 +35,14 @@ for i in range(args.num_samples):
 
         if args.food_list != None:
             ingredients = random.sample(all_ingredients, args.num_ingredients)
-            ingredient_string = "".join([f"{ingredient}, " for i, ingredient in enumerate(ingredients,1)])
-            prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. ({ingredient_string[:-1]})+.'
+            ingredient_string = "".join([f"({ingredient})++, " for i, ingredient in enumerate(ingredients,1)])
+            prompt = f'A whopper with {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
         
         else:
 
             prompt = args.prompt
 
-        mask_num = random.randint(1,5)
+        mask_num = 3
 
         path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
         base_img = load_img_for_sdxl(path)
