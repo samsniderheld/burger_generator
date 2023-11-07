@@ -23,11 +23,13 @@ from compel import Compel, ReturnedEmbeddingsType
 from utils import blend_image
 
 class InpaintingSDXLPipeline():
-    def __init__(self, pipeline_path):
+    def __init__(self, pipeline_path,use_freeU=False):
         # Store the path for the pipeline
         self.pipeline_path = pipeline_path
         # Load the pipeline upon initialization
+        self.use_freeU = use_freeU
         self.load_pipeline()
+        
 
     def load_pipeline(self):
         # Load the Image-to-Image pipeline
@@ -36,7 +38,14 @@ class InpaintingSDXLPipeline():
                     torch_dtype=torch.float16,
                     variant="fp16").to("cuda")
 
-        sdxl_pipe.scheduler =  DPMSolverMultistepScheduler.from_config(sdxl_pipe.scheduler.config, use_karras=True, euler_at_final=True)   
+        sdxl_pipe.scheduler =  DPMSolverMultistepScheduler.from_config(sdxl_pipe.scheduler.config, 
+          use_karras=True, 
+          euler_at_final=True,
+          rescale_betas_zero_snr=True, 
+          timestep_spacing="trailing")
+
+        if(self.use_freeU):
+          sdxl_pipe.enable_freeu(s1=0.9, s2=0.2, b1=1.2, b2=1.4)   
 
         self.pipeline = sdxl_pipe
         
@@ -52,6 +61,8 @@ class InpaintingSDXLPipeline():
 
         conditioning, pooled = self.compel(prompt)
 
+        negative_conditioning, negative_pooled = self.compel(negative_prompt)
+
         seed = random.randint(0,10000)
 
         generator = torch.Generator(device='cuda').manual_seed(seed)
@@ -60,7 +71,9 @@ class InpaintingSDXLPipeline():
             # prompt=prompt,
             prompt_embeds=conditioning,
             pooled_prompt_embeds=pooled,
-            negative_prompt=negative_prompt,
+            # negative_prompt=negative_prompt,
+            negative_prompt_embeds=negative_conditioning,
+            negative_pooled_prompt_embeds=negative_pooled,
             image=input_img,
             mask_image=mask_img,
             strength=strength,
