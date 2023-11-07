@@ -57,8 +57,8 @@ for i in range(args.num_samples):
             mask_img,
             1,
             args.cfg_scale,
-            args.steps
-            
+            args.steps,
+            True
         )
 
     elif args.pipeline_type == 'controlnet':

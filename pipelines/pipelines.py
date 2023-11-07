@@ -20,7 +20,7 @@ from diffusers import (ControlNetModel,
 
 from compel import Compel, ReturnedEmbeddingsType
 
-from util import blend_image
+from utils import blend_image
 
 class InpaintingSDXLPipeline():
     def __init__(self, pipeline_path):
@@ -69,8 +69,8 @@ class InpaintingSDXLPipeline():
             num_inference_steps=steps,
         ).images[0]
 
-        if(blend_image):
-            img = blend_image(img,input_img,mask_img)
+        if(blend_img):
+            img = blend_image(img,input_img,mask_img,3)
                 
         return img
 

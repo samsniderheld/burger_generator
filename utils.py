@@ -16,7 +16,6 @@ from PIL import Image, ImageFilter
 
 # Blend two images together using a mask and an optional blur.
 def blend_image(inpainted, original, mask, blur=3):
-    mask = Image.fromarray(mask)
     mask = mask.convert("L")
     # Apply blur
     mask = mask.filter(ImageFilter.GaussianBlur(blur))
