@@ -50,29 +50,33 @@ for i in range(args.num_samples):
                     standard_count = 1
                     random_count = 1
                 else:
-                    standard_count = (total_count // 3) * 2
+                    standard_count = 2 * total_count // 3
                     random_count = total_count - standard_count
                 
                 selected_standard = random.sample(standard_ingredients, standard_count)
                 selected_random = random.sample(random_ingredients, random_count)
                 
                 ingredients = selected_standard + selected_random
+
+                # standard_string = "".join([f"{ingredient}, " for ingredient in selected_standard])
+                # random_string = "".join([f"{ingredient}, " for ingredient in selected_random])
+                # prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. ({standard_string[:-1]})++ , ({random_string[:-1]})++ .'
+                ingredient_string = "".join([f"({ingredient})++, " for ingredient in ingredients])
+                prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
+                
+                new_basic_ingredients = []
+
+                for ing in standard_ingredients:
+                    if(ing not in ingredients):
+                        new_basic_ingredients.append(ing)
+
+                negative_prompt = ["poor quality, unappetizing, " + "".join([f"{ing}, " for ing in new_basic_ingredients])]
             else:
 
                 ingredients = random.sample(random_ingredients, args.num_ingredients)
-
-
-            ingredient_string = "".join([f"({ingredient})++, " for i, ingredient in enumerate(ingredients,1)])
-            prompt = f'A whopper with {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
-        
-            new_basic_ingredients = []
-
-            for ing in standard_ingredients:
-                if(ing not in ingredients):
-                    new_basic_ingredients.append(ing)
-
-
-            negative_prompt = ["poor quality, unappetizing, " + "".join([f"{ing}, " for ing in new_basic_ingredients])]
+                ingredient_string = "".join([f"({ingredient})++, " for i, ingredient in enumerate(ingredients,1)])
+                prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
+                negative_prompt = args.negative_prompt
         else:
 
             prompt = args.prompt
