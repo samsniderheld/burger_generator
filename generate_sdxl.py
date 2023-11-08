@@ -65,9 +65,18 @@ for i in range(args.num_samples):
             ingredient_string = "".join([f"({ingredient})++, " for i, ingredient in enumerate(ingredients,1)])
             prompt = f'A whopper with {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
         
+            new_basic_ingredients = []
+
+            for ing in standard_ingredients:
+                if(ing not in ingredients):
+                    new_basic_ingredients.append(ing)
+
+
+            negative_prompt = ["poor quality, unappetizing, " + "".join([f"{ing}, " for ing in new_basic_ingredients])]
         else:
 
             prompt = args.prompt
+            negative_prompt = args.negative_prompt
 
         mask_num = 3
 
@@ -75,11 +84,11 @@ for i in range(args.num_samples):
         base_img = load_img_for_sdxl(path)
 
         mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
-        mask_img = load_img_for_sdxl(mask_path)
+        mask_img = load_img_for_sdxl(mask_path)   
 
         img = sdxl_pipe.generate_img(
             prompt, 
-            args.negative_prompt,
+            negative_prompt,
             base_img,
             mask_img,
             1,
