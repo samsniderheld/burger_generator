@@ -15,8 +15,12 @@ args = parse_sdxl_args()
 
 if args.food_list != None:
 
-    all_ingredients = read_ingredients_from_txt("food_list.txt")
+    random_ingredients = read_ingredients_from_txt("food_list.txt")
 
+if args.use_standard_ingredients:
+    standard_ingredients = ["lettuce", "tomatoes", "pickles", "onions", 
+                            "ketchup", "cheese", "bacon", "extra patty", 
+                            "mayonaise"]
 
 # Create the output directory if it doesn't exist
 os.makedirs(args.output_dir, exist_ok=True)
@@ -34,7 +38,30 @@ for i in range(args.num_samples):
     if args.pipeline_type == 'inpainting':
 
         if args.food_list != None:
-            ingredients = random.sample(all_ingredients, args.num_ingredients)
+
+            if args.use_standard_ingredients:
+
+                total_count = args.num_ingredients
+
+                if total_count  == 1:
+                    standard_count = 1
+                    random_count = 0
+                elif total_count ==2:
+                    standard_count = 1
+                    random_count = 1
+                else:
+                    standard_count = (total_count // 3) * 2
+                    random_count = total_count - standard_count
+                
+                selected_standard = random.sample(standard_ingredients, standard_count)
+                selected_random = random.sample(random_ingredients, random_count)
+                
+                ingredients = selected_standard + selected_random
+            else:
+
+                ingredients = random.sample(random_ingredients, args.num_ingredients)
+
+
             ingredient_string = "".join([f"({ingredient})++, " for i, ingredient in enumerate(ingredients,1)])
             prompt = f'A whopper with {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
         
@@ -78,7 +105,7 @@ for i in range(args.num_samples):
         )
 
     draw_img = ImageDraw.Draw(img)
-    draw_img.text((50,50),prompt, fill=(255,0,0))
+    draw_img.text((50,50),prompt, fill=(0,0,0))
     
     # Save the final burger image
     end_time = time.time()

@@ -22,6 +22,10 @@ def parse_sdxl_args():
         '--food_list', type=str, default=None, 
         help='the food list we are using to generate')
     parser.add_argument(
+        '--use_standard_ingredients', 
+        action='store_true'
+    )
+    parser.add_argument(
         '--num_ingredients', type=int, default=3, 
         help='number of random ingredients')
     parser.add_argument(
