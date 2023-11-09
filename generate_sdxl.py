@@ -4,12 +4,13 @@ import time
 import cv2
 import numpy as np
 import random
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 from arg_parser import parse_sdxl_args
 from pipelines.pipelines import (ControlnetSDXLPipeline,InpaintingSDXLPipeline)
 from utils import load_img_for_sdxl, read_ingredients_from_txt
 
+font = ImageFont.truetype("OpenSans-Regular.ttf", 30)
 # Parse arguments from command line or script input
 args = parse_sdxl_args()
 
@@ -61,7 +62,7 @@ for i in range(args.num_samples):
                 # standard_string = "".join([f"{ingredient}, " for ingredient in selected_standard])
                 # random_string = "".join([f"{ingredient}, " for ingredient in selected_random])
                 # prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. ({standard_string[:-1]})++ , ({random_string[:-1]})++ .'
-                ingredient_string = "".join([f"{ingredient}+, " for ingredient in ingredients])
+                ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
                 prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
                 
                 new_basic_ingredients = []
@@ -82,7 +83,7 @@ for i in range(args.num_samples):
             prompt = args.prompt
             negative_prompt = args.negative_prompt
 
-        mask_num = 3
+        mask_num = 5
 
         path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
         base_img = load_img_for_sdxl(path)
@@ -117,8 +118,9 @@ for i in range(args.num_samples):
             args.steps
         )
 
+    label = "".join([f"{ingredient}, " for ingredient in ingredients])
     draw_img = ImageDraw.Draw(img)
-    draw_img.text((50,50),prompt, fill=(0,0,0))
+    draw_img.text((50,50),label, fill=(0,0,0), font=font)
     
     # Save the final burger image
     end_time = time.time()
@@ -133,14 +135,13 @@ all_files = [file for file in all_files if file.lower().endswith(('.png', '.jpg'
 selected_files = random.sample(all_files, 10)
 imgs = [ cv2.imread(os.path.join(args.output_dir, file)) for file in selected_files]
 
-print(len(imgs[:5]))
-row_0 = np.hstack([imgs[:5]])
+row_0 = np.hstack(imgs[:5])
 row_1 = np.hstack(imgs[5:])
 
 grid = np.vstack([row_0,row_1])
-save_path = f"grid.jpg"
-print(save_path)
-cv2.imwrite(save_path, grid)
+print(grid.shape)
+# grid = cv2.cvtColor(np.uint8(grid), cv2.COLOR_BGR2RGB)
+cv2.imwrite("grid.jpg",grid)
 
 
 
