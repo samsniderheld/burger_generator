@@ -4,7 +4,7 @@ import time
 import cv2
 import numpy as np
 import random
-from PIL import ImageDraw
+from PIL import Image, ImageDraw
 
 from arg_parser import parse_sdxl_args
 from pipelines.pipelines import (ControlnetSDXLPipeline,InpaintingSDXLPipeline)
@@ -61,7 +61,7 @@ for i in range(args.num_samples):
                 # standard_string = "".join([f"{ingredient}, " for ingredient in selected_standard])
                 # random_string = "".join([f"{ingredient}, " for ingredient in selected_random])
                 # prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. ({standard_string[:-1]})++ , ({random_string[:-1]})++ .'
-                ingredient_string = "".join([f"({ingredient})++, " for ingredient in ingredients])
+                ingredient_string = "".join([f"{ingredient}+, " for ingredient in ingredients])
                 prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
                 
                 new_basic_ingredients = []
@@ -74,7 +74,7 @@ for i in range(args.num_samples):
             else:
 
                 ingredients = random.sample(random_ingredients, args.num_ingredients)
-                ingredient_string = "".join([f"({ingredient})++, " for i, ingredient in enumerate(ingredients,1)])
+                ingredient_string = "".join([f"{ingredient}++, " for i, ingredient in enumerate(ingredients,1)])
                 prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
                 negative_prompt = args.negative_prompt
         else:
@@ -127,7 +127,21 @@ for i in range(args.num_samples):
     out_img = cv2.cvtColor(np.uint8(img), cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
-    
+all_files = os.listdir(args.output_dir)
+all_files = [file for file in all_files if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif'))]
+
+selected_files = random.sample(all_files, 10)
+imgs = [ cv2.imread(os.path.join(args.output_dir, file)) for file in selected_files]
+
+print(len(imgs[:5]))
+row_0 = np.hstack([imgs[:5]])
+row_1 = np.hstack(imgs[5:])
+
+grid = np.vstack([row_0,row_1])
+save_path = f"grid.jpg"
+print(save_path)
+cv2.imwrite(save_path, grid)
+
 
 
 
