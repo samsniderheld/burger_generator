@@ -10,7 +10,7 @@ from arg_parser import parse_sdxl_args
 from pipelines.pipelines import (ControlnetSDXLPipeline,InpaintingSDXLPipeline)
 from utils import load_img_for_sdxl, read_ingredients_from_txt
 
-font = ImageFont.truetype("OpenSans-Regular.ttf", 30)
+font = ImageFont.truetype("OpenSans-Regular.ttf", 20)
 # Parse arguments from command line or script input
 args = parse_sdxl_args()
 
