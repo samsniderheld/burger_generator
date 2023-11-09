@@ -83,7 +83,11 @@ for i in range(args.num_samples):
             prompt = args.prompt
             negative_prompt = args.negative_prompt
 
-        mask_num = 5
+        if (args.num_ingredients<5):
+
+            mask_num = 5
+        else:
+            mask_num = 7
 
         path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
         base_img = load_img_for_sdxl(path)
