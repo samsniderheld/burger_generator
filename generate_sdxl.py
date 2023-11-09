@@ -145,7 +145,7 @@ row_1 = np.hstack(imgs[5:])
 grid = np.vstack([row_0,row_1])
 print(grid.shape)
 # grid = cv2.cvtColor(np.uint8(grid), cv2.COLOR_BGR2RGB)
-cv2.imwrite("{args.output_dir}/grid.jpg",grid)
+cv2.imwrite(f"{args.output_dir}/grid.jpg",grid)
 
 
 
