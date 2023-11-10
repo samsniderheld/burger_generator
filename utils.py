@@ -66,7 +66,7 @@ def contstruct_prompt_from_ingredient_list(ingredients):
         return prompt
 
 #if we are using standard ingredients, make sure that we are negatively prompting correctly
-def construct_negative_prompt_for_standard_ingredients(ingredients):
+def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingredients):
 
     new_basic_ingredients = []
 

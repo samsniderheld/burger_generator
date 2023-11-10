@@ -49,7 +49,7 @@ for i in range(args.num_samples):
 
         prompt = contstruct_prompt_from_ingredient_list(ingredients)
         
-        negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients)
+        negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
     
     else:
 
