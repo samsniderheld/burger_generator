@@ -19,7 +19,7 @@ def parse_sdxl_args():
         '--sdxl_model', type=str, default='stabilityai/stable-diffusion-xl-base-1.0', 
         help='The SD model we are using')
     parser.add_argument(
-        '--food_list', type=str, default=None, 
+        '--food_list', type=str, default="food_list.txt", 
         help='the food list we are using to generate')
     parser.add_argument(
         '--use_standard_ingredients', 
