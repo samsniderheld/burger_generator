@@ -29,11 +29,6 @@ def parse_sdxl_args():
         '--num_ingredients', type=int, default=3, 
         help='number of random ingredients')
     parser.add_argument(
-        '--pipeline_type', 
-        choices=['controlnet', 'inpainting'],
-        default='inpainting',
-        help='Which XL pipeline you are using')
-    parser.add_argument(
         '--template_dir', 
          type=str, default='burger_templates', 
         help='Which template dir')
@@ -55,9 +50,11 @@ def parse_sdxl_args():
         '--cfg_scale', type=float, default=4.5, 
         help='How much creativity the pipeline has')
     parser.add_argument(
-        '--controlnet_str', type=float, default=0.6, 
-        help='controlnet influence')
-    
-    
+        '--cfg_scale', type=float, default=4.5, 
+        help='How much creativity the pipeline has')
+    parser.add_argument(
+        '--create_grid', 
+        action='store_true'
+    )
 
     return parser.parse_args()

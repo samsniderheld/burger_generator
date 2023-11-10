@@ -4,15 +4,24 @@ import time
 import cv2
 import numpy as np
 import random
-from PIL import Image, ImageDraw, ImageFont
+from PIL import  ImageDraw, ImageFont
 
 from arg_parser import parse_sdxl_args
-from pipelines.pipelines import (ControlnetSDXLPipeline,InpaintingSDXLPipeline)
-from utils import load_img_for_sdxl, read_ingredients_from_txt
+from pipelines.pipelines import (InpaintingSDXLPipeline)
+from utils import (load_img_for_sdxl, read_ingredients_from_txt,
+                   enforce_standard_ingredient_ratio,
+                   contstruct_prompt_from_ingredient_list,
+                   construct_negative_prompt_for_standard_ingredients)
 
 font = ImageFont.truetype("OpenSans-Regular.ttf", 20)
+
 # Parse arguments from command line or script input
 args = parse_sdxl_args()
+
+# load files and setup directory
+if(args.create_grid and args.num_ingredients <10):
+
+    raise Exception("the image grid format currently only generates  5x2 images.")
 
 if args.food_list != None:
 
@@ -26,102 +35,58 @@ if args.use_standard_ingredients:
 # Create the output directory if it doesn't exist
 os.makedirs(args.output_dir, exist_ok=True)
 
-# Initialize pipelines based on the flags
-if args.pipeline_type == 'inpainting':
-    sdxl_pipe  = InpaintingSDXLPipeline(args.sdxl_model)
-elif args.pipeline_type == 'controlnet':
-    sdxl_pipe  = ControlnetSDXLPipeline(args.sdxl_model)
+sdxl_pipe  = InpaintingSDXLPipeline(args.sdxl_model)
 
 for i in range(args.num_samples):
 
     start_time = time.time()
 
-    if args.pipeline_type == 'inpainting':
+    #construct prompts
+    if args.use_standard_ingredients:
 
-        if args.food_list != None:
+        ingredients = enforce_standard_ingredient_ratio(random_ingredients,
+                        standard_ingredients,args.num_ingredients)
 
-            if args.use_standard_ingredients:
+        prompt = contstruct_prompt_from_ingredient_list(ingredients)
+        
+        negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients)
+    
+    else:
 
-                total_count = args.num_ingredients
+        ingredients = random.sample(random_ingredients, args.num_ingredients)
 
-                if total_count  == 1:
-                    standard_count = 1
-                    random_count = 0
-                elif total_count ==2:
-                    standard_count = 1
-                    random_count = 1
-                else:
-                    standard_count = 2 * total_count // 3
-                    random_count = total_count - standard_count
-                
-                selected_standard = random.sample(standard_ingredients, standard_count)
-                selected_random = random.sample(random_ingredients, random_count)
-                
-                ingredients = selected_standard + selected_random
+        prompt = contstruct_prompt_from_ingredient_list(ingredients)
+        
+        negative_prompt = args.negative_prompt
 
-                # standard_string = "".join([f"{ingredient}, " for ingredient in selected_standard])
-                # random_string = "".join([f"{ingredient}, " for ingredient in selected_random])
-                # prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. ({standard_string[:-1]})++ , ({random_string[:-1]})++ .'
-                ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
-                prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
-                
-                new_basic_ingredients = []
 
-                for ing in standard_ingredients:
-                    if(ing not in ingredients):
-                        new_basic_ingredients.append(ing)
+    #load image and mask for inpainting
+    if (args.num_ingredients<5):
 
-                negative_prompt = ["poor quality, unappetizing, " + "".join([f"{ing}, " for ing in new_basic_ingredients])]
-            else:
+        mask_num = args.num_ingredients
+    else:
+        mask_num = 7
 
-                ingredients = random.sample(random_ingredients, args.num_ingredients)
-                ingredient_string = "".join([f"{ingredient}++, " for i, ingredient in enumerate(ingredients,1)])
-                prompt = f'A whopper with a beef patty and {args.num_ingredients} extra ingredients. {ingredient_string[:-1]}.'
-                negative_prompt = args.negative_prompt
-        else:
+    path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
+    base_img = load_img_for_sdxl(path)
 
-            prompt = args.prompt
-            negative_prompt = args.negative_prompt
+    mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
+    mask_img = load_img_for_sdxl(mask_path)
 
-        if (args.num_ingredients<5):
 
-            mask_num = 5
-        else:
-            mask_num = 7
+    #generate image
+    img = sdxl_pipe.generate_img(
+        prompt, 
+        negative_prompt,
+        base_img,
+        mask_img,
+        1,
+        args.cfg_scale,
+        args.steps,
+        True
+    )
 
-        path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
-        base_img = load_img_for_sdxl(path)
-
-        mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
-        mask_img = load_img_for_sdxl(mask_path)   
-
-        img = sdxl_pipe.generate_img(
-            prompt, 
-            negative_prompt,
-            base_img,
-            mask_img,
-            1,
-            args.cfg_scale,
-            args.steps,
-            True
-        )
-
-    elif args.pipeline_type == 'controlnet':
-
-        mask_num = random.randint(1,5)
-
-        path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
-        base_img = load_img_for_sdxl(path)
-
-        img = sdxl_pipe.generate_img(
-            args.prompt,
-            args.negative_prompt,
-            base_img,
-            args.controlnet_str,
-            args.cfg_scale,
-            args.steps
-        )
-
+    #create label and save
     label = "".join([f"{ingredient}, " for ingredient in ingredients])
     draw_img = ImageDraw.Draw(img)
     draw_img.text((50,50),label, fill=(0,0,0), font=font)
@@ -133,19 +98,22 @@ for i in range(args.num_samples):
     out_img = cv2.cvtColor(np.uint8(img), cv2.COLOR_BGR2RGB)
     cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
 
-all_files = os.listdir(args.output_dir)
-all_files = [file for file in all_files if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif'))]
+#generate grid
+if(args.create_grid):
 
-selected_files = random.sample(all_files, 10)
-imgs = [ cv2.imread(os.path.join(args.output_dir, file)) for file in selected_files]
+    all_files = os.listdir(args.output_dir)
+   
+    all_files = [file for file in all_files if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif'))]
 
-row_0 = np.hstack(imgs[:5])
-row_1 = np.hstack(imgs[5:])
+    selected_files = random.sample(all_files, 10)
+    imgs = [ cv2.imread(os.path.join(args.output_dir, file)) for file in selected_files]
 
-grid = np.vstack([row_0,row_1])
-print(grid.shape)
-# grid = cv2.cvtColor(np.uint8(grid), cv2.COLOR_BGR2RGB)
-cv2.imwrite(f"{args.output_dir}/grid.jpg",grid)
+    row_0 = np.hstack(imgs[:5])
+    row_1 = np.hstack(imgs[5:])
+
+    grid = np.vstack([row_0,row_1])
+    print(grid.shape)
+    cv2.imwrite(f"{args.output_dir}/grid.jpg",grid)
 
 
 
