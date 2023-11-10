@@ -50,9 +50,6 @@ def parse_sdxl_args():
         '--cfg_scale', type=float, default=4.5, 
         help='How much creativity the pipeline has')
     parser.add_argument(
-        '--cfg_scale', type=float, default=4.5, 
-        help='How much creativity the pipeline has')
-    parser.add_argument(
         '--create_grid', 
         action='store_true'
     )
