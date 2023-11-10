@@ -23,12 +23,11 @@ if(args.create_grid and args.num_samples<10):
 
     raise Exception("the image grid format currently only generates  5x2 images.")
 
-if args.food_list != None:
 
-    random_ingredients = read_ingredients_from_txt("food_list.txt")
+random_ingredients = read_ingredients_from_txt("food_list.txt")
 
-if args.use_standard_ingredients:
-    standard_ingredients = ["lettuce", "tomatoes", "pickles", "onions", 
+
+standard_ingredients = ["lettuce", "tomatoes", "pickles", "onions", 
                             "ketchup", "cheese", "bacon", "extra patty", 
                             "mayonaise"]
 
@@ -39,13 +38,15 @@ sdxl_pipe  = InpaintingSDXLPipeline(args.sdxl_model)
 
 for i in range(args.num_samples):
 
+    num_ingredients = random.randint(3,8)
+
     start_time = time.time()
 
     #construct prompts
-    if args.use_standard_ingredients:
+    if (random.random()>.5):
 
         ingredients = enforce_standard_ingredient_ratio(random_ingredients,
-                        standard_ingredients,args.num_ingredients)
+                        standard_ingredients,num_ingredients)
 
         prompt = contstruct_prompt_from_ingredient_list(ingredients)
         
@@ -53,7 +54,7 @@ for i in range(args.num_samples):
     
     else:
 
-        ingredients = random.sample(random_ingredients, args.num_ingredients)
+        ingredients = random.sample(random_ingredients, num_ingredients)
 
         prompt = contstruct_prompt_from_ingredient_list(ingredients)
         
@@ -61,9 +62,9 @@ for i in range(args.num_samples):
 
 
     #load image and mask for inpainting
-    if (args.num_ingredients<5):
+    if (num_ingredients<5):
 
-        mask_num = args.num_ingredients
+        mask_num = num_ingredients
     else:
         mask_num = 7
 
