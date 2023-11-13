@@ -75,7 +75,7 @@ for i in range(args.num_samples):
 
 
     #generate image
-    img = sdxl_pipe.generate_img(
+    img,_ = sdxl_pipe.generate_img(
         prompt, 
         negative_prompt,
         base_img,

@@ -4,6 +4,7 @@ import time
 import cv2
 import numpy as np
 import random
+import json
 from PIL import  ImageDraw, ImageFont
 
 from arg_parser import parse_sdxl_args
@@ -35,6 +36,8 @@ standard_ingredients = ["lettuce", "tomatoes", "pickles", "onions",
 os.makedirs(args.output_dir, exist_ok=True)
 
 sdxl_pipe  = InpaintingSDXLPipeline(args.sdxl_model)
+
+all_samples = []
 
 for i in range(args.num_samples):
 
@@ -76,7 +79,7 @@ for i in range(args.num_samples):
 
 
     #generate image
-    img = sdxl_pipe.generate_img(
+    img, seed = sdxl_pipe.generate_img(
         prompt, 
         negative_prompt,
         base_img,
@@ -86,6 +89,17 @@ for i in range(args.num_samples):
         args.steps,
         True
     )
+
+    sample_details = {
+      "prompt": prompt, 
+      "negative_prompt": negative_prompt, 
+      "cfg": args.cfg_scale,
+      "steps": args.steps,
+      "seed": seed,
+      "name": f"{i:4d}.jpg"
+    }
+
+    all_samples.append(sample_details)
 
     #create label and save
     label = "".join([f"{ingredient}, " for ingredient in ingredients])
@@ -116,6 +130,8 @@ if(args.create_grid):
     print(grid.shape)
     cv2.imwrite(f"{args.output_dir}/grid.jpg",grid)
 
-
+samples_json = {"samples":all_samples}
+with open(f"{args.output_dir}/samples.json", "w") as outfile:
+    json.dump(samples_json, outfile)
 
 

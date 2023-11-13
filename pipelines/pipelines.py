@@ -83,5 +83,5 @@ class InpaintingSDXLPipeline():
         if(blend_img):
             img = blend_image(img,input_img,mask_img,3)
                 
-        return img
+        return img,seed
 
