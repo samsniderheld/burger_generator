@@ -20,6 +20,8 @@ from compel import Compel, ReturnedEmbeddingsType
 
 from utils import blend_image
 
+from prompt_parser import get_embed_new
+
 class InpaintingSDXLPipeline():
     def __init__(self, pipeline_path,use_freeU=False):
         # Store the path for the pipeline
@@ -51,15 +53,19 @@ class InpaintingSDXLPipeline():
           tokenizer=[sdxl_pipe.tokenizer, sdxl_pipe.tokenizer_2] ,
           text_encoder=[sdxl_pipe.text_encoder, sdxl_pipe.text_encoder_2],
           returned_embeddings_type=ReturnedEmbeddingsType.PENULTIMATE_HIDDEN_STATES_NON_NORMALIZED,
-          requires_pooled=[False, True]
+          requires_pooled=[False, True],
+          truncate_long_prompts=False
         )
 
     def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, blend_img=False):        
 
 
-        conditioning, pooled = self.compel(prompt)
+        # conditioning, pooled = self.compel(prompt)
 
-        negative_conditioning, negative_pooled = self.compel(negative_prompt)
+        # negative_conditioning, negative_pooled = self.compel(negative_prompt)
+
+        conditioning,pooled = get_embed_new(prompt, self.pipeline, self.compel)
+        negative_conditioning,negative_pooled = get_embed_new(negative_prompt, self.pipeline, self.compel)
 
         seed = random.randint(0,10000)
 

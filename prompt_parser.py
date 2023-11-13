@@ -100,14 +100,14 @@ def merge_embeds(prompt_chanks, compel):
     num_chanks = len(prompt_chanks)
     if num_chanks != 0:
         power_prompt = 1/(num_chanks*(num_chanks+1)//2)
-        prompt_embs = compel(prompt_chanks)
+        prompt_embs,pooled = compel(prompt_chanks)
         t_list = list(torch.split(prompt_embs, 1, dim=0))
         for i in range(num_chanks):
             t_list[-(i+1)] = t_list[-(i+1)] * ((i+1)*power_prompt)
         prompt_emb = torch.stack(t_list, dim=0).sum(dim=0)
     else:
         prompt_emb = compel('')
-    return prompt_emb
+    return prompt_emb,pooled
 
 def detokenize(chunk, actual_prompt):
     chunk[-1] = chunk[-1].replace('</w>', '')
