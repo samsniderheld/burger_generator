@@ -30,9 +30,11 @@ standard_ingredients = ["lettuce", "tomatoes", "pickles", "onions",
                             "mayonaise"]
 
 all_combinations = []
-for r in range(3, 10):
-    all_combinations.extend(list(combinations(standard_ingredients, r)))
+# for r in range(3, 5):
+#     all_combinations.extend(list(combinations(standard_ingredients, r)))
+all_combinations.extend(list(combinations(standard_ingredients, 4)))
 
+print(f"there are {len(all_combinations)} possible combinations")
 # Create the output directory if it doesn't exist
 os.makedirs(args.output_dir, exist_ok=True)
 
@@ -42,14 +44,16 @@ all_samples = []
 
 for i,ingredients in enumerate(all_combinations):
 
+  for j in range(args.num_samples):
+
     start_time = time.time()
 
     num_ingredients = len(ingredients)
 
     prompt = contstruct_prompt_from_ingredient_list(ingredients)
+
         
     negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
-
     #load image and mask for inpainting
     if (num_ingredients<5):
 
@@ -97,7 +101,8 @@ for i,ingredients in enumerate(all_combinations):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
     out_img = cv2.cvtColor(np.uint8(img), cv2.COLOR_BGR2RGB)
-    cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
+    ing_string = "_".join(ingredients) 
+    cv2.imwrite(f"{args.output_dir}/{i:03d}_{j:02d}_{ing_string}.jpg", out_img)
 
 
 samples_json = {"samples":all_samples}
