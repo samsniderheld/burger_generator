@@ -46,7 +46,7 @@ for i in range(args.num_samples):
     start_time = time.time()
 
     #construct prompts
-    if (random.random()>.0):
+    if (random.random()>.5):
 
         ingredients = enforce_standard_ingredient_ratio(random_ingredients,
                         standard_ingredients,num_ingredients)
@@ -56,6 +56,12 @@ for i in range(args.num_samples):
           ingredients.remove("extra patty")
 
           mask_num = 8
+
+          prompt = contstruct_prompt_from_ingredient_list(ingredients)
+        
+          negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
+      
+          ingredients.append("extra patty")
         else:
                 #load image and mask for inpainting
           if (num_ingredients<5):
@@ -64,11 +70,11 @@ for i in range(args.num_samples):
           else:
               mask_num = 7
 
-        prompt = contstruct_prompt_from_ingredient_list(ingredients)
-        
-        negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
-    
-        ingredients.append("extra patty")
+          prompt = contstruct_prompt_from_ingredient_list(ingredients)
+          
+          negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
+      
+          ingredients.append("extra patty")
     else:
 
         ingredients = random.sample(random_ingredients, num_ingredients)
@@ -91,14 +97,14 @@ for i in range(args.num_samples):
     mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
     mask_img = load_img_for_sdxl(mask_path)
 
-
+    print(prompt)
     #generate image
     img, seed = sdxl_pipe.generate_img(
         prompt, 
         negative_prompt,
         base_img,
         mask_img,
-        .85,
+        .95,
         args.cfg_scale,
         args.steps,
         True
