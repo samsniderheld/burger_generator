@@ -18,9 +18,8 @@ from diffusers import (
 
 from compel import Compel, ReturnedEmbeddingsType
 
-from utils import blend_image
+from utils import blend_image,chunk_embeds
 
-from prompt_parser import get_embed_new
 
 class InpaintingSDXLPipeline():
     def __init__(self, pipeline_path,use_freeU=False):
@@ -57,15 +56,18 @@ class InpaintingSDXLPipeline():
           truncate_long_prompts=False
         )
 
-    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, blend_img=False):        
+    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, use_chunking=True, blend_img=False):        
 
 
-        # conditioning, pooled = self.compel(prompt)
+        if(use_chunking):
+            conditioning,pooled = chunk_embeds(prompt, self.pipeline, self.compel)
+            negative_conditioning,negative_pooled = chunk_embeds(negative_prompt, self.pipeline, self.compel)
 
-        # negative_conditioning, negative_pooled = self.compel(negative_prompt)
+        else:
+            conditioning, pooled = self.compel(prompt)
+            negative_conditioning, negative_pooled = self.compel(negative_prompt)
 
-        conditioning,pooled = get_embed_new(prompt, self.pipeline, self.compel)
-        negative_conditioning,negative_pooled = get_embed_new(negative_prompt, self.pipeline, self.compel)
+       
 
         seed = random.randint(0,10000)
 
