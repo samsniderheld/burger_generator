@@ -46,7 +46,7 @@ for i in range(args.num_samples):
     start_time = time.time()
 
     #construct prompts
-    if (random.random()>.5):
+    if (random.random()>.4):
 
         ingredients = enforce_standard_ingredient_ratio(random_ingredients,
                         standard_ingredients,num_ingredients)
@@ -74,7 +74,6 @@ for i in range(args.num_samples):
           
           negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
       
-          ingredients.append("extra patty")
     else:
 
         ingredients = random.sample(random_ingredients, num_ingredients)
@@ -131,7 +130,9 @@ for i in range(args.num_samples):
     elapsed_time = end_time - start_time
     print(f"The script took {elapsed_time:.2f} seconds to execute.")
     out_img = cv2.cvtColor(np.uint8(img), cv2.COLOR_BGR2RGB)
-    cv2.imwrite(f"{args.output_dir}/{i:4d}.jpg", out_img)
+    out_path = f"{args.output_dir}/{i:04d}.jpg"
+    print(f"{i:04d}.jpg")
+    cv2.imwrite(out_path, out_img)
 
 #generate grid
 if(args.create_grid):
