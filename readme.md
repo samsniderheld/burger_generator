@@ -1,7 +1,10 @@
-# README Documentation for Generate_SDXL.py
+# README Documentation for Burger Generator
 
 ## Overview
-`Generate_SDXL.py` is a Python script designed for bulk generation of burger images. It combines various ingredients, both standard and random, to create a diverse set of burger samples. The script is capable of enforcing a specific ratio of standard to random ingredients and can incorporate special templates for specific ingredients like an extra patty.
+
+This repos is an R&D directory designed to generate large numbers of burger images via SDXL and inpating.
+
+`Generate_SDXL.py` is a Python script designed to demonstrate all the elements of the repo. It combines various ingredients, both standard and random, to create a diverse set of burger samples. The script is capable of enforcing a specific ratio of standard to random ingredients and can incorporate special templates for specific ingredients like an extra patty.
 
 ## Features
 - **Variable Sample Generation:** Generates a user-defined number of burger samples.
@@ -10,29 +13,59 @@
 - **Storage and Tracking:** Saves generated burger images in a specified directory and records their parameters in a JSON file.
 
 ## Requirements
-- Python 3.x
-- OpenCV (`cv2`)
-- NumPy
-- PIL (Python Imaging Library)
-- Other dependencies as required by `InpaintingSDXLPipeline` and utility modules.
+- xformers
+- bitsandbytes
+- transformers
+- accelerate
+- safetensors
+- compel
+- diffusers
 
-## Usage
-1. **Argument Parsing:** The script starts by parsing arguments provided via command line or script input. These arguments include the number of samples, the directory for output, and paths to various resources.
+## installation
+```
+pip install -r requirements.txt
+```
 
-2. **Ingredient Selection:**
-   - Random ingredients are read from a provided text file.
-   - A predefined list of standard ingredients is available in the script.
+## Example Usage
+```python
+    import random
+    from pipelines.pipelines import InpaintingSDXLPipeline
+    from utils.basic_utils import load_img_for_sdxl, read_ingredients_from_txt
+    from utils.burger_gen_utils import contstruct_prompt_from_ingredient_list
 
-3. **Directory Setup:** The output directory is created if it does not exist.
+    sdxl_pipe  = InpaintingSDXLPipeline("model_path_here")
 
-4. **Image Generation Loop:** For each sample:
-   - A random number of ingredients is selected.
-   - Prompts are constructed based on ingredient selection.
-   - An image and a mask are loaded for inpainting.
-   - The SDXL pipeline generates the burger image based on the prompts.
-   - Image details are stored, and the image is labeled and saved.
+    num_ingredients = random.randint(3,8)
 
-5. **Saving Sample Details:** All sample details are saved in a JSON file in the output directory.
+    random_ingredients = read_ingredients_from_txt("assets/food_list")
+
+    ingredients = random.sample(random_ingredients, num_ingredients)
+
+    prompt = contstruct_prompt_from_ingredient_list(ingredients)
+    
+    negative_prompt = "poor quality"
+
+    mask_num = num_ingredients
+
+    #load image and mask for inpainting
+    path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
+    base_img = load_img_for_sdxl(path)
+
+    mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
+    mask_img = load_img_for_sdxl(mask_path)
+
+    #generate image
+    img, seed = sdxl_pipe.generate_img(
+        prompt, 
+        negative_prompt,
+        base_img,
+        mask_img,
+        .95,
+        7,
+        50,
+        True
+    )
+```
 
 ## Example Command
 To run the script, use a command in the following format (assuming all required arguments are defined in `arg_parser`):
