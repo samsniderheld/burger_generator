@@ -20,6 +20,7 @@ This repos is an R&D directory designed to generate large numbers of burger imag
 - safetensors
 - compel
 - diffusers
+- omegaconf
 
 ## installation
 ```
