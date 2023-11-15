@@ -13,7 +13,8 @@ Functions:
         Extracts ingredient names from a text file.
 """
 import random
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter,ImageDraw, ImageFont
+
 import torch
 
 # Blend two images together using a mask and an optional blur.
@@ -78,6 +79,44 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
     negative_prompt = "poor quality, unappetizing, " + "".join([f"{ing}, " for ing in new_basic_ingredients])
 
     return negative_prompt
+
+def draw_text(draw, text, position, font, max_width):
+    """
+    Draw the text on the image with word wrapping.
+    """
+    # Break the text into lines that fit within the specified width.
+    lines = []
+    words = text.split()
+    while words:
+        line = ''
+        while words and font.getsize(line + words[0])[0] <= max_width:
+            line += (words.pop(0) + ' ')
+        lines.append(line)
+
+    # Draw each line of text
+    y = position[1]
+    for line in lines:
+        draw.text((position[0], y), line, font=font, fill="white")
+        y += font.getsize(line)[1]
+
+def add_text_to_image(image_path, text, font_path='Lobster-Regular.ttf', font_size=50, max_width=400):
+    # Load the image
+    image = Image.open(image_path)
+    draw = ImageDraw.Draw(image)
+
+    # Load the font
+    font = ImageFont.truetype(font_path, font_size)
+
+    # Starting position for the text
+    position = (50, 50)
+
+    # Draw the text
+    draw_text(draw, text, position, font, max_width)
+
+    # Save or display the image
+    image.show()
+    image.save('wrapped_text_image.jpg')
+
 
 #via https://github.com/damian0815/compel/issues/59
 #and https://gist.github.com/tg-bomze/581a7e4014594609969d5ce8f0759b46
