@@ -1,11 +1,8 @@
 import argparse
 
-def parse_sdxl_args():
+def parse_args():
     """
     Parses the command-line arguments for the script.
-
-    Returns:
-    argparse.Namespace: The namespace containing the script arguments.
     """
     desc = "A Hugging Face Diffusers Pipeline for generating burgers with multiple ingredients"
 
@@ -19,12 +16,8 @@ def parse_sdxl_args():
         '--sdxl_model', type=str, default='stabilityai/stable-diffusion-xl-base-1.0', 
         help='The SD model we are using')
     parser.add_argument(
-        '--food_list', type=str, default="food_list.txt", 
+        '--food_list', type=str, default="assets/food_list.txt", 
         help='the food list we are using to generate')
-    parser.add_argument(
-        '--use_standard_ingredients', 
-        action='store_true'
-    )
     parser.add_argument(
         '--num_ingredients', type=int, default=3, 
         help='number of random ingredients')
@@ -49,9 +42,4 @@ def parse_sdxl_args():
     parser.add_argument(
         '--cfg_scale', type=float, default=4.5, 
         help='How much creativity the pipeline has')
-    parser.add_argument(
-        '--create_grid', 
-        action='store_true'
-    )
-
     return parser.parse_args()

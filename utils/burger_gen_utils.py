@@ -1,48 +1,18 @@
 """
-Image Processing Utility Functions
+Burger Generation Utility Functions
 
-This module offers utility functions for various image processing tasks. Key functionalities include:
-- Blending images with masks.
-- Reading image-related details from text files.
+This module offers utility functions to help generate burger images.
+- Enforcing a 2:1 standard ingredient to random ingredient generation. This helps visual quality.
+- Constructing the prompt and negative prompt from a list of ingredients.
+- Chunking prompts so that they are encoded more like Automatic1111
 
-Functions:
-    blend_image(inpainted, original, mask, blur=3):
-        Blends an inpainted image with an original using a mask.
-
-    read_ingredients_from_txt(file_path):
-        Extracts ingredient names from a text file.
 """
 import random
-from PIL import Image, ImageFilter,ImageDraw, ImageFont
-
+import re
 import torch
 
-# Blend two images together using a mask and an optional blur.
-def blend_image(inpainted, original, mask, blur=3):
-    mask = mask.convert("L")
-    # Apply blur
-    mask = mask.filter(ImageFilter.GaussianBlur(blur))
-    # Blend images together
-    return Image.composite(inpainted.convert('RGBA'), original.convert('RGBA'), mask).convert('RGBA')
-
-# Read ingredient image paths from a text file and return them as a list.
-def read_ingredients_from_txt(file_path):
-    """Read ingredients from a text file and return them as a list."""
-    ingredients = []
-    with open(file_path, mode='r', encoding='utf-8') as file:
-        for line in file:
-            ingredients.append(line.strip())  # strip to remove any trailing whitespace and newline characters
-    return ingredients
-
-#loads the images for the inpainting pipeline
-def load_img_for_sdxl(path):
-    img = Image.open(path)
-    img = img.convert("RGB")
-    img = img.resize((1024,1024))
-    return img
-
-#enforces a 2:1 BK ingredients to random ingredients ratio
 def enforce_standard_ingredient_ratio(all_ingredients, standard_ingredients, ingredients_num):
+    """enforces a 2:1 BK ingredients to random ingredients ratio"""
     total_count = ingredients_num
 
     if total_count  == 1:
@@ -63,13 +33,15 @@ def enforce_standard_ingredient_ratio(all_ingredients, standard_ingredients, ing
     return ingredients
 
 def contstruct_prompt_from_ingredient_list(ingredients):
+        """create our prompt for stable diffusion"""
         ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
         prompt = f'A whopper with a beef patty and {len(ingredients)} extra ingredients. {ingredient_string[:-1]}.'
         return prompt
 
-#if we are using standard ingredients, make sure that we are negatively prompting correctly
 def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingredients):
-
+    """create our negative prompt for stable diffusion if
+    we are using standard ingredients, make sure that we are 
+    negatively prompting correctly"""
     new_basic_ingredients = []
 
     for ing in standard_ingredients:
@@ -80,46 +52,9 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
 
     return negative_prompt
 
-def draw_text(draw, text, position, font, max_width):
-    """
-    Draw the text on the image with word wrapping.
-    """
-    # Break the text into lines that fit within the specified width.
-    lines = []
-    words = text.split()
-    while words:
-        line = ''
-        while words and font.getsize(line + words[0])[0] <= max_width:
-            line += (words.pop(0) + ' ')
-        lines.append(line)
-
-    # Draw each line of text
-    y = position[1]
-    for line in lines:
-        draw.text((position[0], y), line, font=font, fill="white")
-        y += font.getsize(line)[1]
-
-def add_text_to_image(image, text, font_path='Lobster-Regular.ttf', font_size=50, max_width=400):
-    # Load the image
-    draw = ImageDraw.Draw(image)
-
-    # Load the font
-    font = ImageFont.truetype(font_path, font_size)
-
-    # Starting position for the text
-    position = (50, 50)
-
-    # Draw the text
-    draw_text(draw, text, position, font, max_width)
-
-    
-
-
 #via https://github.com/damian0815/compel/issues/59
 #and https://gist.github.com/tg-bomze/581a7e4014594609969d5ce8f0759b46
-
 def parse_prompt_attention(text):
-    import re
     re_attention = re.compile(r"""
       \\\(|
       \\\)|

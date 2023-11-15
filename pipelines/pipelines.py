@@ -5,12 +5,10 @@ This module provides utility classes and functions to facilitate the process of 
 using various pipelines. The pipelines interface with pre-trained models from the `diffusers` 
 and `compel` modules to produce images based on provided textual prompts.
 
+It's designed to make iterating to image generation loops easy.
 """
-import numpy as np
 import torch
-from PIL import Image
 import random
-# Import necessary modules from the diffusers package
 from diffusers import (
     AutoPipelineForInpainting,
     DPMSolverMultistepScheduler
@@ -18,7 +16,8 @@ from diffusers import (
 
 from compel import Compel, ReturnedEmbeddingsType
 
-from utils import blend_image,chunk_embeds
+from utils.basic_utils import blend_image
+from utils.burger_gen_utils import chunk_embeds
 
 
 class InpaintingSDXLPipeline():
@@ -37,7 +36,8 @@ class InpaintingSDXLPipeline():
                     torch_dtype=torch.float16,
                     variant="fp16").to("cuda")
 
-        sdxl_pipe.scheduler =  DPMSolverMultistepScheduler.from_config(sdxl_pipe.scheduler.config, 
+        sdxl_pipe.scheduler =  DPMSolverMultistepScheduler.from_config(
+        sdxl_pipe.scheduler.config, 
           use_karras=True, 
           euler_at_final=True,
           rescale_betas_zero_snr=True, 
@@ -58,8 +58,8 @@ class InpaintingSDXLPipeline():
 
     def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, use_chunking=True, blend_img=False):        
 
-
         if(use_chunking):
+            #chunk the prompt more akin to webui
             conditioning,pooled = chunk_embeds(prompt, self.pipeline, self.compel)
             negative_conditioning,negative_pooled = chunk_embeds(negative_prompt, self.pipeline, self.compel)
 
@@ -67,17 +67,13 @@ class InpaintingSDXLPipeline():
             conditioning, pooled = self.compel(prompt)
             negative_conditioning, negative_pooled = self.compel(negative_prompt)
 
-       
-
         seed = random.randint(0,10000)
 
         generator = torch.Generator(device='cuda').manual_seed(seed)
 
         img = self.pipeline(
-            # prompt=prompt,
             prompt_embeds=conditioning,
             pooled_prompt_embeds=pooled,
-            # negative_prompt=negative_prompt,
             negative_prompt_embeds=negative_conditioning,
             negative_pooled_prompt_embeds=negative_pooled,
             image=input_img,
