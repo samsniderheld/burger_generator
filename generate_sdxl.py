@@ -30,12 +30,10 @@ from utils.burger_gen_utils import (enforce_standard_ingredient_ratio,
                    contstruct_prompt_from_ingredient_list,
                    construct_negative_prompt_for_standard_ingredients)
 
-font = ImageFont.truetype("assets/OpenSans-Regular.ttf", 20)
-
 # Parse arguments from command line or script input
 args = parse_args()
 
-random_ingredients = read_ingredients_from_txt("food_list.txt")
+random_ingredients = read_ingredients_from_txt(args.food_list)
 
 standard_ingredients = ["lettuce", "tomatoes", "pickles", "onions", 
                         "ketchup", "cheese", "bacon", "extra patty", 
@@ -127,7 +125,7 @@ for i in range(args.num_samples):
 
     #create label and save
     label = "".join([f"{ingredient}, " for ingredient in ingredients])
-    add_text_to_image(img,label,"OpenSans-Regular.ttf",20)
+    add_text_to_image(img,label,"assets/OpenSans-Regular.ttf",20)
 
     # Save the final burger image
     end_time = time.time()
