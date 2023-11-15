@@ -99,9 +99,8 @@ def draw_text(draw, text, position, font, max_width):
         draw.text((position[0], y), line, font=font, fill="white")
         y += font.getsize(line)[1]
 
-def add_text_to_image(image_path, text, font_path='Lobster-Regular.ttf', font_size=50, max_width=400):
+def add_text_to_image(image, text, font_path='Lobster-Regular.ttf', font_size=50, max_width=400):
     # Load the image
-    image = Image.open(image_path)
     draw = ImageDraw.Draw(image)
 
     # Load the font
@@ -113,9 +112,7 @@ def add_text_to_image(image_path, text, font_path='Lobster-Regular.ttf', font_si
     # Draw the text
     draw_text(draw, text, position, font, max_width)
 
-    # Save or display the image
-    image.show()
-    image.save('wrapped_text_image.jpg')
+    
 
 
 #via https://github.com/damian0815/compel/issues/59
