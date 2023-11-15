@@ -12,7 +12,8 @@ from pipelines.pipelines import (InpaintingSDXLPipeline)
 from utils import (load_img_for_sdxl, read_ingredients_from_txt,
                    enforce_standard_ingredient_ratio,
                    contstruct_prompt_from_ingredient_list,
-                   construct_negative_prompt_for_standard_ingredients)
+                   construct_negative_prompt_for_standard_ingredients,
+                   add_text_to_image)
 
 font = ImageFont.truetype("OpenSans-Regular.ttf", 20)
 
@@ -64,11 +65,11 @@ for i in range(args.num_samples):
           ingredients.append("extra patty")
         else:
                 #load image and mask for inpainting
-          if (num_ingredients<5):
+          if (num_ingredients<6):
 
               mask_num = num_ingredients
           else:
-              mask_num = 7
+              mask_num = 6
 
           prompt = contstruct_prompt_from_ingredient_list(ingredients)
           
@@ -122,8 +123,9 @@ for i in range(args.num_samples):
 
     #create label and save
     label = "".join([f"{ingredient}, " for ingredient in ingredients])
-    draw_img = ImageDraw.Draw(img)
-    draw_img.text((50,50),label, fill=(0,0,0), font=font)
+    add_text_to_image(img,label,"OpenSans-Regular.ttf",20)
+    # draw_img = ImageDraw.Draw(img)
+    # draw_img.text((50,50),label, fill=(0,0,0), font=font)
     
     # Save the final burger image
     end_time = time.time()

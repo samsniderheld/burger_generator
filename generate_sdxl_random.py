@@ -66,11 +66,11 @@ for i in range(args.num_samples):
 
 
     #load image and mask for inpainting
-    if (num_ingredients<5):
+    if (num_ingredients<6):
 
         mask_num = num_ingredients
     else:
-        mask_num = 7
+        mask_num = 6
 
     path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
     base_img = load_img_for_sdxl(path)
