@@ -28,43 +28,43 @@ pip install -r requirements.txt
 
 ## Example Usage
 ```python
-    import random
-    from pipelines.pipelines import InpaintingSDXLPipeline
-    from utils.basic_utils import load_img_for_sdxl, read_ingredients_from_txt
-    from utils.burger_gen_utils import contstruct_prompt_from_ingredient_list
+import random
+from pipelines.pipelines import InpaintingSDXLPipeline
+from utils.basic_utils import load_img_for_sdxl, read_ingredients_from_txt
+from utils.burger_gen_utils import contstruct_prompt_from_ingredient_list
 
-    sdxl_pipe  = InpaintingSDXLPipeline("model_path_here")
+sdxl_pipe  = InpaintingSDXLPipeline("model_path_here")
 
-    num_ingredients = random.randint(3,8)
+num_ingredients = random.randint(3,8)
 
-    random_ingredients = read_ingredients_from_txt("assets/food_list")
+random_ingredients = read_ingredients_from_txt("assets/food_list")
 
-    ingredients = random.sample(random_ingredients, num_ingredients)
+ingredients = random.sample(random_ingredients, num_ingredients)
 
-    prompt = contstruct_prompt_from_ingredient_list(ingredients)
-    
-    negative_prompt = "poor quality"
+prompt = contstruct_prompt_from_ingredient_list(ingredients)
 
-    mask_num = num_ingredients
+negative_prompt = "poor quality"
 
-    #load image and mask for inpainting
-    path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
-    base_img = load_img_for_sdxl(path)
+mask_num = num_ingredients
 
-    mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
-    mask_img = load_img_for_sdxl(mask_path)
+#load image and mask for inpainting
+path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
+base_img = load_img_for_sdxl(path)
 
-    #generate image
-    img, seed = sdxl_pipe.generate_img(
-        prompt, 
-        negative_prompt,
-        base_img,
-        mask_img,
-        .95,
-        7,
-        50,
-        True
-    )
+mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
+mask_img = load_img_for_sdxl(mask_path)
+
+#generate image
+img, seed = sdxl_pipe.generate_img(
+    prompt, 
+    negative_prompt,
+    base_img,
+    mask_img,
+    .95,
+    7,
+    50,
+    True
+)
 ```
 
 ## Example Command
