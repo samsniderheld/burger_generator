@@ -33,10 +33,10 @@ def enforce_standard_ingredient_ratio(all_ingredients, standard_ingredients, ing
     return ingredients
 
 def contstruct_prompt_from_ingredient_list(ingredients):
-        """create our prompt for stable diffusion"""
-        ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
-        prompt = f'A whopper with a beef patty and {len(ingredients)} extra ingredients. {ingredient_string[:-1]}.'
-        return prompt
+    """create our prompt for stable diffusion"""
+    ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
+    prompt = f'A whopper with a beef patty and {len(ingredients)} extra ingredients. {ingredient_string[:-1]}.'
+    return prompt
 
 def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingredients):
     """create our negative prompt for stable diffusion if

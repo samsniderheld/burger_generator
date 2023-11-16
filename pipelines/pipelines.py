@@ -38,10 +38,10 @@ class InpaintingSDXLPipeline():
 
         sdxl_pipe.scheduler =  DPMSolverMultistepScheduler.from_config(
         sdxl_pipe.scheduler.config, 
-          use_karras=True, 
-          euler_at_final=True,
-          rescale_betas_zero_snr=True, 
-          timestep_spacing="trailing")
+        use_karras=True, 
+        euler_at_final=True,
+        rescale_betas_zero_snr=True, 
+        timestep_spacing="trailing")
 
         if(self.use_freeU):
           sdxl_pipe.enable_freeu(s1=0.9, s2=0.2, b1=1.2, b2=1.4)   

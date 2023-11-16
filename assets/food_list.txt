@@ -1,23 +1,21 @@
-Mega list of everything
-acai
-acai berry
 acorn squash
 adobo sauce
+affogato
 aioli
 alaska king crab
-alaska king crab
 alfalfa sprouts
+Alfalfa sprouts
 alfredo sauce
 allspice
 almond butter
 amaranth
-amaretti cookies
 amaretto cream
+American
+anchovies
 anchovy
 anchovy dressing
 anchovy paste
-angel food cake
-angel food cupcakes
+angel hair
 anise
 apple
 apple crisp
@@ -25,26 +23,44 @@ apple crumble
 apple fritter donuts
 apple fritters
 apple pie
+apple sauce
+apple slices
 apple strudel
+apple turnover
+applesauce
+Applewood smoked bacon
 apricot
 artichoke
+artichoke dip
 artichoke hearts
+Artichoke hearts
+artichoke tapenade
 arugula
+Asiago
+Asiago cheese
 asparagus
 aubergine
 avocado
-avocado
+baba ganoush
+babka
 baby bok choy
 baby corn
 baby greens
 baby spinach
-bacon bits
+Bacon
+bagel
+baguette
 baileys chocolate mousse
 baked ham
+Baked kale chips
+Baked plantain chips.
 baklava
+balsamic vinaigrette
 bamboo shoots
 banana
+Banana
 banana bread
+Banana Bread
 banana cream pie
 banana nut bread
 banana peppers
@@ -52,11 +68,13 @@ banana pudding
 banana squash
 barbacoa
 barbecue ribs
+barbecue sauce
 barbecued beef
 barbecued pork
 barley
 basil
-bay scallops
+basmati rice
+bass
 bbq brisket
 bbq chicken
 bbq pork
@@ -64,6 +82,7 @@ bbq seitan
 bbq shrimps
 bbq steak
 bean sprouts
+bear claw
 beef birria
 beef bolognese
 beef bourguignon
@@ -82,18 +101,30 @@ beetroot
 beets
 beignets
 belgian waffles
+Belgian Waffles
 bell pepper
+berries
+biscuit
+black bean garlic dip
+black bean sauce
+black cod
 black eyed peas
 black forest cake
 black forest gateau
 black forest mousse
+Black olive tapenade
+Black olives
+black rice
+black-eyed peas
 blackberry
 blackcurrant
 blackcurrants
 blood orange
-blue crab
+blue cheese
 blueberry cheesecake
+blueberry scone
 bok choy
+bolognese sauce
 boston lettuce
 braised beef
 braised brisket
@@ -103,19 +134,26 @@ braised lamb
 braised pork
 braised rabbit
 bratwurst
+Brie
+brie
 brisket
 broccoli
 broccoli raab
 broccolini
+brown rice
 brownies
 brussel sprouts
 buckwheat
+Buffalo mozzarella
+buffalo sauce
 buffalo wings
+Buratta
+Burrata
+butter
 butter lettuce
-butter poached lobsters
-butternut squash
 butternut squash
 cabbage
+caesar dressing
 candied apples
 candied pecans
 cannellini beans
@@ -123,13 +161,30 @@ cannoli
 cantaloupe
 caramel apple
 caramel popcorn
+caramel sauce
+Caramelized onions
+carbonara sauce
 carne asada
 carrot
 carrot cake
+carrot sticks
 carrots
+catfish
 cauliflower
+Cavatappi
 celery
+cereal
+Challah
 chard
+Cheddar
+cheddar
+cheese biscotti
+cheese crackers
+cheese danish
+cheese dip
+cheese filled pretzel bites
+cheese puffs
+cheese sauce
 cheesecake
 cheesesteak
 cherry
@@ -142,85 +197,150 @@ chicken paella
 chicken parmesan
 chicken schnitzel
 chicken teriyaki
+chickpea fusilli
+chickpea pasta
 chickpeas
 chicory
+chile oil
+chile verde sauce
 chili cheese fries
 chili con carne
+chili oil
 chilli pepper
+chimichurri
 chinese broccoli
+chipotle
+chipotle aioli
+chipotle mayo
+chips
 chives
+chocolate
+chocolate bars
 chocolate brownies
+chocolate chip scone
+chocolate coated espresso beans
+Chocolate coated pretzels
 chocolate covered almonds
 chocolate covered pretzels
 chocolate covered strawberries
+chocolate croissant
 chocolate eclairs
 chocolate fudge
+chocolate ganache
 chocolate lava cake
 chocolate mousse
+chocolate-coated strawberries
+chocolate-covered pretzels
 chorizo sausage
+chutney
+ciabatta
 cilantro
-clams
+Cinnamon bun
+Cinnamon roll
+cinnamon roll
 clementine
 coconut
 coconut cake
-coconut curry shrimp
+cod
+Colby
+Colby-Jack
+Colby.
 collard greens
-coriander
+cookies
 coriander
 corn
+Cornbread
 corned beef
 corned beef hash
+Cottage cheese
+cottage cheese
 courgette
-crab
+couscous
 crab cakes
-crab cakes
+crackers
 cranberry
+cranberry jelly
 cranberry sauce
-crawfish
-crayfish
+Cream cheese
+cream cheese
 cremini mushroom
 crepe
 crepe suzette
+Crepes
 crispy bacon
+Crispy fried onions
+Crispy onion straws
+Crispy onions
+Crispy shallots
+Croissant
+croissant
+crushed tortilla chips.
 cucumber
 daikon radish
+Danish Pastry
+dark chocolate
 date
-deep fried calamari
-deep fried oysters
 dill
 donuts
 doughnuts
 dragon fruit
+dried fruit
 duck breast
 dutch stroopwafel
+eclair
 edamame
+Edamame
+eel
+egg noodles
 eggplant
-eggplant
+eggs
+Eggs Benedict
 elderberries
+empanada
 endive
+English muffin
 enoki mushrooms
+farfalle
+farro
 fava beans
 fennel
 fennel bulb
+Feta
+feta
+fettuccine
 figs
 filet mignon
+fish sauce
 flan
 flank steak
+Flatbread
+flounder
+Focaccia
 french beans
 french carrots
 french green beans
 french toast
-fried calamari
+French Toast
 fried chicken
-fried oysters
+Fried egg
+fried eggplant
+Fried onion rings
+Frittata
 frozen yogurt
+fruit bars
+fruit gummies
 fruit salad
 fruitcake
 fudge
 funnel cake
+fusilli
 garbanzo beans
 garlic
-garlic mussels
+Garlic bread
+garlic hummus
+Garlic Knots
+garlic naan
+garlic sriracha
 gelato
 ghost pepper
 ginger
@@ -228,44 +348,77 @@ gingerbread
 gingerbread cookies
 gingerbread men
 gingersnaps
+Gnocchi
+goat cheese
+gochujang
 goji berries
 goji berry
+gorgonzola
+Gouda
 goulash
 gourd
+granola
+granola bar
 grape
 grapefruit
 grapes
+gravy
 green apple
 green beans
+green goddess
+green goddess vinaigrette
 green onion
 green peas
 green pepper
 green snap peas
 green tea mochi
 green tomatillo
-grilled lobster tails
-grilled octopus
+grits
+Gruyère
+guacamole
 habanero pepper
+haddock
+halibut
+Halloumi
+Ham and cheese croissant.
+harissa
+harissa mayo
+hash browns
 heirloom tomatoes
+herring
+hoisin sauce
 honey buns
 horseradish
+horseradish sauce
 hot cross buns
+Hot Cross Buns
+Huevos rancheros
+hummus
+Iberico ham
 ice-cream cake
 iceberg lettuce
+Israeli couscous
 jackfruit
+jalapeno
 jalapeno pepper
+jalapeno peppers
 jelly beans
 jelly doughnuts
-kale
+jerky
+kalamata olive tapenade
 kale
 kelp
+ketchup
+kettle corn
 key lime
 kidney beans
+Kimchi
 kiwi
 komquat
 kudzu root
 kumquat
 kumquats
+labneh
 lamb chop
 lamb cutlets
 leeks
@@ -273,17 +426,25 @@ lemon
 lemon sorbet
 lemon tart
 lemongrass
+lentil crackers
 lentils
 lettuce
 lima beans
+Limburger
 lime
-lobster
-lobster mac 'n cheese
+Linguine
+linguine
 macadamia nut
+macaroni
 macarons
 macaroons
+mackerel
+Mahi-mahi
+mahi-mahi
 maitake mushroom
+Manchego
 mango
+mango salsa
 mango sorbet
 marshmallow
 marzipan
@@ -292,55 +453,94 @@ meatloaf
 melon
 meringue
 microgreens
+millet
 mint
 mint ice cream
+miso dressing
+miso tahini
 mixed greens
 mochi
+mole
+Mozzarella
+Muenster
+muffin
 mulberries
 mulberry
+mulberry jam
+multigrain pasta
 mung bean sprouts
+Munster
 mushroom
 mushrooms
-mussels
 mustard
 mutton chops
+Naan
+nacho cheese
+nachos
 napa cabbage
 neapolitan cookies
 neapolitan ice-cream
 nougat
 oatmeal chocolate chip cookies
+oatmeal cookies
 oatmeal raisin cookies
-octopus
+Oats
 okra
 olive
+Olive focaccia
+olive tapenade
 olives
 onion
 orange
 orange bell pepper
 oregano
+orzo
 oyster mushrooms
-oysters
+Pain au chocolat
 palm heart
+pancake
+pancakes
+Paneer
 papaya
-papaya
+Pappardelle
+pappardelle
+Parmesan
 parsley
 parsnips
 passion fruit
+pasta
 pea shoots
 peach
 peach cobbler
 peanut brittle
 pear
+Pearl couscous
 peas
 pecan pie
+Pecorino
+Pecorino Romano
+penne
 peppermint bark
+Pepperoni slices
+pesto
+Pesto
+pickled ginger
+pickled radishes
+pico de gallo
 pineapple
+Pineapple
+pineapple salsa
 pinto beans
+pizza crust
 plantain
 plantains
 plum
 poblano peppers
+polenta
+Pollock
 pomegranate
+popcorn
+popcorn balls
 porcini mushroom
 pork adobo
 pork chops
@@ -348,119 +548,217 @@ pork rinds
 pork roast
 portobello mushrooms
 pot roast
-prawn
+potato chips
+Pretzel
+pretzel sticks
 prime rib
 profiteroles
 prosciutto
+protein bars
+Provolone
 prunes
 pudding
 pulled beef
 pulled pork
+pumpernickel
+pumpkin bread
 pumpkin pie
 pumpkin seeds
 quail eggs salad
+queso
+queso dip
+Queso Fresco
+Quiche
+Quinoa pasta
 quinoa.
 radish
 radishes
+rainbow trout
 raisin
+Raisin bread
+Raisin scone
+raisins
+ranch dressing
 raspberry
 raspberry cheesecake
+Raspberry muffin
 raspberry scones
+raspberry vinaigrette
+ravioli
 red bean mochi
 red beets
 red cabbage
 red currant
+Red lentil penne
 red onion
 red potatoes
 red velvet cake
 rhubarb
-rhubarb
 rhubarb crumble
 rhubarb pie
 ribeye steak
+rice
+rice cakes
+rice crisps
+rice noodles
 rice puddings
+Ricotta
+rigatoni
+Rigatoni
 roast beef
 roast chicken
 roast duck
+roasted chickpeas
+roasted garlic hummus
 romaine lettuce
 rosemary
+Rotini
 russet potatoes
+Rye
+rye
 s'mores
 sage
+salami
+salmon
 salted caramel brownies
+salted caramel chocolate
+salted caramel cookies
 salted caramel sauce
+salted pumpkin seeds
+sardines
+sauerkraut
+Sausage
 scallions
-scallops
+Scone
 scones.
+seashell pasta
 seaweed
 serrano chili
 serrano pepper
+Shakshuka
 shallots
 shiitake mushrooms
 shortbread
 shredded pork
-shrimp
-shrimp fettuccine
-shrimp gumbo
 sirloin steak
 sirloin tip
+Sliced avocado
 sliced ham
 sloppy joe
+Smoked Gouda.
 snickerdoodles
-snow crab
 snow peas
-soft-shell crabs
+Soba noodles
+soba noodles
+Soda Bread
+soda bread
+Soft Pretzels
+soppresatta
 sorbet
+sourdough bread
+soy sauce
 soybeans
+spaghetti
 spaghetti squash
+speck
+spicy mayo
 spinach
+spinach omelette
 split peas
 sponge cake
 spring onion
 spring onions
+sprouts
 squash
-squid
+sriracha
+sriracha aioli
+sriracha mayo
 steak
-steamed clams
+strawberries
 strawberry
 strawberry shortcake
 strawberry tart
+streusel
+strudel
 sugar cookies
 sugar plums
 sugar snap peas
+Sun-dried tomato tapenade
+Sun-dried tomatoes
 sweet corn
 sweet peas
 sweet peppers
 sweet potato
+Sweet potato chips
+Sweet potato fries
+sweet potato fries
 sweet potatoes
+Swiss
+swordfish
+Tagliatelle
+tagliatelle
+tahini sauce
 tangerine
+tapenade
 taro root
 tarragon
+tartar sauce
+tartare
 teriyaki beef
+teriyaki sauce
 thai basil
 thai chili
 thai green chili
 thyme
+tilapia
 tiramisu
+toffee sauce
 tomatillo
-tomatillo
+tomatillo salsa
 tomatillos
 tomato
+tortellini
+tortilla
+tortilla chips
 tres leches cake
+tricolor couscous
+tricolor penne
+tricolor rotini
+trout
 truffle
 tuna
+Turkey bacon
 turkish baklava
+tzatziki
+udon
 upside down cake
 vanilla bean
 vanilla pound cake
 veal cutlet
+Vegetable Omelette
+veggie chips
+vermicelli
 waffles
 wasabi
+Wasabi peas
 water chestnuts
 watercress
 watermelon
+whipped cream
 white onion
+whitefish
+whole wheat fusilli
+whole wheat linguine
+whole wheat pasta
+Wild rice
+wild rice
+yellowfin tuna
+Yellowtail
+yoghurt
+yogurt
+Yogurt
 yukon gold potatoes
+ziti
 zucchini
-zucchini
+Zucchini pickles
 zucchini squash

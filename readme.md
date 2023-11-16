@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repos is an R&D directory designed to generate large numbers of burger images via SDXL and inpating.
+This repo is an R&D directory designed to generate large numbers of burger images via SDXL and inpainting.
 
 `Generate_SDXL.py` is a Python script designed to demonstrate all the elements of the repo. It combines various ingredients, both standard and random, to create a diverse set of burger samples. The script is capable of enforcing a specific ratio of standard to random ingredients and can incorporate special templates for specific ingredients like an extra patty.
 
