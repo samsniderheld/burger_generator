@@ -8,7 +8,7 @@ import torch
 import gc
 from PIL import Image, ImageDraw
 from pipelines.pipelines import (InpaintingSDXLPipeline)
-from utils import read_ingredients_from_txt
+from utils.basic_utils import read_ingredients_from_txt
 from diffusers import StableDiffusionXLPipeline
 
 def json_to_params(path):
@@ -180,7 +180,7 @@ def main(config_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Training Script with Config File")
-    parser.add_argument("--config", default="training_config.json", help="Path to the JSON config file")
+    parser.add_argument("--config", default="configs/training_config.json", help="Path to the JSON config file")
     args = parser.parse_args()
 
     main(args.config)
