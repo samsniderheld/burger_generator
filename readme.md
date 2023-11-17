@@ -30,6 +30,7 @@ pip install -r requirements.txt
 
 ## Example Usage
 ```python
+import os
 import random
 from pipelines.pipelines import InpaintingSDXLPipeline
 from utils.basic_utils import load_img_for_sdxl, read_ingredients_from_txt
@@ -39,7 +40,7 @@ sdxl_pipe  = InpaintingSDXLPipeline("model_path_here")
 
 num_ingredients = random.randint(3,8)
 
-random_ingredients = read_ingredients_from_txt("assets/food_list")
+random_ingredients = read_ingredients_from_txt("assets/food_list.txt")
 
 ingredients = random.sample(random_ingredients, num_ingredients)
 
