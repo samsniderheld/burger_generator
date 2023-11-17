@@ -17,7 +17,6 @@ import cv2
 import numpy as np
 import random
 import json
-from PIL import ImageFont
 
 from arg_parser import parse_args
 from pipelines.pipelines import InpaintingSDXLPipeline
