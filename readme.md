@@ -13,15 +13,15 @@ This repo is an R&D directory designed to generate large numbers of burger image
 - **Storage and Tracking:** Saves generated burger images in a specified directory and records their parameters in a JSON file.
 
 ## Requirements
-- accelerate==0.24.1
-- bitsandbytes==0.41.2.post2
-- compel==2.0.2
-- diffusers==0.23.0
-- omegaconf==2.3.0
-- safetensors==0.4.0
-- torch==2.1.0+cu118
-- transformers==4.35.2
-- xformers==0.0.22.post7
+- accelerate
+- bitsandbytes
+- compel
+- diffusers
+- omegaconf
+- safetensors
+- torch
+- transformers
+- xformers
 
 ## installation
 ```
