@@ -43,3 +43,36 @@ def parse_args():
         '--cfg_scale', type=float, default=4.5, 
         help='How much creativity the pipeline has')
     return parser.parse_args()
+
+def parse_pregen_args():
+    """
+    Parses the command-line arguments for the script.
+    """
+    desc = "parameter for generating the pregen list"
+
+    parser = argparse.ArgumentParser(description=desc)
+
+    # Adding the script arguments with default values and help text
+    parser.add_argument(
+        '--white_list_path', type=str, default='assets/food_list.txt', 
+        help='the path of the white list')
+    parser.add_argument(
+        '--dataset_path', type=str, default="assets/ingredients.pkl", 
+        help='the ingredient dataset')
+    parser.add_argument(
+        '--embedding_model_path', type=str, default="all-mpnet-base-v2", 
+        help='the text encoder')
+    parser.add_argument(
+        '--ingredient_frequecy_cuttoff', type=int, default=50, 
+        help='calculate probability of ingredients that show up more than this val')
+    parser.add_argument(
+        '--num_recipes', type=int, default=100000, 
+        help='how many recipes are we generating')
+    parser.add_argument(
+        '--recipe_frequecy_cuttoff', type=int, default=10, 
+        help='only save recipes that show up more often')
+    parser.add_argument(
+        '--output_dir', type=str, default='burger_outputs', 
+        help='The directory for all the output results.')
+    
+    return parser.parse_args()

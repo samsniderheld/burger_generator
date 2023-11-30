@@ -7,3 +7,5 @@ safetensors
 torch
 transformers
 xformers
+sklearn
+sentence_transformer
