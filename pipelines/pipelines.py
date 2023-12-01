@@ -56,33 +56,49 @@ class InpaintingSDXLPipeline():
           truncate_long_prompts=False
         )
 
-    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, use_chunking=True, blend_img=False):        
+    def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, seed=None, use_chunking=True, use_compel_only=False, blend_img=False):        
 
         if(use_chunking):
             #chunk the prompt more akin to webui
             conditioning,pooled = chunk_embeds(prompt, self.pipeline, self.compel)
             negative_conditioning,negative_pooled = chunk_embeds(negative_prompt, self.pipeline, self.compel)
 
-        else:
+        elif(use_compel_only):
             conditioning, pooled = self.compel(prompt)
             negative_conditioning, negative_pooled = self.compel(negative_prompt)
 
-        seed = random.randint(0,10000)
+        if seed == None:
+            seed = random.randint(0,10000)
 
         generator = torch.Generator(device='cuda').manual_seed(seed)
 
-        img = self.pipeline(
-            prompt_embeds=conditioning,
-            pooled_prompt_embeds=pooled,
-            negative_prompt_embeds=negative_conditioning,
-            negative_pooled_prompt_embeds=negative_pooled,
-            image=input_img,
-            mask_image=mask_img,
-            strength=strength,
-            guidance_scale=cfg,
-            generator=generator,
-            num_inference_steps=steps,
-        ).images[0]
+        if(use_chunking == False and use_compel_only == False):
+           
+            img = self.pipeline(
+                prompt=prompt,
+                negative_promp=negative_prompt,
+                image=input_img,
+                mask_image=mask_img,
+                strength=strength,
+                guidance_scale=cfg,
+                generator=generator,
+                num_inference_steps=steps,
+            ).images[0]
+
+        else:
+
+            img = self.pipeline(
+                prompt_embeds=conditioning,
+                pooled_prompt_embeds=pooled,
+                negative_prompt_embeds=negative_conditioning,
+                negative_pooled_prompt_embeds=negative_pooled,
+                image=input_img,
+                mask_image=mask_img,
+                strength=strength,
+                guidance_scale=cfg,
+                generator=generator,
+                num_inference_steps=steps,
+            ).images[0]
 
         if(blend_img):
             img = blend_image(img,input_img,mask_img,3)
