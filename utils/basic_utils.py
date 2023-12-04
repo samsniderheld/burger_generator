@@ -7,6 +7,7 @@ This module offers utility functions for various processing tasks. Key functiona
 - Loading images which is done frequently.
 - Drawing text on images
 """
+import numpy as np
 from PIL import Image, ImageFilter,ImageDraw, ImageFont
 
 
@@ -62,5 +63,38 @@ def add_text_to_image(image, text, font_path='Lobster-Regular.ttf', font_size=50
 
     # Draw the text
     draw_text(draw, text, position, font, max_width)
+
+def overlay_whopper(whopper, bg, dims, position):
+  """overlays the generated whopper img on top of the background"""
+  resize_dim = (dims,dims)
+  dim_mod = int(dims/2)
+
+  paste_position = (position[0]-dim_mod,
+                    position[1]-dim_mod)
+
+  # Resize the image
+  whopper = whopper.resize(resize_dim)
+
+  # remove background
+  whopper = remove_bg(whopper)
+
+  # Paste the resized image onto the base image
+  bg.paste(whopper, paste_position, whopper)
+
+  return bg
+
+def remove_bg(img):
+  """a simple technique to remove a white background"""
+  numpy_img = np.array(img)
+
+  white = np.all(numpy_img[:, :, :3] > 250, axis=-1)
+
+  # Change these pixels to transparent (RGBA: 0, 0, 0, 0)
+  numpy_img[white] = (0, 0, 0, 0)
+
+  # Convert the NumPy array back to a PIL image
+  img = Image.fromarray(numpy_img, mode='RGBA')
+
+  return img
 
 
