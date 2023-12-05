@@ -60,7 +60,7 @@ for i in range(args.num_samples):
     
     if "extra patty" in ingredients:
 
-        if (ingredients.count("extra paty") == 1):
+        if (ingredients.count("extra patty") == 1):
 
             #load image and mask for inpainting
             path = os.path.join(args.template_dir, "extra_patty/1_extra_patty.png")
