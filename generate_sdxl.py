@@ -110,6 +110,7 @@ for i in range(args.num_samples):
         .95,
         args.cfg_scale,
         args.steps,
+        random.randint(0,10000),
         True,
         False,
         False
