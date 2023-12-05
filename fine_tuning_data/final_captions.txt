@@ -1,0 +1,30 @@
+A burger with lettuce, tomatoes, pickles, ketchup, and mustard.
+A burger with an extra patty, lettuce, tomatoes, onions, bacon, american cheese, crunchy tortilla strips, and chipotle mayo.
+A burger with lettuce, tomatoes, onions, bacon, american cheese, chipotle mayo, guacamole, and crunchy tortilla strips.
+A burger with lettuce, onions, tomatoes, bacon, pickles, american cheese, ketchup, and mayonnaise.
+A burger with tomatoes, bacon, lettuce, onions, pickles, ketchup, and mayonnaise.
+A burger with pickles, bacon, lettuce, tomatoes, onions, american cheese, mayonnaise and ketchup.
+A burger with an extra patty, bacon, pickles, lettuce, tomatoes, onions, american cheese, mayonnaise and ketchup.
+A burger with an extra patty, bacon, pickles, onions, lettuce, tomatoes, mayonnaise and ketchup.
+A burger with an extra patty, lettuce, tomatoes, guacamole, onions, chipotle mayo, american cheese, and crunchy tortilla strips.
+A burger with an extra patty, tomatoes, lettuce, bacon, cheddar cheese, and mustard.
+A burger with cheddar, onion rings and ketchup.
+A burger with an extra patty, cheddar cheese, onion rings, and ketchup.
+A burger with onion rings, and ketchup.
+A burger with an extra patty, lettuce, tomatoes, bacon, guacamole, onions, chipotle mayo, american cheese, and crunchy tortilla strips.
+A burger with lettuce, tomatoes, bacon, guacamole, onions, chipotle mayo, american cheese, and crunchy tortilla strips.
+A burger with an extra patty, tomatoes, pickles, lettuce, onions, bacon, jalapenos, american cheese, and mustard.
+A burger with tomatoes, pickles, lettuce, onions, bacon, jalapenos, american cheese, and mustard.
+A grilled chicken sandwich with mustard, lettuce, tomatoes, onions and mayonnaise.
+A grilled chicken sandwich with pickles, red onions, tomatoes, lettuce, spicy chipotle mayo, and hot sauce.
+A burger with cheddar cheese, american cheese, colby jack cheese, queso, lettuce, tomatoes, onions and mayonnaise.
+A burger with cheddar cheese, barbecue sauce, bacon, crispy onions, tomatoes, lettuce, and mayonnaise.
+A burger with cheddar cheese, barbecue sauce, bacon, crispy onions, tomatoes, lettuce, jalapenos and mayonnaise.
+A burger with cheddar cheese, barbecue sauce, crispy onions, tomatoes, lettuce, jalapenos and mayonnaise.
+A burger with cheddar cheese, bacon, crispy onions, fried peppers, and mustard.
+A burger with american cheese, pulled pork, crispy onions, and jam.
+A burger with onion rings, jalapenos, hot sauce, colby jack, bacon, lettuce, tomatoes, and mayonnaise.
+A burger with an extra patty, lettuce, pickles, tomatoes, onions, mayonnaise, and ketchup.
+A burger with an extra patty, and extra patty, lettuce, pickles, tomatoes, onions, mayonnaise, and ketchup.
+A burger with an extra patty, lettuce, tomatoes, pickles, onions, ketchup, and mayonnaise.
+A burger with an extra patty, american cheese, bacon, lettuce, tomatoes, pickles, onions, jalapenos, and mayonnaise.
