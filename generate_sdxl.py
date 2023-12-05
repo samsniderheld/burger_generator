@@ -51,53 +51,55 @@ for i in range(args.num_samples):
 
     num_ingredients = random.randint(3,8)
 
-    #construct prompts
-    if (random.random()>.5):
+    """constuct a prompt that usings standard burger king ingredients.
+    If on of the ingredients is 'extra patty' then use that specific template."""
+    
+    #random ingredients but force a 2:1 standard to random ingredient ratio.
+    ingredients = enforce_standard_ingredient_ratio(random_ingredients,
+                    standard_ingredients,num_ingredients)
+    
+    if "extra patty" in ingredients:
 
-        """constuct a prompt that usings standard burger king ingredients.
-        If on of the ingredients is 'extra patty' then use that specific template."""
-       
-        #random ingredients but force a 2:1 standard to random ingredient ratio.
-        ingredients = enforce_standard_ingredient_ratio(random_ingredients,
-                        standard_ingredients,num_ingredients)
-        
-        if "extra patty" in ingredients:
-          
-            ingredients.remove("extra patty")
+        if (ingredients.count("extra paty") == 1):
 
-            mask_num = 10
+            #load image and mask for inpainting
+            path = os.path.join(args.template_dir, "extra_patty/1_extra_patty.png")
+            base_img = load_img_for_sdxl(path)
 
-            prompt = contstruct_prompt_from_ingredient_list(ingredients)
-
-            negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
-
-            ingredients.append("extra patty")
-
+            mask_path = os.path.join(args.template_dir,"extra_patty/1_extra_patty_mask.png")
+            mask_img = load_img_for_sdxl(mask_path)
         else:
 
-            mask_num = num_ingredients
+            #load image and mask for inpainting
+            path = os.path.join(args.template_dir, "extra_patty/2_extra_patty.png")
+            base_img = load_img_for_sdxl(path)
 
-            prompt = contstruct_prompt_from_ingredient_list(ingredients)
+            mask_path = os.path.join(args.template_dir,"extra_patty/2_extra_patty_mask.png")
+            mask_img = load_img_for_sdxl(mask_path)
 
-            negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
-      
-    else:
 
-        #totally random ingredient generation
-        ingredients = random.sample(random_ingredients, num_ingredients)
+        ingredients.remove("extra patty")
 
         prompt = contstruct_prompt_from_ingredient_list(ingredients)
-        
-        negative_prompt = args.negative_prompt
+
+        negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
+
+        ingredients.append("extra patty")
+
+    else:
 
         mask_num = num_ingredients
 
-    #load image and mask for inpainting
-    path = os.path.join(args.template_dir,f"{mask_num}_ingredient.png")
-    base_img = load_img_for_sdxl(path)
+        prompt = contstruct_prompt_from_ingredient_list(ingredients)
 
-    mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredient_mask.png")
-    mask_img = load_img_for_sdxl(mask_path)
+        negative_prompt = construct_negative_prompt_for_standard_ingredients(ingredients, standard_ingredients)
+      
+        #load image and mask for inpainting
+        path = os.path.join(args.template_dir,f"{mask_num}_ingredients/01.png")
+        base_img = load_img_for_sdxl(path)
+
+        mask_path = os.path.join(args.template_dir,f"{mask_num}_ingredients/01_mask.png")
+        mask_img = load_img_for_sdxl(mask_path)
 
     #generate image
     img, seed = sdxl_pipe.generate_img(
@@ -108,7 +110,9 @@ for i in range(args.num_samples):
         .95,
         args.cfg_scale,
         args.steps,
-        True
+        True,
+        False,
+        False
     )
 
     sample_details = {
