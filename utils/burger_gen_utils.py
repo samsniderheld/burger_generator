@@ -34,9 +34,17 @@ def enforce_standard_ingredient_ratio(all_ingredients, standard_ingredients, ing
 
 def contstruct_prompt_from_ingredient_list(ingredients):
     """create our prompt for stable diffusion"""
-    ingredient_string = "".join([f"{ingredient}++, " for ingredient in ingredients])
-    prompt = f'A whopper with a beef patty and {len(ingredients)} extra ingredients. {ingredient_string[:-1]}. On a white background.'
+    ingredient_string = "".join([f"({ingredient})++, " for ingredient in ingredients])
+    prompt = f'(A whopper with a beef patty and {len(ingredients)} extra ingredients). {ingredient_string[:-1]}. On a white background.'
     return prompt
+
+# def contstruct_prompt_from_ingredient_list(ingredients):
+#     """create our prompt for stable diffusion"""
+#     ingredient_string = "".join([f"'{ingredient}', " for ingredient in ingredients])[:-2]
+#     val = 8/len(ingredients)
+#     ingredient_weights = "".join([f"{val}, " for ingredient in ingredients])[:-2]
+#     prompt = f"""('A whopper with a beef patty and {len(ingredients)} extra ingredients.', {ingredient_string[:-1]}).blend(1,{ingredient_weights})"""
+#     return prompt
 
 def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingredients):
     """create our negative prompt for stable diffusion if
@@ -48,7 +56,7 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
             if(ing not in ingredients):
                 new_basic_ingredients.append(ing)
 
-    negative_prompt = "poor quality, unappetizing, bad edges,  " + "".join([f"{ing}, " for ing in new_basic_ingredients])
+    negative_prompt = "poor quality, unappetizing, bad edges,  " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
 
     return negative_prompt
 
