@@ -6,9 +6,9 @@ import shutil
 import random
 import torch
 import gc
-from PIL import Image, ImageDraw
+from PIL import Image
 from pipelines.pipelines import (InpaintingSDXLPipeline)
-from utils.basic_utils import read_ingredients_from_txt
+from utils.basic_utils import read_ingredients_from_txt, add_text_to_image
 from diffusers import StableDiffusionXLPipeline
 
 def json_to_params(path):
@@ -133,14 +133,13 @@ def run_training_script(params):
         negative_prompt = "poor quality, unappetizing"
 
         mask_num = random.randint(1,5)
-        mask_num = 3
 
-        path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredient.png"
+        path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredients/01.png"
         base_img = Image.open(path)
         base_img = base_img.convert("RGB")
         base_img = base_img.resize((1024,1024))
 
-        mask_path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredient_mask.png"
+        mask_path = f"/content/kohya-trainer/burger_templates/{mask_num}_ingredients/01_mask.png"
         mask_img = Image.open(mask_path)
         mask_img = mask_img.convert("RGB")
         mask_img = mask_img.resize((1024,1024))
@@ -154,8 +153,7 @@ def run_training_script(params):
             20
         )
 
-        draw_img = ImageDraw.Draw(img)
-        draw_img.text((50,50),prompt, fill=(255,0,0))
+        add_text_to_image(img,prompt,"assets/OpenSans-Regular.ttf",20)
 
         save_path = f"{sample_dir_path}/{prompt.replace('.','').replace(' ','')}_{params['new_model_name']}.jpg"
         img.save(save_path)
