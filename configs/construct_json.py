@@ -36,9 +36,9 @@ for dataset_size in args.dataset_sizes:
 
         base_config = {
                     "base_model": args.base_model,
-                    "train_data_dir": f"/content/gdrive/MyDrive/Section_11/Burger_King/experiments/bk_{dataset_size}_samples_{step_size}_steps/dataset",
+                    "train_data_dir": f"{args.output_dir}/bk_{dataset_size}_samples_{step_size}_steps/dataset",
                     "output_dir": args.output_dir,
-                    "json_file": f"/content/gdrive/MyDrive/Section_11/Burger_King/experiments/bk_{dataset_size}_samples_{step_size}_steps/meta_lat_{dataset_size}_samples.json",
+                    "json_file": f"{args.output_dir}/bk_{dataset_size}_samples_{step_size}_steps/meta_lat_{dataset_size}_samples.json",
                     "new_model_name": f"bk_{dataset_size}_samples_{step_size}_steps",
                     "max_train_steps": step_size,
                     "sample_every_step": 10000,
