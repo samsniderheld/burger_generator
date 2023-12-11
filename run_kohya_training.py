@@ -144,7 +144,7 @@ def run_training_script(params):
         mask_img = mask_img.convert("RGB")
         mask_img = mask_img.resize((1024,1024))
 
-        img = sdxl_pipe.generate_img(prompt, 
+        img, seed = sdxl_pipe.generate_img(prompt, 
             negative_prompt,
             base_img,
             mask_img,

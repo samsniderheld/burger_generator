@@ -19,13 +19,29 @@ from compel import Compel, ReturnedEmbeddingsType
 from utils.basic_utils import blend_image
 from utils.burger_gen_utils import chunk_embeds
 
+from transformers.modeling_outputs import BaseModelOutputWithPooling
+from transformers.models.clip.modeling_clip import CLIPTextModelOutput
+
+
+class CLIPTextModelWithProjection():
+    def __init__(self, text_encoder):
+        print("using neo's code")
+        self.text_encoder = text_encoder
+
+    def __getattr__(self, attr):
+        return getattr(self.text_encoder, attr)
+
+    def __call__(self, input_ids, attention_mask=None, **kwargs):
+        return self.text_encoder(input_ids.long(), **kwargs)
+
 
 class InpaintingSDXLPipeline():
-    def __init__(self, pipeline_path,use_freeU=False):
+    def __init__(self, pipeline_path,use_compel_mod=False,use_freeU=False):
         # Store the path for the pipeline
         self.pipeline_path = pipeline_path
         # Load the pipeline upon initialization
         self.use_freeU = use_freeU
+        self.use_compel_mod = use_compel_mod
         self.load_pipeline()
         
 
@@ -47,14 +63,27 @@ class InpaintingSDXLPipeline():
           sdxl_pipe.enable_freeu(s1=0.9, s2=0.2, b1=1.2, b2=1.4)   
 
         self.pipeline = sdxl_pipe
+
+        if(self.use_compel_mod):
+
+          self.compel = Compel(
+              tokenizer=[sdxl_pipe.tokenizer, sdxl_pipe.tokenizer_2],
+              text_encoder=[CLIPTextModelWithProjection(sdxl_pipe.text_encoder), CLIPTextModelWithProjection(sdxl_pipe.text_encoder_2)],
+              returned_embeddings_type=ReturnedEmbeddingsType.PENULTIMATE_HIDDEN_STATES_NON_NORMALIZED,
+              requires_pooled=[False, True],
+              truncate_long_prompts=False,
+          )
+
         
-        self.compel = Compel(
-          tokenizer=[sdxl_pipe.tokenizer, sdxl_pipe.tokenizer_2] ,
-          text_encoder=[sdxl_pipe.text_encoder, sdxl_pipe.text_encoder_2],
-          returned_embeddings_type=ReturnedEmbeddingsType.PENULTIMATE_HIDDEN_STATES_NON_NORMALIZED,
-          requires_pooled=[False, True],
-          truncate_long_prompts=False
-        )
+        else:
+        
+          self.compel = Compel(
+            tokenizer=[sdxl_pipe.tokenizer, sdxl_pipe.tokenizer_2] ,
+            text_encoder=[sdxl_pipe.text_encoder, sdxl_pipe.text_encoder_2],
+            returned_embeddings_type=ReturnedEmbeddingsType.PENULTIMATE_HIDDEN_STATES_NON_NORMALIZED,
+            requires_pooled=[False, True],
+            truncate_long_prompts=False
+          )
 
     def generate_img(self, prompt,negative_prompt,input_img, mask_img, strength, cfg, steps, seed=None, use_chunking=True, use_compel_only=False, blend_img=False):        
 
