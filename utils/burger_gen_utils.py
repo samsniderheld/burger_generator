@@ -5,8 +5,11 @@ This module offers utility functions to help generate burger images.
 - Enforcing a 2:1 standard ingredient to random ingredient generation. This helps visual quality.
 - Constructing the prompt and negative prompt from a list of ingredients.
 - Chunking prompts so that they are encoded more like Automatic1111
+- Cutout functionality
 
 """
+import cv2
+import numpy as np
 import random
 import re
 import torch
@@ -250,3 +253,75 @@ def chunk_embeds(prompt, pipeline, compel):
         global_prompt_chanks.append(current_list)
 
     return merge_embeds([prompt_attention_to_invoke_prompt(i) for i in global_prompt_chanks], compel)
+
+import cv2
+import numpy as np
+
+
+def cutout(img):
+  #takes a PIL image as input, directoy from SD output
+  #parameters
+  first_pass_lower_blue = np.array([230, 0, 0])
+  first_pass_upper_blue = np.array([255, 120, 50])
+
+  second_pass_lower_blue = np.array([0, 0, 200, 255])
+  second_pass_upper_blue = np.array([50, 120, 255, 255])
+
+  gausian_blur_kernal = 5
+  erosion_kernal = 3
+  erosion_iterations = 7
+
+  input_img = np.array(img,dtype="uint8")
+  rgb_img = cv2.cvtColor(input_img, cv2.COLOR_BGR2RGB)
+
+  # Create a mask for the white background
+  base_mask = cv2.inRange(rgb_img, first_pass_lower_blue, first_pass_upper_blue)
+
+  # Invert the mask to get the foreground
+  foreground_mask = cv2.bitwise_not(base_mask)
+
+  # Smooth the edges of the mask
+
+  # Find contours
+  contours, hierarchy = cv2.findContours(foreground_mask, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+
+  # Create an all white image
+  stencil = np.zeros_like(foreground_mask).astype(np.uint8)
+  
+    # Fill in the contours, both external and internal (holes)
+  for i, contour in enumerate(contours):
+      # If the contour has a parent, it's a hole (internal)
+      if hierarchy[0][i][3] != -1:
+          cv2.drawContours(stencil, [contour], -1, (255), thickness=cv2.FILLED)
+      else:
+          # External contour
+          cv2.drawContours(stencil, [contour], -1, (255), thickness=cv2.FILLED)
+
+  # Use a gaussian blur to smooth the edges
+  stencil = cv2.GaussianBlur(stencil, (gausian_blur_kernal, gausian_blur_kernal), 0)
+
+  # Threshold to make sure we have a binary mask
+  _, stencil = cv2.threshold(stencil, 50, 255, cv2.THRESH_BINARY)
+
+  # Erode the mask to shrink the edge
+  kernel = np.ones((erosion_kernal,erosion_kernal), np.uint8)
+  stencil = cv2.erode(stencil, kernel, iterations=erosion_iterations)
+
+  # Apply the mask to the image using bitwise operation
+  foreground = cv2.bitwise_and(rgb_img, rgb_img, mask=stencil)
+  
+  # Stack the foreground with the alpha channel
+  alpha_channel = np.ones(stencil.shape, dtype=stencil.dtype) * 255
+  alpha_channel = np.where(stencil==0, 0, alpha_channel)
+
+  # Convert to 4 channels (RGBA)
+  rgba = np.dstack((foreground, alpha_channel))
+  rgba = cv2.cvtColor(rgba, cv2.COLOR_BGRA2RGBA)
+
+  # Create a mask for pixels in the specified color range
+  second_pass_mask = cv2.inRange(rgba, np.array(second_pass_lower_blue), np.array(second_pass_upper_blue))
+
+  # Set the alpha channel to 0 (transparent) where the mask is positive
+  rgba[second_pass_mask > 0] = [0, 0, 0, 0]
+
+  return input_img,base_mask, stencil, rgba
