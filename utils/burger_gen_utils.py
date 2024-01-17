@@ -38,20 +38,12 @@ def enforce_standard_ingredient_ratio(all_ingredients, standard_ingredients, ing
 def contstruct_prompt_from_ingredient_list(ingredients):
     """create our prompt for stable diffusion"""
     ingredient_string = "".join([f"({ingredient})++, " for ingredient in ingredients])
-    prompt = f'(A whopper with {len(ingredients)} extra ingredients)+. {ingredient_string[:-1]}'
+    prompt = f'(A burger with {len(ingredients)} extra ingredients)+. {ingredient_string[:-1]}'
     return prompt
-
-# def contstruct_prompt_from_ingredient_list(ingredients):
-#     """create our prompt for stable diffusion"""
-#     ingredient_string = "".join([f"'{ingredient}', " for ingredient in ingredients])[:-2]
-#     val = 8/len(ingredients)
-#     ingredient_weights = "".join([f"{val}, " for ingredient in ingredients])[:-2]
-#     prompt = f"""('A whopper with a beef patty and {len(ingredients)} extra ingredients.', {ingredient_string[:-1]}).blend(1,{ingredient_weights})"""
-#     return prompt
 
 def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingredients):
     """create our negative prompt for stable diffusion if
-    we are using standard ingredients, make sure that we are 
+    we are using standard ingredients, make sure that we are
     negatively prompting correctly"""
     new_basic_ingredients = []
 
@@ -59,7 +51,7 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
             if(ing not in ingredients):
                 new_basic_ingredients.append(ing)
 
-    negative_prompt = "(bun)++, (patty)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, bad composition, weird burger construction,  messed up bun, messed up patty, poor quality, unappetizing, bad edges,  " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
+    negative_prompt = "(burger patty)++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, (unappetizing)+ " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
 
     return negative_prompt
 
@@ -259,13 +251,12 @@ import numpy as np
 
 
 def cutout(img):
-  #takes a PIL image as input, directoy from SD output
   #parameters
   first_pass_lower_blue = np.array([230, 0, 0])
   first_pass_upper_blue = np.array([255, 120, 50])
 
-  second_pass_lower_blue = np.array([0, 0, 200, 255])
-  second_pass_upper_blue = np.array([50, 120, 255, 255])
+  second_pass_lower_blue = np.array([200, 0, 0, 255])
+  second_pass_upper_blue = np.array([255, 120, 50, 255])
 
   gausian_blur_kernal = 5
   erosion_kernal = 3
@@ -287,15 +278,11 @@ def cutout(img):
 
   # Create an all white image
   stencil = np.zeros_like(foreground_mask).astype(np.uint8)
-  
+
     # Fill in the contours, both external and internal (holes)
   for i, contour in enumerate(contours):
-      # If the contour has a parent, it's a hole (internal)
-      if hierarchy[0][i][3] != -1:
-          cv2.drawContours(stencil, [contour], -1, (255), thickness=cv2.FILLED)
-      else:
-          # External contour
-          cv2.drawContours(stencil, [contour], -1, (255), thickness=cv2.FILLED)
+
+    cv2.drawContours(stencil, [contour], -1, (255), thickness=cv2.FILLED)
 
   # Use a gaussian blur to smooth the edges
   stencil = cv2.GaussianBlur(stencil, (gausian_blur_kernal, gausian_blur_kernal), 0)
@@ -309,19 +296,18 @@ def cutout(img):
 
   # Apply the mask to the image using bitwise operation
   foreground = cv2.bitwise_and(rgb_img, rgb_img, mask=stencil)
-  
+
   # Stack the foreground with the alpha channel
   alpha_channel = np.ones(stencil.shape, dtype=stencil.dtype) * 255
   alpha_channel = np.where(stencil==0, 0, alpha_channel)
 
-  # Convert to 4 channels (RGBA)
-  rgba = np.dstack((foreground, alpha_channel))
-  rgba = cv2.cvtColor(rgba, cv2.COLOR_BGRA2RGBA)
+  # Convert to 4 channels (BGRA)
+  bgra = np.dstack((foreground, alpha_channel))
 
   # Create a mask for pixels in the specified color range
-  second_pass_mask = cv2.inRange(rgba, np.array(second_pass_lower_blue), np.array(second_pass_upper_blue))
+  second_pass_mask = cv2.inRange(bgra, np.array(second_pass_lower_blue), np.array(second_pass_upper_blue))
 
   # Set the alpha channel to 0 (transparent) where the mask is positive
-  rgba[second_pass_mask > 0] = [0, 0, 0, 0]
+  bgra[second_pass_mask > 0] = [0, 0, 0, 0]
 
-  return input_img,base_mask, stencil, rgba
+  return input_img,base_mask, stencil, bgra
