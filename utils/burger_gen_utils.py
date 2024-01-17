@@ -51,7 +51,7 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
             if(ing not in ingredients):
                 new_basic_ingredients.append(ing)
 
-    negative_prompt = "(burger patty)++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, (unappetizing)+ " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
+    negative_prompt = "(burger patty)+++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, (unappetizing)+ " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
 
     return negative_prompt
 
