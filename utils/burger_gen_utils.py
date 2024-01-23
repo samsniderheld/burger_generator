@@ -38,7 +38,7 @@ def enforce_standard_ingredient_ratio(all_ingredients, standard_ingredients, ing
 def contstruct_prompt_from_ingredient_list(ingredients):
     """create our prompt for stable diffusion"""
     ingredient_string = "".join([f"({ingredient})++, " for ingredient in ingredients])
-    prompt = f'(A burger with {len(ingredients)} extra ingredients)+. {ingredient_string[:-1]}'
+    prompt = f'(A whopper with {len(ingredients)} extra ingredients)+. {ingredient_string[:-1]}'
     return prompt
 
 def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingredients):
@@ -51,7 +51,7 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
             if(ing not in ingredients):
                 new_basic_ingredients.append(ing)
 
-    negative_prompt = "(burger patty)+++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, (unappetizing)+ " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
+    negative_prompt = "(burger patty)+++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, bad composition, weird burger construction,  messed up bun, messed up patty, poor quality, unappetizing, bad edges,  " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
 
     return negative_prompt
 
