@@ -51,7 +51,7 @@ def construct_negative_prompt_for_standard_ingredients(ingredients,standard_ingr
             if(ing not in ingredients):
                 new_basic_ingredients.append(ing)
 
-    negative_prompt = "(burger patty)+++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, bad composition, weird burger construction,  messed up bun, messed up patty, poor quality, unappetizing, bad edges, " + "".join([f"({ing})++, " for ing in new_basic_ingredients])
+    negative_prompt = "(burger patty)+++, (ambiguous white blob)++, (extra white space)++, (bun)++, (illustrations)+, (illustration)+, (text)+, (logos)+, (logo)+, bad composition, weird burger construction,  messed up bun, messed up patty, poor quality, unappetizing, bad edges"
 
     return negative_prompt
 
@@ -259,8 +259,8 @@ def cutout(img):
   second_pass_upper_blue = np.array([255, 120, 50, 255])
 
   gausian_blur_kernal = 5
-  erosion_kernal = 3
-  erosion_iterations = 7
+  erosion_kernal = 2
+  erosion_iterations = 15
 
   input_img = np.array(img,dtype="uint8")
   rgb_img = cv2.cvtColor(input_img, cv2.COLOR_BGR2RGB)
